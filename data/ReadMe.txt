@@ -1,7 +1,7 @@
 ###########################
 InCar_Music.RData
 
-InCarMusic is a mobile application (Android) that offers music recommendations to passengers based on contexts 
+InCarMusic is a mobile application (Android) that offers music recommendations to passengers based on contexts.
 
 The R object ``tensor'' records the ratings (on 1-5 scale) of 42 users to 139 songs on 26 contexts. The ``context'' attributes describe the 26 contextual conditions. The ``music'' attributes describe the 139 songs and their corresponding genres.
 
