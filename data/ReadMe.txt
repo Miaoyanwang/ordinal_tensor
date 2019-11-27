@@ -31,7 +31,7 @@ Surface file: BrainNetView.../Data/miaoyan/BrainMesh_ICBM152.nv
 
 Data file (node): BrainNetView.../Data/miaoyan/Desikan_miaoyan.node.txt 
 
-Data file (edge): A user-specified input. This is a matrix file representing the brain connection. The edge can be raw connection strength, estimated strength, truncated strength, or any measures you want to plot over the brain edges. I included a example0.txt file as an example.
+Data file (edge): A user-specified input. This is a matrix file representing the brain connection. The edge can be raw connection strength, estimated strength, truncated strength, or any measures you want to plot over the brain edges. I included example0.txt file as an example input.
 
 Note: (You may need enable "all files *" option by clicking the "options" in the pop-up console.)
 
