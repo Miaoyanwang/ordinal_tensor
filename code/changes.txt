@@ -1,0 +1,23 @@
+Original script: speedup2.R
+New scripts: 
+function.R consists of functions.  
+experiment.R consists of simulations.  
+
+#################
+Change log:
+1. change matrix multiplication in g() and Hessi() --> avoid explicit construction of diagonal matrices for better memory allocation
+2. use ttl in place of ttm --> better memory allocation 
+3. merge fit_ordinal() and fit_ordinal2()
+4. update core tensor first, then update factor matrices --> output satisfies constraints....
+5. add fit_ordinal_cp() for cp low-rank tensors
+6. reformat rTensor objects into array class
+7. allow missing values (i.e. tensor entries < 0)
+8. orthogonalize factor matrices after each update --> better numerical stability; identifiable up to rotation 
+
+#################
+To-do:
+1. allow K ordinal levels
+2. modify BIC
+3. further speed-up?
+4. Tucker vs. CP?
+
