@@ -5,7 +5,7 @@ experiment.R consists of simulations.
 
 #################
 Change log:
-1. change matrix multiplication in g() and Hessi() --> avoid explicit construction of diagonal matrices for better memory allocation
+1. change matrix multiplication in g() and Hessi() --> avoid explicit construction of diagonal matrices for better memory allocation and faster computation
 2. use ttl in place of ttm --> better memory allocation 
 3. merge fit_ordinal() and fit_ordinal2()
 4. update core tensor first, then update factor matrices --> output satisfies constraints....
@@ -17,10 +17,10 @@ Change log:
 #################
 To-do:
 1. allow K ordinal levels
-2. modify BIC?
+2. speed-up BIC search? 
 3. further speed-up?
 4. Tucker vs. CP?
 5. verify the non-convexity in intercept and slope jointly? 
-6. allow rank-1 signal tensor
+6. allow signal tensor of rank 1
 
 
