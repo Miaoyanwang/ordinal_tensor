@@ -3,7 +3,7 @@ source("function.R")
 
 ########## simulate tucker tensor with d, r ##############################
 set.seed(18)
-d=c(68,68,136)
+d=c(20,20,20)
 r=c(3,3,3)
 B_1 = matrix(runif(d[1]*r[1],min=-1,max=1),nrow = d[1])
 B_2 = matrix(runif(d[2]*r[2],min=-1,max=1),nrow = d[2])
@@ -16,8 +16,8 @@ theta = theta/max(abs(theta))*7 ## specify signal = 7
 omega = c(-0.2,0.2)
 
 ttnsr <- realization(theta,omega)@data
-missing = 1*(rand_tensor(modes = d)>0)@data
-ttnsr =ttnsr *missing
+missing = 1*(rand_tensor(modes = d)>0)@data ## uniform missingness with p=0.5
+ttnsr =ttnsr *missing 
 
 
 #initial point
@@ -141,8 +141,8 @@ legend("topleft", legend=c(paste("slope = ",round(md$coefficients[2],3)), "slope
 
 
 
-##############################################################################################################################################################################################
-################### previous code: construction when d=30 ##############################
+######################## previous code ################
+################### construction when d=30 ##############################
 B_1 = matrix(runif(30*3,min=-1,max=1),nrow = 30)
 B_2 = matrix(runif(30*3,min=-1,max=1),nrow = 30)
 B_3 = matrix(runif(30*3,min=-1,max=1),nrow = 30)

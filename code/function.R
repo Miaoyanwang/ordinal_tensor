@@ -33,7 +33,7 @@ Hessi = function(A_1,W4,ttnsr,omega){
   q1 = p1*(1-p1)
   q2 = p2*(1-p2)+p1*(1-p1)
   q3 = p2*(1-p2) 
-  H = t(W4[which(c(ttnsr)==1),]*q1[which(c(ttnsr)==1)])%*%W4[which(c(ttnsr)==1),]+t(W4[which(c(ttnsr)==2),]*q2[which(c(ttnsr)==2)])%*%W4[which(c(ttnsr)==2),]+t(W4[which(c(ttnsr)==3),]*q3[which(c(ttnsr)==3)])%*%W4[which(c(ttnsr)==3),]
+  H = t(rbind(W4[which(c(ttnsr)==1),])*q1[which(c(ttnsr)==1)])%*%rbind(W4[which(c(ttnsr)==1),])+t(rbind(W4[which(c(ttnsr)==2),])*q2[which(c(ttnsr)==2)])%*%rbind(W4[which(c(ttnsr)==2),])+t(rbind(W4[which(c(ttnsr)==3),])*q3[which(c(ttnsr)==3)])%*%rbind(W4[which(c(ttnsr)==3),])
   return(H)
 }
 
@@ -54,7 +54,7 @@ g1 = function(A_1,W1,ttnsr,omega){
   q1 <- p1-1
   q2 <- (p2*(1-p2)-p1*(1-p1))/(p1-p2)
   q3 <- p2
-  gd = apply(as.matrix(W1[which(c(ttnsr)==1),])*q1[which(c(ttnsr)==1)],2,sum)+apply(as.matrix(W1[which(c(ttnsr)==2),])*q2[which(c(ttnsr)==2)],2,sum)+apply(as.matrix(W1[which(c(ttnsr)==3),])*q3[which(c(ttnsr)==3)],2,sum)
+  gd = apply(rbind(W1[which(c(ttnsr)==1),])*q1[which(c(ttnsr)==1)],2,sum)+apply(rbind(W1[which(c(ttnsr)==2),])*q2[which(c(ttnsr)==2)],2,sum)+apply(rbind(W1[which(c(ttnsr)==3),])*q3[which(c(ttnsr)==3)],2,sum)
   
     return(gd)
 }

@@ -17,7 +17,10 @@ Change log:
 #################
 To-do:
 1. allow K ordinal levels
-2. modify BIC
+2. modify BIC?
 3. further speed-up?
 4. Tucker vs. CP?
+5. verify the non-convexity in intercept and slope jointly? 
+6. allow rank-1 signal tensor
+
 
