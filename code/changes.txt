@@ -16,7 +16,7 @@ Change log:
 
 #################
 To-do:
-1. allow K ordinal levels
+1. allow K ordinal levels -> I changed realization, Hessian, h1(cost), g1(cost) functions to extend K ordienal level. 
 2. speed-up BIC search? 
 3. further speed-up?
 4. Tucker vs. CP?
