@@ -7,58 +7,127 @@ library(gridExtra)
 library(Matrix)
 
 ########### simulate ordinal tensors based on logistic model
-realization = function(tnsr,alpha){
-  tnsr=as.tensor(tnsr)
-  thet <- k_unfold(tnsr,1)@data
-  theta1 <- thet + alpha[1]
-  theta2 <- thet + alpha[2]
-  result <- k_unfold(tnsr,1)@data
-  p1 <- logistic(theta1)
-  p2 <- logistic(theta2)-logistic(theta1)
-  p3 <- matrix(1,nrow = nrow(thet),ncol = ncol(thet))-logistic(theta2)
-  for (i in 1:nrow(thet)) {
-    for(j in 1:ncol(thet)){
-      result[i,j] <- sample(c(1,2,3),1,prob= c(p1[i,j],p2[i,j],p3[i,j]))
-    }
+# realization = function(tnsr,alpha){
+#   tnsr=as.tensor(tnsr)
+#   thet <- k_unfold(tnsr,1)@data
+#   theta1 <- thet + alpha[1]
+#   theta2 <- thet + alpha[2]
+#   result <- k_unfold(tnsr,1)@data
+#   p1 <- logistic(theta1)
+#   p2 <- logistic(theta2)-logistic(theta1)
+#   p3 <- matrix(1,nrow = nrow(thet),ncol = ncol(thet))-logistic(theta2)
+#   for (i in 1:nrow(thet)) {
+#     for(j in 1:ncol(thet)){
+#       result[i,j] <- sample(c(1,2,3),1,prob= c(p1[i,j],p2[i,j],p3[i,j]))
+#     }
+#   }
+#   return(k_fold(result,1,modes = tnsr@modes))
+# }      
+  
+
+
+########### simulation ordinal tensors based on logist model with arbitrary k
+realization = function(theta,omega){
+  k = length(omega)
+  theta=as.tensor(theta)
+  thet <- c(theta@data)
+  p = matrix(nrow = length(thet),ncol = k)
+  for (i in 1:k) {
+    p[,i] = logistic(thet + omega[i])
   }
-  return(k_fold(result,1,modes = tnsr@modes))
+  p =  cbind(p,rep(1,length(thet)))-cbind(rep(0,length(thet)),p)
+  for (j in 1:length(thet)) {
+    thet[j] <-  sample(1:(k+1),1,prob = p[j,])
+  }
+  return(as.tensor(array(thet,dim =theta@modes)))
 }      
 
 
-########### Hessian w.r.t. A_1 ###########
-Hessi = function(A_1,W4,ttnsr,omega){
-  thet =W4%*%c(A_1)
-  p1 = logistic(thet + omega[1])
-  p2 = logistic(thet + omega[2])
-  q1 = p1*(1-p1)
-  q2 = p2*(1-p2)+p1*(1-p1)
-  q3 = p2*(1-p2) 
-  H = t(rbind(W4[which(c(ttnsr)==1),])*q1[which(c(ttnsr)==1)])%*%rbind(W4[which(c(ttnsr)==1),])+t(rbind(W4[which(c(ttnsr)==2),])*q2[which(c(ttnsr)==2)])%*%rbind(W4[which(c(ttnsr)==2),])+t(rbind(W4[which(c(ttnsr)==3),])*q3[which(c(ttnsr)==3)])%*%rbind(W4[which(c(ttnsr)==3),])
-  return(H)
+
+# ########### Hessian w.r.t. A_1 ###########
+# Hessi = function(A_1,W1,ttnsr,omega){
+#   thet =W1%*%c(A_1)
+#   p1 = logistic(thet + omega[1])
+#   p2 = logistic(thet + omega[2])
+#   q1 = p1*(1-p1)
+#   q2 = p2*(1-p2)+p1*(1-p1)
+#   q3 = p2*(1-p2) 
+#   H = t(rbind(W1[which(c(ttnsr)==1),])*q1[which(c(ttnsr)==1)])%*%rbind(W1[which(c(ttnsr)==1),])+t(rbind(W1[which(c(ttnsr)==2),])*q2[which(c(ttnsr)==2)])%*%rbind(W1[which(c(ttnsr)==2),])+t(rbind(W1[which(c(ttnsr)==3),])*q3[which(c(ttnsr)==3)])%*%rbind(W1[which(c(ttnsr)==3),])
+#   return(H)
+# }
+# 
+# ########### cost function ###########
+# h1 = function(A_1,W1,ttnsr,omega){
+#   thet =W1%*%c(A_1)
+#   p1 = logistic(thet + omega[1])
+#   p2 = logistic(thet + omega[2])
+#   p = cbind(p1,p2-p1,1-p2)
+#   return(-sum(log(c(p[which(c(ttnsr)==1),1],p[which(c(ttnsr)==2),2],p[which(c(ttnsr)==3),3]))))
+# }
+# 
+# ########### gradient ###########
+# g1 = function(A_1,W1,ttnsr,omega){
+#   thet =W1%*%c(A_1)
+#   p1 = logistic(thet + omega[1])
+#   p2 = logistic(thet + omega[2])
+#   q1 <- p1-1
+#   q2 <- (p2*(1-p2)-p1*(1-p1))/(p1-p2)
+#   q3 <- p2
+#   gd = apply(rbind(W1[which(c(ttnsr)==1),])*q1[which(c(ttnsr)==1)],2,sum)+apply(rbind(W1[which(c(ttnsr)==2),])*q2[which(c(ttnsr)==2)],2,sum)+apply(rbind(W1[which(c(ttnsr)==3),])*q3[which(c(ttnsr)==3)],2,sum)
+#   
+#   return(gd)
+# }
+
+########### Hessian w.r.t. A_1 = C with W1 = kronecker(A_1,A_2,A_3) with arbitrary k ###########
+Hessi = function(A_1,W1,ttnsr,omega){
+  k = length(omega)
+  thet =W1%*%c(A_1)
+  p = matrix(nrow = length(thet),ncol = k)
+  for (i in 1:k) {
+    p[,i] = logistic(thet + omega[i])
+  }
+  q = matrix(nrow = length(thet),ncol = k+1)
+  q[,1] = p[,1]*(1-p[,1])
+  for (i in 2:k) {
+    q[,i] =  p[,i]*(1-p[,i])+p[,i-1]*(1-p[,i-1])
+  }
+  q[,k+1] = p[,k]*(1-p[,k])
+  l= lapply(1:(k+1),function(i) t(rbind(W1[which(c(ttnsr)==i),])*q[which(c(ttnsr)==i),i])%*%rbind(W1[which(c(ttnsr)==i),]))
+  return(Reduce("+", l))
 }
 
-########### cost function ###########
+
+########### cost function  with arbitrary k ###########
 h1 = function(A_1,W1,ttnsr,omega){
+  k = length(omega)
   thet =W1%*%c(A_1)
-  p1 = logistic(thet + omega[1])
-  p2 = logistic(thet + omega[2])
-  p = cbind(p1,p2-p1,1-p2)
-  return(-sum(log(c(p[which(c(ttnsr)==1),1],p[which(c(ttnsr)==2),2],p[which(c(ttnsr)==3),3]))))
+  p = matrix(nrow = length(thet),ncol = k)
+  for (i in 1:k) {
+    p[,i] = logistic(thet + omega[i])
+  }
+  p =  cbind(p,rep(1,length(thet)))-cbind(rep(0,length(thet)),p)
+  l = lapply(1:(k+1),function(i) -log(p[which(c(ttnsr)==i),i]))
+  return(sum(unlist(l)))
 }
 
-########### gradient ###########
+########### gradient with arbitrary k ###########
 g1 = function(A_1,W1,ttnsr,omega){
+  k = length(omega)
   thet =W1%*%c(A_1)
-  p1 = logistic(thet + omega[1])
-  p2 = logistic(thet + omega[2])
-  q1 <- p1-1
-  q2 <- (p2*(1-p2)-p1*(1-p1))/(p1-p2)
-  q3 <- p2
-  gd = apply(rbind(W1[which(c(ttnsr)==1),])*q1[which(c(ttnsr)==1)],2,sum)+apply(rbind(W1[which(c(ttnsr)==2),])*q2[which(c(ttnsr)==2)],2,sum)+apply(rbind(W1[which(c(ttnsr)==3),])*q3[which(c(ttnsr)==3)],2,sum)
-  
-    return(gd)
+  p = matrix(nrow = length(thet),ncol = k)
+  for (i in 1:k) {
+    p[,i] = logistic(thet + omega[i])
+  }
+  q = matrix(nrow = length(thet),ncol = k+1)
+  q[,1] <- p[,1]-1
+  for (i in 2:k) {
+    q[,i] <-  (p[,i]*(1-p[,i])-p[,i-1]*(1-p[,i-1]))/(p[,i-1]-p[,i])
+  }
+  q[,k+1] <- p[,k]
+  l <- lapply(1:(k+1),function(i) apply(rbind(W1[which(c(ttnsr)==i),])*q[which(c(ttnsr)==i),i],2,sum))
+  return(Reduce("+", l))
 }
-
+              
 ####### update a factor matrix at one time while holding others fixed ###########
 comb = function(A,W,ttnsr,k,omega,alph=TRUE){
   nA = A
