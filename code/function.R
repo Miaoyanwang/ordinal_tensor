@@ -84,7 +84,7 @@ Hessi = function(A_1,W1,ttnsr,omega){
   thet =W1%*%c(A_1)
   p = matrix(nrow = length(thet),ncol = k)
   for (i in 1:k) {
-    p[,i] = logistic(thet + omega[i])
+    p[,i] = as.numeric(logistic(thet + omega[i]))
   }
   q = matrix(nrow = length(thet),ncol = k+1)
   q[,1] = p[,1]*(1-p[,1])
@@ -103,7 +103,7 @@ h1 = function(A_1,W1,ttnsr,omega){
   thet =W1%*%c(A_1)
   p = matrix(nrow = length(thet),ncol = k)
   for (i in 1:k) {
-    p[,i] = logistic(thet + omega[i])
+    p[,i] = as.numeric(logistic(thet + omega[i]))
   }
   p =  cbind(p,rep(1,length(thet)))-cbind(rep(0,length(thet)),p)
   l = lapply(1:(k+1),function(i) -log(p[which(c(ttnsr)==i),i]))
@@ -116,7 +116,7 @@ g1 = function(A_1,W1,ttnsr,omega){
   thet =W1%*%c(A_1)
   p = matrix(nrow = length(thet),ncol = k)
   for (i in 1:k) {
-    p[,i] = logistic(thet + omega[i])
+    p[,i] = as.numeric(logistic(thet + omega[i]))
   }
   q = matrix(nrow = length(thet),ncol = k+1)
   q[,1] <- p[,1]-1
@@ -304,7 +304,6 @@ fit_ordinal_cp=function(ttnsr,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
             W1 = KhatriRao(A_3,A_2)
             A_1 <- comb(A_1,W1,ttnsr,1,omega)
             A_1 = apply(A_1,2,function(x){x/norm(x,"2")})
-            
         
             # update A_2
             W2 <- KhatriRao(A_3,A_1)
