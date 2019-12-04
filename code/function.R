@@ -178,111 +178,229 @@ prevcorecomb = function(C,W,ttnsr,omega,alph=TRUE){
 
 
 ########ordinal tensor decomposition based on Tucker structure #######
-fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
-    alphbound <- alph+10^-4
-    result = list()
-    error<- 3
-    iter = 0
-    cost=NULL
-    if (alph == TRUE) {
-        while ((error > 10^-4)&(iter<50) ) {
-            iter = iter +1
+# fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
+#     alphbound <- alph+10^-4
+#     result = list()
+#     error<- 3
+#     iter = 0
+#     cost=NULL
+#     if (alph == TRUE) {
+#         while ((error > 10^-4)&(iter<50) ) {
+#             iter = iter +1
             
-            #update omega
-            prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
-            if(sum(omega)==TRUE) omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
-            prev <- likelihood(ttnsr[ttnsr>0],prevtheta[ttnsr>0],omega)
+#             #update omega
+#             prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+#             if(sum(omega)==TRUE) omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
+#             prev <- likelihood(ttnsr[ttnsr>0],prevtheta[ttnsr>0],omega)
             
-            # update C
-            W4 <- kronecker(kronecker(A_3,A_2),A_1)
-            C <- corecomb(C,W4,c(ttnsr),omega)
+#             # update C
+#             W4 <- kronecker(kronecker(A_3,A_2),A_1)
+#             C <- corecomb(C,W4,c(ttnsr),omega)
             
-            #update A_1
-            W1 = kronecker(A_3,A_2)%*%t(k_unfold(C,1)@data)
-            A_1 <- comb(A_1,W1,ttnsr,1,omega)
-            #orthognalize A_1
-            qr_res=qr(A_1)
-            A_1=qr.Q(qr_res)
-            C=ttm(C,qr.R(qr_res),1)
+#             #update A_1
+#             W1 = kronecker(A_3,A_2)%*%t(k_unfold(C,1)@data)
+#             A_1 <- comb(A_1,W1,ttnsr,1,omega)
+#             #orthognalize A_1
+#             qr_res=qr(A_1)
+#             A_1=qr.Q(qr_res)
+#             C=ttm(C,qr.R(qr_res),1)
             
-            # update A_2
-            W2 <- kronecker(A_3,A_1)%*%t(k_unfold(C,2)@data)
-            A_2 <- comb(A_2,W2,ttnsr,2,omega)
-            #orthognalize A_2
-            qr_res=qr(A_2)
-            A_2=qr.Q(qr_res)
-            C=ttm(C,qr.R(qr_res),2)
+#             # update A_2
+#             W2 <- kronecker(A_3,A_1)%*%t(k_unfold(C,2)@data)
+#             A_2 <- comb(A_2,W2,ttnsr,2,omega)
+#             #orthognalize A_2
+#             qr_res=qr(A_2)
+#             A_2=qr.Q(qr_res)
+#             C=ttm(C,qr.R(qr_res),2)
             
-            # update A_3
-            W3 <- kronecker(A_2,A_1)%*%t(k_unfold(C,3)@data)
-            A_3 <- comb(A_3,W3,ttnsr,3,omega)
-            #orthognalize A_3
-            qr_res=qr(A_3)
-            A_3=qr.Q(qr_res)
-            C=ttm(C,qr.R(qr_res),3)
+#             # update A_3
+#             W3 <- kronecker(A_2,A_1)%*%t(k_unfold(C,3)@data)
+#             A_3 <- comb(A_3,W3,ttnsr,3,omega)
+#             #orthognalize A_3
+#             qr_res=qr(A_3)
+#             A_3=qr.Q(qr_res)
+#             C=ttm(C,qr.R(qr_res),3)
             
-            theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
-            new <- likelihood(ttnsr[ttnsr>0],theta[ttnsr>0],omega)
-            cost = c(cost,new)
-            (error <- abs((new-prev)/prev))
-        }
-    }else{
-        while ((error > 10^-4)&(iter<50) ) {
-            iter = iter +1
+#             theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+#             new <- likelihood(ttnsr[ttnsr>0],theta[ttnsr>0],omega)
+#             cost = c(cost,new)
+#             (error <- abs((new-prev)/prev))
+#         }
+#     }else{
+#         while ((error > 10^-4)&(iter<50) ) {
+#             iter = iter +1
             
-            #update omega
-            prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
-            if(sum(omega)==TRUE) omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
-            prev <- likelihood(ttnsr[ttnsr>0],prevtheta[ttnsr>0],omega)
+#             #update omega
+#             prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+#             if(sum(omega)==TRUE) omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
+#             prev <- likelihood(ttnsr[ttnsr>0],prevtheta[ttnsr>0],omega)
             
-            #update A_1
-            W1 =kronecker(A_3,A_2)%*%t(k_unfold(C,1)@data)
-            A_1 <- comb(A_1,W1,ttnsr,1,omega,alphbound)
-            if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
-            #orthognalize A_1
-            qr_res=qr(A_1)
-            A_1=qr.Q(qr_res)
-            C=ttm(C,qr.R(qr_res),1)
+#             #update A_1
+#             W1 =kronecker(A_3,A_2)%*%t(k_unfold(C,1)@data)
+#             A_1 <- comb(A_1,W1,ttnsr,1,omega,alphbound)
+#             if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
+#             #orthognalize A_1
+#             qr_res=qr(A_1)
+#             A_1=qr.Q(qr_res)
+#             C=ttm(C,qr.R(qr_res),1)
             
             
-            # update A_2
-            W2 <- kronecker(A_3,A_1)%*%t(k_unfold(C,2)@data)
-            A_2 <- comb(A_2,W2,ttnsr,2,omega,alphbound)
-            if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
-            #orthognalize A_2
-            qr_res=qr(A_2)
-            A_2=qr.Q(qr_res)
-            C=ttm(C,qr.R(qr_res),2)
+#             # update A_2
+#             W2 <- kronecker(A_3,A_1)%*%t(k_unfold(C,2)@data)
+#             A_2 <- comb(A_2,W2,ttnsr,2,omega,alphbound)
+#             if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
+#             #orthognalize A_2
+#             qr_res=qr(A_2)
+#             A_2=qr.Q(qr_res)
+#             C=ttm(C,qr.R(qr_res),2)
 
 
-            # update A_3
-            W3 <- kronecker(A_2,A_1)%*%t(k_unfold(C,3)@data)
-            A_3 <- comb(A_3,W3,ttnsr,3,omega,alphbound)
-            if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
-            #orthognalize A_3
-            qr_res=qr(A_3)
-            A_3=qr.Q(qr_res)
-            C=ttm(C,qr.R(qr_res),3)
+#             # update A_3
+#             W3 <- kronecker(A_2,A_1)%*%t(k_unfold(C,3)@data)
+#             A_3 <- comb(A_3,W3,ttnsr,3,omega,alphbound)
+#             if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
+#             #orthognalize A_3
+#             qr_res=qr(A_3)
+#             A_3=qr.Q(qr_res)
+#             C=ttm(C,qr.R(qr_res),3)
 
             
-            # update C
-            W4 <- kronecker(kronecker(A_3,A_2),A_1)
-            C <- corecomb(C,W4,c(ttnsr),omega)
+#             # update C
+#             W4 <- kronecker(kronecker(A_3,A_2),A_1)
+#             C <- corecomb(C,W4,c(ttnsr),omega)
             
-            theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
-            new <- likelihood(ttnsr[ttnsr>0],theta[ttnsr>0],omega)
-            cost = c(cost,new)
-            error <- abs((new-prev)/prev)
-            if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
-        }
-    }
+#             theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+#             new <- likelihood(ttnsr[ttnsr>0],theta[ttnsr>0],omega)
+#             cost = c(cost,new)
+#             error <- abs((new-prev)/prev)
+#             if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
+#         }
+#     }
     
-    result$C <- C; result$A_1 <- A_1; result$A_2 <- A_2; result$A_3 <- A_3
-    result$iteration <- iter
-    result$cost = cost; result$omega=omega
-    return(result)
-}
+#     result$C <- C; result$A_1 <- A_1; result$A_2 <- A_2; result$A_3 <- A_3
+#     result$iteration <- iter
+#     result$cost = cost; result$omega=omega
+#     return(result)
+# }
 
+fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
+  alphbound <- alph+10^-4
+  result = list()
+  error<- 3
+  iter = 0
+  cost=NULL
+  omg = omega
+  if(sum(omg)==TRUE) omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
+  
+  if (alph == TRUE) {
+    while ((error > 10^-4)&(iter<50) ) {
+      iter = iter +1
+      
+      #update omega
+      prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+      if(sum(omg)==TRUE) {
+        omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
+      }
+      
+      
+      prev <- likelihood(ttnsr[ttnsr>0],prevtheta[ttnsr>0],omega)
+      
+      # update C
+      W4 <- kronecker(kronecker(A_3,A_2),A_1)
+      C <- corecomb(C,W4,c(ttnsr),omega)
+      
+      #update A_1
+      W1 = kronecker(A_3,A_2)%*%t(k_unfold(C,1)@data)
+      A_1 <- comb(A_1,W1,ttnsr,1,omega)
+      #orthognalize A_1
+      qr_res=qr(A_1)
+      A_1=qr.Q(qr_res)
+      C=ttm(C,qr.R(qr_res),1)
+      
+      # update A_2
+      W2 <- kronecker(A_3,A_1)%*%t(k_unfold(C,2)@data)
+      A_2 <- comb(A_2,W2,ttnsr,2,omega)
+      #orthognalize A_2
+      qr_res=qr(A_2)
+      A_2=qr.Q(qr_res)
+      C=ttm(C,qr.R(qr_res),2)
+      
+      # update A_3
+      W3 <- kronecker(A_2,A_1)%*%t(k_unfold(C,3)@data)
+      A_3 <- comb(A_3,W3,ttnsr,3,omega)
+      #orthognalize A_3
+      qr_res=qr(A_3)
+      A_3=qr.Q(qr_res)
+      C=ttm(C,qr.R(qr_res),3)
+      
+      theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+      new <- likelihood(ttnsr[ttnsr>0],theta[ttnsr>0],omega)
+      cost = c(cost,new)
+      (error <- abs((new-prev)/prev))
+    }
+  }else{
+    while ((error > 10^-4)&(iter<50) ) {
+      iter = iter +1
+      
+      prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+      #update omega
+      prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+      if(sum(omg)==TRUE) {
+        omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
+      }
+      
+      
+      prev <- likelihood(ttnsr[ttnsr>0],prevtheta[ttnsr>0],omega)
+      
+      # update C
+      W4 <- kronecker(kronecker(A_3,A_2),A_1)
+      C <- corecomb(C,W4,c(ttnsr),omega)
+      #update A_1
+      W1 =kronecker(A_3,A_2)%*%t(k_unfold(C,1)@data)
+      A_1 <- comb(A_1,W1,ttnsr,1,omega,alphbound)
+      if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
+      #orthognalize A_1
+      qr_res=qr(A_1)
+      A_1=qr.Q(qr_res)
+      C=ttm(C,qr.R(qr_res),1)
+      
+      
+      # update A_2
+      W2 <- kronecker(A_3,A_1)%*%t(k_unfold(C,2)@data)
+      A_2 <- comb(A_2,W2,ttnsr,2,omega,alphbound)
+      if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
+      #orthognalize A_2
+      qr_res=qr(A_2)
+      A_2=qr.Q(qr_res)
+      C=ttm(C,qr.R(qr_res),2)
+      
+      
+      # update A_3
+      W3 <- kronecker(A_2,A_1)%*%t(k_unfold(C,3)@data)
+      A_3 <- comb(A_3,W3,ttnsr,3,omega,alphbound)
+      if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
+      #orthognalize A_3
+      qr_res=qr(A_3)
+      A_3=qr.Q(qr_res)
+      C=ttm(C,qr.R(qr_res),3)
+      
+      
+
+      
+      theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+      new <- likelihood(ttnsr[ttnsr>0],theta[ttnsr>0],omega)
+      cost = c(cost,new)
+      error <- abs((new-prev)/prev)
+      if(max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))>=alph) break
+    }
+  }
+  
+  result$C <- C; result$A_1 <- A_1; result$A_2 <- A_2; result$A_3 <- A_3
+  result$iteration <- iter
+  result$cost = cost; result$omega=omega
+  return(result)
+}
+                
 
 ####### ordinal tensor decomposition based on CP structure #######
 fit_ordinal_cp=function(ttnsr,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
