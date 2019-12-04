@@ -3,8 +3,8 @@ source("function.R")
 
 ########## simulate tucker tensor with d, r ##############################
 set.seed(18)
-d=c(50,50,50)
-r=c(10,10,10)
+d=c(42,139,26)
+r=c(5,5,5)
 B_1 = matrix(runif(d[1]*r[1],min=-1,max=1),nrow = d[1])
 B_2 = matrix(runif(d[2]*r[2],min=-1,max=1),nrow = d[2])
 B_3 = matrix(runif(d[3]*r[3],min=-1,max=1),nrow = d[3])
@@ -75,7 +75,7 @@ legend("topleft", legend=c(paste("slope = ",round(md$coefficients[2],3)), "slope
 
 
 ########################### cp tensor with d, r ##############################
-d=c(50,50,100); r=10
+d=c(42,139,26); r=20
 B_1 = matrix(runif(d[1]*r,min=-1,max=1),nrow = d[1])
 B_2 = matrix(runif(d[2]*r,min=-1,max=1),nrow = d[2])
 B_3 = matrix(runif(d[3]*r,min=-1,max=1),nrow = d[3])

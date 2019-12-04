@@ -365,13 +365,24 @@ fit_ordinal_cp=function(ttnsr,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
     return(result)
 }
 
-
 likelihood = function(ttnsr,thet,alpha){
-    p1 = logistic(c(thet) + alpha[1])
-    p2 = logistic(c(thet) + alpha[2])
-    p = cbind(p1,p2-p1,1-p2)
-    return(-sum(log(c(p[which(c(ttnsr)==1),1],p[which(c(ttnsr)==2),2],p[which(c(ttnsr)==3),3]))))
+    k = length(alpha)
+    p = matrix(nrow = length(thet),ncol = k)
+    for (i in 1:k) {
+        p[,i] = as.numeric(logistic(thet + alpha[i]))
+    }
+    p =  cbind(p,rep(1,length(thet)))-cbind(rep(0,length(thet)),p)
+    l = lapply(1:(k+1),function(i) -log(p[which(c(ttnsr)==i),i]))
+    return(sum(unlist(l)))
+    
 }
+
+#likelihood = function(ttnsr,thet,alpha){
+#   p1 = logistic(c(thet) + alpha[1])
+#   p2 = logistic(c(thet) + alpha[2])
+#    p = cbind(p1,p2-p1,1-p2)
+#    return(-sum(log(c(p[which(c(ttnsr)==1),1],p[which(c(ttnsr)==2),2],p[which(c(ttnsr)==3),3]))))
+#}
 
 logistic = function(x){
     return(1/(1+exp(-x)))
