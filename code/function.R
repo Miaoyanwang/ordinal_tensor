@@ -290,8 +290,7 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
   iter = 0
   cost=NULL
   omg = omega
-  if(sum(omg)==TRUE) omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
-  
+
   if (alph == TRUE) {
     while ((error > 10^-4)&(iter<50) ) {
       iter = iter +1
@@ -342,7 +341,6 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
     while ((error > 10^-4)&(iter<50) ) {
       iter = iter +1
       
-      prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
       #update omega
       prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
       if(sum(omg)==TRUE) {
