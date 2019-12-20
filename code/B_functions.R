@@ -228,7 +228,6 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
     while ((error > 10^-4)&(iter<50) ) {
       iter = iter +1
       
-      prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
       #update omega
       prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
       if(sum(omg)==TRUE) {
@@ -239,7 +238,7 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
       prev <- likelihood(ttnsr[ttnsr>0],prevtheta[ttnsr>0],omega)
       
       # update C
-      C <- corecomb(A_1,A_2,A_3,ttnsr,omega)
+      C <- corecomb(A_1,A_2,A_3,C,ttnsr,omega)
       #update A_1
       W =kronecker(A_3,A_2)%*%t(k_unfold(C,1)@data)
       A_1 <- comb(A_1,W,ttnsr,1,omega,alphbound)
@@ -294,13 +293,15 @@ fit_ordinal_cp=function(ttnsr,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
   error<- 3
   iter = 0
   cost=NULL
+  omg = omega
+   
   if (alph == TRUE) {
     while ((error > 10^-4)&(iter<50) ) {
       iter = iter +1
       
       prevtheta <- tensorize(A_1,A_2,A_3)
       #update omega
-      if(sum(omega)==TRUE) omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
+      if(sum(ome)==TRUE) omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
       prev <- likelihood(ttnsr[ttnsr>0],prevtheta[ttnsr>0],omega)
       
       #update A_1
@@ -329,7 +330,7 @@ fit_ordinal_cp=function(ttnsr,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
       
       prevtheta <- tensorize(A_1,A_2,A_3)
       #update omega
-      if(sum(omega)==TRUE) omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
+      if(sum(ome)==TRUE) omega <- polr(as.factor(c(ttnsr[ttnsr>0]))~offset(-c(prevtheta[ttnsr>0])))$zeta
       prev <- likelihood(ttnsr[ttnsr>0],prevtheta[ttnsr>0],omega)
       
       #update A_1

@@ -1,6 +1,20 @@
 source("function.R")
+########## brain tensor analysis ##########
+source("B_functions.R")
+load("../data/dti_brain.RData")
+d=c(68,68,136)
+r=c(3,3,6)
+
+A_1 = randortho(d[1])[,1:r[1]]
+A_2 = randortho(d[2])[,1:r[2]]
+A_3 = randortho(d[3])[,1:r[3]]
+C = rand_tensor(modes = r)
+ttnsr=tensor
+result = fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = 20)
 
 
+
+  
 ########## simulate tucker tensor with d, r ##############################
 set.seed(18)
 d=c(42,139,26)
