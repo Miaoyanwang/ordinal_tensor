@@ -121,7 +121,25 @@ gc = function(A_1,A_2,A_3,C,ttnsr,omega){
   return(l)
 }
 
-
+########### Hessian w.r.t. A_1 = C with W1 = kronecker(A_1,A_2,A_3) with arbitrary k ###########
+Hessi = function(A_1,W1,ttnsr,omega){
+  k = length(omega)
+  thet =W1%*%c(A_1)
+  p = matrix(nrow = length(thet),ncol = k)
+  for (i in 1:k) {
+    p[,i] = as.numeric(logistic(thet + omega[i]))
+  }
+  q = matrix(nrow = length(thet),ncol = k+1)
+  q[,1] = p[,1]*(1-p[,1])
+  for (i in 2:k) {
+    q[,i] =  p[,i]*(1-p[,i])+p[,i-1]*(1-p[,i-1])
+  }
+  q[,k+1] = p[,k]*(1-p[,k])
+  l= lapply(1:(k+1),function(i) t(rbind(W1[which(c(ttnsr)==i),])*q[which(c(ttnsr)==i),i])%*%rbind(W1[which(c(ttnsr)==i),]))
+  return(Reduce("+", l))
+}
+            
+            
 
 ####### update a factor matrix at one time while holding others fixed ###########
 comb = function(A,W,ttnsr,k,omega,alph=TRUE){
