@@ -2,23 +2,27 @@ source("function.R")
 ########## brain tensor analysis ##########
 source("B_functions.R")
 load("../data/dti_brain.RData")
-d=c(68,68,136)
-r=c(3,3,6)
+##ttnsr=tensor[,,attr[,2]=="22-25"] ## subset of individuals
+ttnsr=tensor
+d=dim(ttnsr)
 
+r=c(24,24,7)
 A_1 = randortho(d[1])[,1:r[1]]
 A_2 = randortho(d[2])[,1:r[2]]
 A_3 = randortho(d[3])[,1:r[3]]
 C = rand_tensor(modes = r)
-ttnsr=tensor
-result = fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = 20)
+##result = fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE)
+tic()
+result = fit_ordinal_MM(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE)
+toc()
+
+bic(ttnsr,theta,omega,d,r)
 
 
-
-  
 ########## simulate tucker tensor with d, r ##############################
 set.seed(18)
-d=c(42,139,26)
-r=c(5,5,5)
+d=c(68,68,68)
+r=c(23,23,2)
 B_1 = matrix(runif(d[1]*r[1],min=-1,max=1),nrow = d[1])
 B_2 = matrix(runif(d[2]*r[2],min=-1,max=1),nrow = d[2])
 B_3 = matrix(runif(d[3]*r[3],min=-1,max=1),nrow = d[3])
@@ -30,8 +34,8 @@ theta = theta/max(abs(theta))*7 ## specify signal = 7
 omega = c(-0.2,0.2)
 
 ttnsr <- realization(theta,omega)@data
-missing = 1*(rand_tensor(modes = d)>0)@data ## uniform missingness with p=0.5
-ttnsr =ttnsr *missing 
+#missing = 1*(rand_tensor(modes = d)>0)@data ## uniform missingness with p=0.5
+#ttnsr =ttnsr *missing 
 
 
 #initial point
@@ -44,8 +48,14 @@ thetainit=ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
 
 ## with omega
 tic()
-result1 <- fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega)
+result1 <- fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE)
 toc()
+
+## with omega
+tic()
+result2 <- fit_ordinal_MM(ttnsr,C,A_1,A_2,A_3,omega=TRUE)
+toc()
+
 tic()
 result2 <- fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega,10)
 toc()
@@ -89,7 +99,7 @@ legend("topleft", legend=c(paste("slope = ",round(md$coefficients[2],3)), "slope
 
 
 ########################### cp tensor with d, r ##############################
-d=c(42,139,26); r=20
+d=c(20,20,20); r=2
 B_1 = matrix(runif(d[1]*r,min=-1,max=1),nrow = d[1])
 B_2 = matrix(runif(d[2]*r,min=-1,max=1),nrow = d[2])
 B_3 = matrix(runif(d[3]*r,min=-1,max=1),nrow = d[3])
@@ -289,7 +299,6 @@ for(i in 2:6){
   bicr[i-1,1] <-  i
   bicr[i-1,2] <- bic(ttnsr,thetahat1,omega,20,i)
 }
-
 
 
 

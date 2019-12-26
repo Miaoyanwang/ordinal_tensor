@@ -71,7 +71,8 @@ realization = function(theta,omega){
 #   p1 = logistic(thet + omega[1])
 #   p2 = logistic(thet + omega[2])
 #   q1 <- p1-1
-#   q2 <- (p2*(1-p2)-p1*(1-p1))/(p1-p2)
+#   #q2 <- (p2*(1-p2)-p1*(1-p1))/(p1-p2)
+#   q2 <- p1+p2-1
 #   q3 <- p2
 #   gd = apply(rbind(W1[which(c(ttnsr)==1),])*q1[which(c(ttnsr)==1)],2,sum)+apply(rbind(W1[which(c(ttnsr)==2),])*q2[which(c(ttnsr)==2)],2,sum)+apply(rbind(W1[which(c(ttnsr)==3),])*q3[which(c(ttnsr)==3)],2,sum)
 #   
@@ -121,7 +122,8 @@ g1 = function(A_1,W1,ttnsr,omega){
   q = matrix(nrow = length(thet),ncol = k+1)
   q[,1] <- p[,1]-1
   for (i in 2:k) {
-    q[,i] <-  (p[,i]*(1-p[,i])-p[,i-1]*(1-p[,i-1]))/(p[,i-1]-p[,i])
+      #q[,i] <-  (p[,i]*(1-p[,i])-p[,i-1]*(1-p[,i-1]))/(p[,i-1]-p[,i])
+    q[,i] <- p[,i]+p[,i-1]-1
   }
   q[,k+1] <- p[,k]
   l <- lapply(1:(k+1),function(i) apply(rbind(W1[which(c(ttnsr)==i),])*q[which(c(ttnsr)==i),i],2,sum))
@@ -150,9 +152,9 @@ corecomb = function(C,W,ttnsr,omega,alph=TRUE){
   Cvec <- c(C@data)
   h <- function(x) h1(x,W,ttnsr,omega)
   g <- function(x) g1(x,W,ttnsr,omega)
-  H <- function(x) Hessi(x,W,ttnsr,omega)
-  d <- nlminb(Cvec,h,g,H) 
-  ##d <- optim(Cvec,h,g,method="BFGS")  ## seems BFGS is faster??
+  #H <- function(x) Hessi(x,W,ttnsr,omega)
+  #d <- nlminb(Cvec,h,g,H) 
+  d <- optim(Cvec,h,g,method="BFGS")  ## seems BFGS is faster??
   C <- new("Tensor",C@num_modes,C@modes,data =d$par)
 
   return(C)
@@ -307,7 +309,6 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
       # update C
       W4 <- kronecker(kronecker(A_3,A_2),A_1)
       C <- corecomb(C,W4,c(ttnsr),omega)
-      
       #update A_1
       W1 = kronecker(A_3,A_2)%*%t(k_unfold(C,1)@data)
       A_1 <- comb(A_1,W1,ttnsr,1,omega)
