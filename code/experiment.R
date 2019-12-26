@@ -16,9 +16,6 @@ tic()
 result = fit_ordinal_MM(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE)
 toc()
 
-bic(ttnsr,theta,omega,d,r)
-
-
 ########## simulate tucker tensor with d, r ##############################
 set.seed(18)
 d=c(68,68,68)
