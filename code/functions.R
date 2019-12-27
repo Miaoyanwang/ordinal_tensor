@@ -168,7 +168,7 @@ corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alph=TRUE){
   return(C)
 }
 
-
+## you can use this when W size is small
 # corecomb = function(C,W,ttnsr,omega,alph=TRUE){
 #   Cvec <- c(C@data)
 #   h <- function(x) h1(x,W,ttnsr,omega)
