@@ -217,7 +217,7 @@ fit_ordinal_MM=function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph=TRUE){
             prev <- likelihood(ttnsr[ttnsr>0],prevtheta[ttnsr>0],omega)
         
             ## update C, A_1, A_2, A_3 all together
-            newtheta=prevtheta-4*gradient_tensor(A_1,A_2,A_3,C,ttnsr,omega)/length(omega)
+            newtheta=prevtheta-2*gradient_tensor(A_1,A_2,A_3,C,ttnsr,omega)
             message=capture.output(decomp<-tucker(as.tensor(newtheta),r))
             A_1=decomp$U[[1]]
             A_2=decomp$U[[2]]
