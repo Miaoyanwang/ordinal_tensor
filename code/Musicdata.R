@@ -1,7 +1,21 @@
 source("functions.R")
 load("InCar_Music.RData")
 
-
+## Choosing argmax index
+expectation = function(theta,omega){
+  k = length(omega)
+  theta=as.tensor(theta)
+  thet <- c(theta@data)
+  p = matrix(nrow = length(thet),ncol = k)
+  for (i in 1:k) {
+    p[,i] = logistic(thet + omega[i])
+  }
+  p =  cbind(p,rep(1,length(thet)))-cbind(rep(0,length(thet)),p)
+  for (j in 1:length(thet)) {
+    thet[j] <-  which.max(p[j,])
+  }
+  return(as.tensor(array(thet,dim =theta@modes)))
+}      
 
 
 fit_missing = function(tensor,ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph){

@@ -71,18 +71,7 @@ g1 = function(A_1,W,ttnsr,omega){
   return(l)
 }
 
-# 
-# kronecker_row = function(i,A_3,A_2,A_1){
-#   r=nrow(A_2)*nrow(A_1)
-#   j = ifelse(i %% r==0,r,i%%r)
-#   return(kronecker_list(list(A_3[ceiling(i/r),],
-#                              A_2[ceiling(j/nrow(A_1)),],
-#                              A_1[ifelse(j%%nrow(A_1)==0,nrow(A_1),j%%nrow(A_1)),])))
-# }
-# 
-# kronecker_rbind = function(v,A_3,A_2,A_1){
-#   return(t(sapply(v,function(x) kronecker_row(x,A_3,A_2,A_1))))
-# }
+
 gradient_tensor=function(A_1,A_2,A_3,C,ttnsr,omega){
     k = length(omega)
     thet = c(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data)
@@ -132,34 +121,25 @@ gc = function(A_1,A_2,A_3,C,ttnsr,omega){
   return(l)
 }
 
-# numCores <- detectCores()
-# cl <- makeCluster(numCores)
-# registerDoParallel(cl)
-# tic()
-# g <- foreach(i = 1:length(c(ttnsr)),.combine = "+",.packages = "rTensor") %dopar% {
-#   kronecker_row(i,A_3,A_2,A_1)*q[i,c(ttnsr)[i]]
-# }
-# toc()
-# stopCluster(cl)
-# 
-# 
-# g1=0
-# tic()
-# for (i in 1:1000) {
-#   g1 = g1+kronecker_row(i,A_3,A_2,A_1)*q[i,c(ttnsr)[i]]
-# }
-# toc()
-# 
-# 
-# numCores <- detectCores()
-# cl <- makeCluster(numCores)
-# registerDoParallel(cl)
-# tic()
-# g2 <- foreach(i = 1:1000,.combine = "+",.packages = "rTensor") %dopar% {
-#   kronecker_row(i,A_3,A_2,A_1)*q[i,c(ttnsr)[i]]
-# }
-# toc()
-# stopCluster(cl)
+########### Hessian w.r.t. A_1 = C with W1 = kronecker(A_1,A_2,A_3) with arbitrary k ###########
+Hessi = function(A_1,W1,ttnsr,omega){
+  k = length(omega)
+  thet =W1%*%c(A_1)
+  p = matrix(nrow = length(thet),ncol = k)
+  for (i in 1:k) {
+    p[,i] = as.numeric(logistic(thet + omega[i]))
+  }
+  q = matrix(nrow = length(thet),ncol = k+1)
+  q[,1] = p[,1]*(1-p[,1])
+  for (i in 2:k) {
+    q[,i] =  p[,i]*(1-p[,i])+p[,i-1]*(1-p[,i-1])
+  }
+  q[,k+1] = p[,k]*(1-p[,k])
+  l= lapply(1:(k+1),function(i) t(rbind(W1[which(c(ttnsr)==i),])*q[which(c(ttnsr)==i),i])%*%rbind(W1[which(c(ttnsr)==i),]))
+  return(Reduce("+", l))
+}
+            
+            
 
 ####### update a factor matrix at one time while holding others fixed ###########
 comb = function(A,W,ttnsr,k,omega,alph=TRUE){
@@ -188,7 +168,7 @@ corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alph=TRUE){
   return(C)
 }
 
-
+## you can use this when W size is small
 # corecomb = function(C,W,ttnsr,omega,alph=TRUE){
 #   Cvec <- c(C@data)
 #   h <- function(x) h1(x,W,ttnsr,omega)
