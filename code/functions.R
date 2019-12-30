@@ -21,8 +21,37 @@ realization = function(theta,omega){
   return(as.tensor(array(thet,dim =theta@modes)))
 }      
 
+# estimate the variable which has the largest probability
+estimation = function(theta,omega){
+  k = length(omega)
+  theta=as.tensor(theta)
+  thet <- c(theta@data)
+  p = matrix(nrow = length(thet),ncol = k)
+  for (i in 1:k) {
+    p[,i] = logistic(thet + omega[i])
+  }
+  p =  cbind(p,rep(1,length(thet)))-cbind(rep(0,length(thet)),p)
+  for (j in 1:length(thet)) {
+    thet[j] <-  which.max(p[j,])
+  }
+  return(as.tensor(array(thet,dim =theta@modes)))
+}   
 
-
+# estimate the variable as the mean of the variable based on the probability
+mestimation = function(theta,omega){
+  k = length(omega)
+  theta=as.tensor(theta)
+  thet <- c(theta@data)
+  p = matrix(nrow = length(thet),ncol = k)
+  for (i in 1:k) {
+    p[,i] = logistic(thet + omega[i])
+  }
+  p =  cbind(p,rep(1,length(thet)))-cbind(rep(0,length(thet)),p)
+  for (j in 1:length(thet)) {
+    thet[j] <-  round(sum(p[j,]*(1:5)))
+  }
+  return(as.tensor(array(thet,dim =theta@modes)))
+}   
 
 ########### cost function  with arbitrary k ###########
 h1 = function(A_1,W1,ttnsr,omega){
@@ -95,6 +124,7 @@ gradient_tensor=function(A_1,A_2,A_3,C,ttnsr,omega){
     return(output)
 }
 
+# gradient not using kronecker product at all
 gc = function(A_1,A_2,A_3,C,ttnsr,omega){
   k = length(omega)
   thet = c(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data)
@@ -105,20 +135,26 @@ gc = function(A_1,A_2,A_3,C,ttnsr,omega){
   q = matrix(nrow = length(thet),ncol = k+1)
   q[,1] <- p[,1]-1
   for (i in 2:k) {
-      #q[,i] <-  (p[,i]*(1-p[,i])-p[,i-1]*(1-p[,i-1]))/(p[,i-1]-p[,i])
+    #q[,i] <-  (p[,i]*(1-p[,i])-p[,i-1]*(1-p[,i-1]))/(p[,i-1]-p[,i])
     q[,i] <- p[,i]+p[,i-1]-1
   }
   q[,k+1] <- p[,k]
-  W = kronecker(A_2,A_1)
-  d = c(nrow(A_1),nrow(A_2),nrow(A_3))
-  cl <- makeCluster(20)
-  registerDoParallel(cl)
-  l <- foreach(j = 1:d[3],.combine = "+") %dopar% {
-    Reduce("+",lapply(1:(k+1),function(i) apply(rbind(kronecker(A_3[j,,drop = F],W)[which(c(ttnsr)[(d[1]*d[2]*(j-1)+1):(d[1]*d[2]*(j-1)+d[1]*d[2])]==i),])*
-                                                  q[which(c(ttnsr)[(d[1]*d[2]*(j-1)+1):(d[1]*d[2]*(j-1)+d[1]*d[2])]==i)+d[1]*d[2]*(j-1),i],2,sum)))
+  g = ttnsr
+  for(i in 1:(k+1)){
+    g[which(ttnsr==i)] = q[which(ttnsr==i),i]
   }
-  stopCluster(cl)
-  return(l)
+  
+  g = ttl(as.tensor(g),list(t(A_1),t(A_2),t(A_3)),ms = 1:3)
+  
+  # d = c(nrow(A_1),nrow(A_2),nrow(A_3))
+  # cl <- makeCluster(20)
+  # registerDoParallel(cl)
+  # l <- foreach(j = 1:d[3],.combine = "+") %dopar% {
+  #   Reduce("+",lapply(1:(k+1),function(i) apply(rbind(kronecker(A_3[j,,drop = F],W)[which(c(ttnsr)[(d[1]*d[2]*(j-1)+1):(d[1]*d[2]*(j-1)+d[1]*d[2])]==i),])*
+  #                                                 q[which(c(ttnsr)[(d[1]*d[2]*(j-1)+1):(d[1]*d[2]*(j-1)+d[1]*d[2])]==i)+d[1]*d[2]*(j-1),i],2,sum)))
+  # }
+  # stopCluster(cl)
+  return(g)
 }
 
 ########### Hessian w.r.t. A_1 = C with W1 = kronecker(A_1,A_2,A_3) with arbitrary k ###########
@@ -158,16 +194,26 @@ l <- lapply(1:nrow(A),function(i){constrOptim(A[i,],function(x) h1(x,W,tnsr1[i,]
 }
 
 ####### update core tensor #######
+#corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alph=TRUE){
+#  h <- function(x) hc(A_1,A_2,A_3,new("Tensor",C@num_modes,C@modes,data = x),ttnsr,omega)
+#  #g <- function(x) gc(A_1,A_2,A_3,new("Tensor",C@num_modes,C@modes,data = x),ttnsr,omega) ## take longe
+#  #d <- optim(c(C@data),h,g,method="BFGS") 
+#  d <- optim(c(C@data),h,method="BFGS")  ## skip the gradient calculation
+#  C <- new("Tensor",C@num_modes,C@modes,data =d$par)
+#  
+#  return(C)
+#}
+
 corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alph=TRUE){
   h <- function(x) hc(A_1,A_2,A_3,new("Tensor",C@num_modes,C@modes,data = x),ttnsr,omega)
-  #g <- function(x) gc(A_1,A_2,A_3,new("Tensor",C@num_modes,C@modes,data = x),ttnsr,omega) ## take longe
-  #d <- optim(c(C@data),h,g,method="BFGS") 
-  d <- optim(c(C@data),h,method="BFGS")  ## skip the gradient calculation
+  g <- function(x) c(gc(A_1,A_2,A_3,new("Tensor",C@num_modes,C@modes,data = x),ttnsr,omega)@data) ## take longe
+  d <- optim(c(C@data),h,g,method="BFGS") 
+  #d <- optim(c(C@data),h,method="BFGS")  ## skip the gradient calculation
   C <- new("Tensor",C@num_modes,C@modes,data =d$par)
   
   return(C)
 }
-
+                                              
 ## you can use this when W size is small
 # corecomb = function(C,W,ttnsr,omega,alph=TRUE){
 #   Cvec <- c(C@data)
