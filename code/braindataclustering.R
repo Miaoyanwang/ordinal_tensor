@@ -1,5 +1,5 @@
 load("dti_brain.RData")
-load("rank_24_24_8.RData")
+load("rank_23_23_8.RData")
 theta = make_theta(result)
 thetan = tucker(theta,rank = result$C@modes)
 
