@@ -1,0 +1,3 @@
+shortrank*.RData :  the brain data output with full values using modified gradient algorithm(for BIC comparison)
+CV*.RData : cross validation result of continuous Tucker decompositon
+OCV*.RData : cross validattion result of Ordinal GLM Tucker decomposition
