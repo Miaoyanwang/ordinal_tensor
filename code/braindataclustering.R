@@ -4,8 +4,8 @@ theta = make_theta(result)
 thetan = tucker(theta,rank = result$C@modes)
 
 # clust1 is clustering from mode 1, cluster 2 is clustering from mode 2
-clust1 = kmeans(thetan$U[[1]]%*%diag(diag(k_unfold(thetan$Z,1)@data)),7,nstart = 20)
-clust2 = kmeans(thetan$U[[2]]%*%diag(diag(k_unfold(thetan$Z,2)@data)),7,nstart = 20)
+clust1 = kmeans(thetan$U[[1]]%*%diag(diag(k_unfold(thetan$Z,1)@data)),8,nstart = 20)
+clust2 = kmeans(thetan$U[[2]]%*%diag(diag(k_unfold(thetan$Z,2)@data)),8,nstart = 20)
 par(mfrow = c(1,2))
 plot(clust1$cluster,ylab = "group")
 plot(clust2$cluster,ylab = "group")
