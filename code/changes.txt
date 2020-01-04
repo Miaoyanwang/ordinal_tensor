@@ -20,7 +20,7 @@ To-do:
 2. speed-up BIC search? 
 3. further speed-up?
 4. Tucker vs. CP?
-5. verify the non-convexity in intercept and slope jointly? 
-6. allow signal tensor of rank 1
+5. verify the non-convexity in intercept and slope jointly? -> the function is convex in terms of intercept and slope.
+6. allow signal tensor of rank 1 -> rank 1 case is available now in functions.R
 
 
