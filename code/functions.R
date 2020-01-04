@@ -89,14 +89,14 @@ g1 = function(A_1,W,ttnsr,omega){
   }
   q = matrix(nrow = length(thet),ncol = k+1)
   q[,1] <- p[,1]-1
-   if(k>=2){
-  for (i in 2:k) {
+  if(k>=2){
+    for (i in 2:k) {
       #q[,i] <-  (p[,i]*(1-p[,i])-p[,i-1]*(1-p[,i-1]))/(p[,i-1]-p[,i])
       q[,i] <- p[,i]+p[,i-1]-1
+    }
   }
-   }
   q[,k+1] <- p[,k]
-  l <- Reduce("+",lapply(1:(k+1),function(i) apply(rbind(W[which(c(ttnsr)==i),])*q[which(c(ttnsr)==i),i],2,sum)))
+  l <- Reduce("+",lapply(1:(k+1),function(i) apply(rbind(W[which(c(ttnsr)==i),,drop=F])*q[which(c(ttnsr)==i),i],2,sum)))
   return(l)
 }
 
