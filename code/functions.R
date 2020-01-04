@@ -48,7 +48,7 @@ mestimation = function(theta,omega){
   }
   p =  cbind(p,rep(1,length(thet)))-cbind(rep(0,length(thet)),p)
   for (j in 1:length(thet)) {
-    thet[j] <-  round(sum(p[j,]*(1:5)))
+    thet[j] <-  round(sum(p[j,]*(1:(k+1))))
   }
   return(as.tensor(array(thet,dim =theta@modes)))
 }   
