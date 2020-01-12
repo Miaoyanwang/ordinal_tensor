@@ -48,7 +48,7 @@ save(result,file = paste("CV25_25_7_",index,".RData",sep = ""))
 CV = as.data.frame(matrix(nrow = 5, ncol = 3))
 names(CV) = c("MSE","MAE","Error_rate")
 for (i in 1:5) {
-  
+  test_index = cindex[[i]]
   load(paste("CV23_23_8_",i,".RData",sep = ""))
   theta = make_theta(result)@data
   CV[i,1] = mean((round(theta)[test_index]-tensor[test_index])^2)
@@ -72,6 +72,7 @@ save(result,file = paste("OCV25_25_7_",index,".RData",sep = ""))
 OCV = as.data.frame(matrix(nrow = 5, ncol = 3))
 names(OCV) = c("MSE","MAE","Error_rate")
 for (i in 1:5) {
+  test_index = cindex[[i]]
   load(paste("OCV23_23_8_",i,".RData",sep = ""))
   theta = make_theta(result)@data
   out = estimation(theta,result$omega)@data # we can also use mestimation 
