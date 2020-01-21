@@ -377,7 +377,7 @@ where $\eta_\ell, \eta_{\ell-1}$ fall between $\theta$ and $\theta^*$, and $\che
 \begin{equation}\label{eq:entrywise}
 \text{KL}(\theta|| \theta^*) \leq \left({4(L-2)\over A_\alpha}+ {2\over A_\alpha}\right)\dot{f}^2(0)(\theta-\theta^*)^2={2(2L-3)\over A_\alpha} \dot{f}^2(0)(\theta-\theta^*)^2,
 \end{equation}
-where we have used the bound~\eqref{eq:ass} and the fact that $\dot{f}(\cdot)$ peaks at zero for an unimodal and symmetric function. Now summing~\eqref{eq:entrywise} over the index set $\omega\in[d_1]\times \cdots \times [d_K]$ gives
+where we have used Taylor expansion, the bound~\eqref{eq:ass}, and the fact that $\dot{f}(\cdot)$ peaks at zero for an unimodal and symmetric function. Now summing~\eqref{eq:entrywise} over the index set $\omega\in[d_1]\times \cdots \times [d_K]$ gives
 \[
 \text{KL}(\mathbb{P}_{\Theta}|| \mathbb{P}_{\Theta^*}) =\sum_{\omega\in[d_1]\times \cdots \times[d_K]} \text{KL}(\theta_\omega || \theta^*_\omega) \leq {2(2L-3)\over A_\alpha} \dot{f}^2(0)\FnormSize{}{\Theta-\Theta^*}^2.
 \]

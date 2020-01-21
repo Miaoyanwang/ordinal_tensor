@@ -1,0 +1,53 @@
+\documentclass[11pt]{article}
+\usepackage[paperheight=1in,paperwidth=7.4in,margin=0.01in]{geometry}
+
+\usepackage{setspace}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{fancybox}
+\usepackage{url}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{comment}
+\usepackage{bm}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs=true}
+
+\usepackage{natbib}
+\usepackage{xr}
+\externaldocument{ordinalT}
+%\usepackage{icml2020}
+
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+%\input macros.tex
+
+\def\@normalsize{\@setsize\normalsize{11pt}\xpt\@xpt}
+
+\begin{document}
+\begin{table}
+\normalsize
+\begin{tabular}{l|ccc}
+&Bhaskar [2016]&Ghadermarzy et al.\ [2018] &This paper\\
+\hline 
+Higher-order tensors ($K\geq 3$) & \xmark&\cmark& \cmark\\
+\hline
+Multi-level categories ($L\geq 3$)& \xmark& \xmark&\cmark\\
+ \hline
+ Error rate for tensor denoising&$d^{-1}$ for $K=2$& $d^{-(K-1)/2}$&$d^{-(K-1)}$\\
+\hline
+Sample complexity for tensor completion&$d^K$& $Kd$&$Kd$\\
+\hline
+\end{tabular}
+\end{table}
+
+%\bibliography{tensor_wang}
+\bibliographystyle{icml2020}
+
+
+\end{document}
