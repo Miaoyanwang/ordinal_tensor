@@ -82,6 +82,11 @@
 
 \input macros.tex
 
+\usepackage{amssymb}
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
 \begin{document}
 
 \twocolumn[
@@ -135,14 +140,22 @@ Higher-order tensors arise frequently in applications such as neuroimaging, reco
 %{\color{red}In contrast to the continuous-valued problems, problems with ordinal tensors exhibit an intrinsic phase transition depending on the signal-to-noise ratio. (Not sure whether this should be mentioned)}
 We propose a multi-linear cumulative link model, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. 
 Our error bound enjoys a faster convergence rate than existing results, and we show that the proposed estimator is minimax optimal under the considered model. 
-An efficient completion method is further developed, which guarantees the consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional tensor using only $O(Kd)$ noisy, quantized observations. We demonstrate the outperformance of our approach over previous methods through applications to the tasks of clustering and collaborative filtering. 
+An efficient completion method is further developed, which guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional tensor using only $O(Kd)$ noisy, quantized observations. We demonstrate the outperformance of our approach over previous methods through applications to the tasks of clustering and collaborative filtering. 
 
 \end{abstract}
 
 
 \section{Introduction {\color{red}(needs rewriting)}}
 Higher-order tensors commonly arise in modern applications. In a context-aware recommendation system, for example, the survey results can be organized as a three-way tensor, where the $(i,j,k)$-th entry indicates the rating from user $i$ to the item $j$ at context $k$. While there are numerous methods for continuous-valued tensors, fewer methods are available for learning tensors based on qualitative observations. Qualitative observations usually take values in a limited set of categories which may be on an ordinal or on a purely nominal scale. The present work focuses on ordinal tensors; namely, the tensor entries are categorical variables with a natural ordering among the categories. 
-{\color{red}(Prior work and our contribution. See table~\eqref{tab:compare} for  comparison.)}
+{\color{red}(Prior work and our contribution. See Table~\ref{tab:compare} for comparison.)}
+
+\begin{table*}[http]
+\begin{center}
+\includegraphics[width=17cm]{compare.pdf}
+\end{center}
+\vspace{-.5cm}
+\caption{Comparison of various low-rank estimation methods based on categorical observations. For an order-$K$ dimensional-$(d,\ldots,d)$ ordinal tensor with $L$-level observations, we report the error bound in the recovered signal (for tensor denoising) and required sample complexity (for tensor completion) as functions of tensor dimension. {\color{red}(font in the table seems different)}}~\label{tab:compare}
+\end{table*}
 
 \section{Preliminaries}
 Let $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. We use $y_\omega$ to denote the tensor entry indexed by $\omega$, where $\omega\in[d_1]\times\cdots\times[d_K]$.  The Frobenius norm of $\tY$ is defined as $\FnormSize{}{\tY}=\sum_\omega y^2_\omega$ and the infinity norm of $\tY$ is defined as $\mnormSize{}{\tY}=\max_{\omega}|y_\omega|$. We use $\tY_{(k)}$ to denote the unfolded matrix of size $d_k$-by-$\prod_{i\neq k}d_k$, obtained by reshaping the tensor along the mode-$k$. The Tucker rank of $\tY$ is defined as a length-$K$ vector $\mr = (r_1,\ldots,r_K)$, where $r_k$ is the rank of matrix $\tY_{(k)}$ for all $k \in[K]$. We say that an event $A$ occurs ``with very high probability'' if $\mathbb{P}(A)$ tends to 1 faster than any polynomial of tensor dimension $d_{\min}=\min\{d_1,\ldots,d_K\}$ as $d_{\min}\to\infty$.
@@ -216,7 +229,7 @@ The first question we aim to address is tensor denoising:
 
 Clearly, the problem (P1) cannot be solved uniformly for all possible $\Theta$. We focus on a class of ``low-rank'' and ``flat'' signal tensors, which is a plausible assumption in practical applications~\cite{zhou2013tensor,bhaskar20151}. Specifically, we consider the parameter space:
 \begin{equation}\label{eq:space}
-\tP=\left\{\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K} \colon \text{rank}(\Theta)\leq \mr,\ \mnormSize{}{\Theta}\leq \alpha\right\}.
+\small \tP=\left\{\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K} \colon \text{rank}(\Theta)\leq \mr,\ \mnormSize{}{\Theta}\leq \alpha\right\}.
 \end{equation}
 where $\mr=(r_1,\ldots,r_K)$ denotes the Tucker rank of $\Theta$. 
 
@@ -268,7 +281,7 @@ Consider an ordinal tensor $\tY\in[L]^{d_1\times\dots\times d_K}$ generated from
 \end{equation}
 where $c_1, c_2>0$ are two constants that depend only on $K$. 
 \end{thm}
-Theorem~\ref{thm:rate} provides the statistical converge for the estimator~\eqref{eq:estimator}. Its proof is given in the Supplements. In fact, the proof of this theorem shows that the same statistical rate holds not only for the global optimizer of~\eqref{eq:estimator}, but also for any local optimizer $\check \Theta$ in the level set $\{\check\Theta\in\tP: \logl(\check\Theta)\geq \logl(\trueT)\}$. This suggests that the local optimality itself is not necessarily a severe concern in our context, as long as the objective value at the estimator is large enough. {\color{red}In Section~\ref{algorithm}, we will provide an algorithm-dependent rate quantifying the interplay between the statistical and computational errors.} 
+Theorem~\ref{thm:rate} provides the statistical converge for the estimator~\eqref{eq:estimator}. Its proof is given in the Supplements. In fact, the proof of this theorem shows that the same statistical rate holds not only for the global optimizer of~\eqref{eq:estimator}, but also for any local optimizer $\check \Theta$ in the level set $\{\check\Theta\in\tP: \logl(\check\Theta)\geq \logl(\trueT)\}$. This suggests that the local optimality itself is not necessarily a severe concern in our context, as long as the objective value at the estimator is large enough. In Section~\ref{sec:simulation}, we will perform empirical studies to assess the algorithmic stability and its impact to statistical efficiency. 
 
 A similar conclusion can be obtained for the prediction error, measured in KL divergence, between the two generative distributions. 
 \begin{cor}[Prediction error]~\label{cor:prediction}
@@ -288,7 +301,7 @@ Our bound also generalizes the previous results on ordinal matrices. The converg
 Intuitively, for tensor data analysis, we can view the number of entries, $\prod_k d_k$, as the sample size, and the number of free parameters in $\tP$ is roughly on the order of $\sum_{k}d_k$, assuming $r_{\max}=O(1)$. Compared to the matrix case, a higher tensor order implies more effective samples per parameter and thus exhibits a faster convergence rate in high dimensions. 
 
 
-We next establish the statistical optimality of our estimator $\hat \Theta$. The result is based on the information theory, and therefore applies to all estimators in $\tP$, including but not limited to $\hat \Theta$ in~\eqref{eq:estimator}. We show that this lower bound nearly matches the upper bound in~\eqref{eq:rate}, as the tensor dimension increases. 
+We next establish the statistical optimality of our estimator $\hat \Theta$. The result is based on the information theory, and therefore applies to all estimators in $\tP$, including but not limited to $\hat \Theta$ in~\eqref{eq:estimator}. We show that this lower bound matches the upper bound in~\eqref{eq:rate} as a function of tensor dimensions. 
 
 
 \begin{thm}[Minimax lower bound]\label{thm:minimax} 
@@ -330,7 +343,7 @@ Assume the same set-up as in Theorem~\ref{thm:rate}. Suppose that we observe a s
 \PiFnormSize{}{\Theta-\hat \Theta}^2 \to 0,\quad \text{ as }\quad {|\Omega|\over \sum_k d_k} \ \to \infty. 
 \]
 \end{thm}
-Theorem~\ref{thm:completion} shows that our estimator achieves consistency when sample size is greater than $O(\sum_k d_k)$. {\color{red} add remarks comparing with prior work, and with the degree of freedom}
+Theorem~\ref{thm:completion} shows that our estimator achieves consistency when sample size is greater than $O(\sum_k d_k)$. {\color{red} add remarks comparing with prior work, and with the degree of freedom.}
 
 \section{Numerical Implementation}\label{sec:algorithm}
 \subsection{Alternating optimization}
@@ -359,6 +372,7 @@ where $\hat \Theta(\mr)$ is the estimator given the rank $\mr$, and $p_e(\mr)\st
 
 \section{Experiments}
 In this section, we evaluate the empirical performance of our rank-constrained M-estimatation. We consider ordinal tensors with various number of categories, and compare the recovery accuracy with other tensor-based methods. Unless otherwise stated, we generate ordinal-valued tensor under the latent-variable model~\eqref{eq:latent} with i.i.d.\ $N(0,\sigma^2)$ noise. The signal tensor is simulated based on~\eqref{eq:Tucker}, with core tensor generated from i.i.d. N(0,1), and the factor matrices uniformly from orthogonal ensembles. The cut-off points are generated i.i.d.from $N(0,1)$. In each simulation study, we report the summary statistics across $n_{\text{sim}}$ = 30 replications.
+
 \subsection{Finite-sample performance}\label{sec:simulation}
 
 \subsection{Comparison with alternative methods}

@@ -1,5 +1,5 @@
 \documentclass[11pt]{article}
-\usepackage[paperheight=1in,paperwidth=7.4in,margin=0.01in]{geometry}
+\usepackage[paperheight=1.3in,paperwidth=7.4in,margin=0.01in]{geometry}
 
 \usepackage{setspace}
 \usepackage{amsmath,amssymb}
@@ -37,9 +37,11 @@
 \hline 
 Higher-order tensors ($K\geq 3$) & \xmark&\cmark& \cmark\\
 \hline
-Multi-level categories ($L\geq 3$)& \xmark& \xmark&\cmark\\
+Multi-level categories ($L\geq 3$)& \cmark& \xmark&\cmark\\
  \hline
  Error rate for tensor denoising&$d^{-1}$ for $K=2$& $d^{-(K-1)/2}$&$d^{-(K-1)}$\\
+\hline
+Optimal guarantee under exact low-rankness& unknown & \xmark & \cmark\\
 \hline
 Sample complexity for tensor completion&$d^K$& $Kd$&$Kd$\\
 \hline
