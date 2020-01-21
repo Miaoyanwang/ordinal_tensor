@@ -1,0 +1,479 @@
+\documentclass[11pt]{article}
+
+\usepackage{fancybox}
+
+
+
+\usepackage{color}
+\usepackage{url}
+\usepackage[margin=1in]{geometry}
+
+
+\renewcommand{\textfraction}{0.0}
+\renewcommand{\topfraction}{1.0}
+%\renewcommand{\textfloatsep}{5mm}
+
+
+\usepackage{comment}
+% Definitions of handy macros can go here
+\usepackage{amsmath,amssymb,amsthm,bm,mathtools}
+\usepackage{multirow}
+\usepackage{natbib}
+%\usepackage{dsfont,multirow,hyperref,setspace,natbib,enumerate}
+\usepackage{dsfont,multirow,hyperref,setspace,enumerate}
+\hypersetup{colorlinks,linkcolor={blue},citecolor={blue},urlcolor={red}} 
+\usepackage{algpseudocode,algorithm}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+\algnewcommand\OUTPUT{\item[\algorithmicoutput]}
+
+\mathtoolsset{showonlyrefs=true}
+
+
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{pro}{Property}
+\newtheorem{assumption}{Assumption}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{cor}{Corollary}
+\newtheorem{example}{Example}
+\newtheorem{rmk}{Remark}
+
+
+\renewcommand{\thefigure}{{S\arabic{figure}}}%
+\renewcommand{\thetable}{{S\arabic{table}}}%
+\renewcommand{\figurename}{{Supplementary Figure}}    
+\renewcommand{\tablename}{{Supplementary Table}}    
+\setcounter{figure}{0}   
+\setcounter{table}{0}  
+
+
+\def\MLET{\hat \Theta_{\text{MLE}}}
+\newcommand{\cmt}[1]{{\leavevmode\color{red}{#1}}}
+
+
+
+\usepackage{dsfont}
+
+\usepackage{multirow}
+
+\DeclareMathOperator*{\minimize}{minimize}
+
+
+
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+  \mathop{%
+    \mathchoice
+    {\underbrace{\displaystyle#1}}%
+    {\underbrace{\textstyle#1}}%
+    {\underbrace{\scriptstyle#1}}%
+    {\underbrace{\scriptscriptstyle#1}}%
+  }\limits
+}
+\usepackage{xr}
+\externaldocument{ordinalT}
+\input macros.tex
+
+
+
+
+
+\title{Supplements for ``Tensor denoising and completion based on ordinal observations''}
+
+
+%\author{%
+%Chanwoo Lee \\
+%University of Wisconsin -- Madison\\
+ %\texttt{chanwoo.lee@wisc.edu} \\
+%\And
+%Miaoyan Wang \\
+%University of Wisconsin -- Madison\\
+%\texttt{miaoyan.wang@wisc.edu} \\
+%}
+
+\begin{document}
+
+
+\begin{center}
+\begin{spacing}{1.5}
+\textbf{\Large Supplements for ``Tensor denoising and completion based on ordinal observations''}
+\end{spacing}
+\end{center}
+
+\section{Proofs}
+\subsection{Estimation error for tensor denoising}
+\begin{proof}[Proof of Theorem~\ref{thm:rate}]
+We suppress the subscript $\Omega$ in the proof, because the tensor denoising assumes complete observation $\Omega=[d_1]\times \cdots \times [d_K]$. It follows from the expression of $\flogl(\Theta)$ that
+\begin{align}\label{eq:property}
+{\partial \flogl\over \partial \theta_\omega}&=\sum_{\ell\in[L]}\mathds{1}_{\{y_{\omega}=\ell\}}
+{\dot{g}_\ell(\theta_\omega)\over g_\ell(\theta_\omega)},\notag\\
+{\partial^2 \flogl\over \partial \theta_\omega^2}&=\sum_{\ell\in[L]}\mathds{1}_{\{y_\omega=\ell\}}{\ddot{g}_\ell(\theta_\omega)g_\ell(\theta_\omega)-\dot{g}^2_\ell(\theta_\omega)\over g^2_\ell(\theta_\omega)}\ \text{and}\quad
+{\partial^2 \flogl\over \partial \theta_\omega \theta_\omega'}=0\ \text{if}\ \omega\neq \omega',
+\end{align}
+for all $\omega\in[d_1]\times \cdots \times [d_K]$. 
+Define $d_{\text{total}}=\prod_k d_k$. Let $\fplogl\in\mathbb{R}^{d_\text{total}}$ denote the vector of gradient with respect to $\Vec(\Theta)\in\mathbb{R}^{d_{\text{total}}}$, and $\fpplogl$ the corresponding Hession matrix of size $d_\text{total}$-by-$d_{\text{total}}$. Here, $\Vec(\cdot)$ denotes the operation that turns a tensor into a vector. By~\eqref{eq:property}, $\fpplogl$ is a diagonal matrix. Recall that
+\[
+U_\alpha=\max_{\ell\in[L],|\alpha|\leq \alpha}{\dot{g}_\ell(\theta)\over g_\ell(\theta)}>0 \quad \text{and}\quad
+L_\alpha=\max_{\ell\in[L],|\alpha|\leq \alpha} {\dot{g}^2_\ell(\theta)-\ddot{g}_\ell(\theta)g_\ell(\theta)\over g^2_\ell(\theta)}>0. 
+\]
+Therefore, all entries in $\fplogl$ are upper bounded $U_\alpha>0$, and all diagonal entries in $\fpplogl$ are upper bounded by $-L_{\alpha}<0$. 
+
+By the second-order Taylor's expansion of $\flogl(\Theta)$ around $\trueT$, we obtain
+\begin{equation}\label{eq:taylor}
+\flogl(\Theta)=\flogl(\trueT)+\langle\fplogl,\ \Vec(\Theta-\trueT)\rangle+{1\over 2}\Vec(\Theta-\trueT)^T\fpplogl(\check\Theta)\Vec(\Theta-\trueT),
+\end{equation}
+$\check\Theta=\gamma\trueT+(1-\gamma)\Theta$ for some $\gamma\in[0,1]$, and $\fpplogl(\check\Theta)$ denotes the $\prod_kd_k$-by-$\prod_k d_k$ Hession matrix evaluated at $\check\Theta$. 
+
+We first bound the linear term in~\eqref{eq:taylor}. Note that, by Lemma~\ref{lem:inq}, 
+\begin{equation}\label{eq:linear}
+|\fplogl(\trueT), \Vec(\Theta-\trueT)  \rangle|\leq \snormSize{}{\fplogl(\trueT)} \nnormSize{}{\Theta-\trueT},
+\end{equation}
+where $\snormSize{}{\cdot}$ denotes the tensor spectral norm and $\nnormSize{}{\cdot}$ denotes the tensor nuclear norm. Define 
+\[
+s_\omega={\partial \tL_\tY\over \partial \theta_\omega}\Big|_{\Theta=\trueT} \;\; \textrm{ for all } \; \omega\in[d_1]\times\cdots\times [d_K].
+\]
+Based on~\eqref{eq:property} and the definition of $U_\alpha$, $\fplogl(\trueT)=\entry{s_{\omega}}$ is a random tensor whose entries are independently distributed satisfying
+\begin{equation}\label{eq:norm}
+\mathbb{E}(s_\omega)=0,\quad |s_\omega|\leq U_\alpha, \quad \text{for all }\omega\in[d_1]\times \cdots \times [d_K].
+\end{equation}
+By lemma~\ref{lem:noisytensor}, with probability at least $1-\exp(-C_1 \sum_kd_k)$, we have
+\begin{equation}\label{eq:normrandom} 
+\snormSize{}{\fplogl(\trueT)} \leq C_2 U_\alpha\sqrt{\sum_k d_k},
+\end{equation}
+where $C_1, C_2$ are two positive constants that depend only on $K$. Furthermore, note that $\text{rank}(\Theta)\leq \mr$, $\text{rank}(\trueT)\leq \mr$, so $\text{rank}(\Theta-\trueT)\leq 2\mr$. By lemma~\ref{lem:nuclear}, $\nnormSize{}{\Theta-\trueT}\leq (2r_{\max})^{K-1\over 2}\FnormSize{}{\Theta-\trueT}$. Combining~\eqref{eq:linear}, \eqref{eq:norm} and \eqref{eq:normrandom}, we have that, with probability at least $1-\exp(-C_1 \sum_kd_k)$,
+\begin{equation}\label{eq:linearconclusion}
+|\langle \fplogl(\trueT), \Vec(\Theta-\trueT)  \rangle | \leq C_2 U_\alpha  \sqrt{r_{\max}^{K-1} \sum_k d_k}  \FnormSize{}{\Theta-\trueT}.
+\end{equation}
+
+We next bound the quadratic term in \eqref{eq:taylor}. Note that
+\begin{align}\label{eq:quadratic}
+ \Vec(\Theta-\trueT)^T \fpplogl(\check{\Theta})\Vec(\Theta-\trueT)&=\sum_\omega \left( {\partial^2\tL_{\tY}\over \partial \theta^2_\omega} \Big|_{\Theta=\check\Theta} \right)(\theta_\omega-\theta_{{\text{true}},\omega})^2 \nonumber \\
+&\leq - L_\alpha\sum_{\omega}(\Theta_{\omega}-\Theta_{\text{true},\omega})^2 \nonumber \\
+&=-L_\alpha\FnormSize{}{\Theta-\trueT}^2,
+\end{align}
+where the second line comes from the fact that  $\mnormSize{}{\check\Theta}\leq \alpha$ and the definition of $L_\alpha$.
+
+Combining~\eqref{eq:taylor}, \eqref{eq:linearconclusion} and~\eqref{eq:quadratic}, we have that, for all $\Theta\in\tP$, with probability at least $1-\exp(-C_1 \sum_kd_k)$, 
+\[
+\tL_\tY(\Theta)\leq \tL_{\tY}(\trueT)+C_2U_\alpha  \left(r_{\max}^{K-1}\sum_k d_k\right)^{1/2}  \FnormSize{}{\Theta-\trueT}-{L_\alpha\over 2}\FnormSize{}{\Theta-\trueT}^2.
+\]
+In particular, the above inequality also holds for $\hat \Theta\in\tP$. Therefore, 
+\[
+\tL_\tY(\hat \Theta)\leq \tL_{\tY}(\trueT)+C_2U_\alpha \left(r_{\max}^{K-1}\sum_k d_k\right)^{1/2}  \FnormSize{}{\hat \Theta-\trueT}-{L_\alpha\over 2} \FnormSize{}{\hat \Theta-\trueT}^2.
+\]
+Since $\hat \Theta=\arg\max_{\Theta\in\tP}\tL_\tY(\Theta)$, $\tL_\tY(\hat \Theta)-\tL_{\tY}(\trueT)\geq 0$, which gives
+\[
+C_2U_\alpha \left(r_{\max}^{K-1}\sum_k d_k\right)^{1/2}  \FnormSize{}{\hat \Theta-\trueT}-{L_\alpha\over 2}\FnormSize{}{\hat \Theta-\trueT}^2\geq 0.
+\]
+Henceforth, 
+\[
+{1\over \sqrt{\prod_k d_k}} \FnormSize{}{\hat \Theta-\trueT}\leq {2C_2U_\alpha \sqrt{r_{\max}^{K-1}\sum_k d_k}\over L_\alpha \sqrt{\prod_k d_k}}={2C_2U_\alpha r_{\max}^{(K-1)/2}\over L_\alpha} \sqrt{ \sum_k d_k \over \prod_k d_k}.
+\]
+This completes the proof. 
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:prediction}]
+The result follows immediately from Theorem~\ref{thm:rate} and Lemma~\ref{lem:KL}.
+\end{proof}
+
+\subsection{Sample complexity for tensor completion}
+\begin{proof}[Proof of Theorem~\ref{thm:minimax}]
+
+Let $d_{\text{total}}=\prod_{k\in[K]}d_k$, and $\gamma\in[0,1]$ be a constant to be specified later.  Our strategy is to construct a finite set of tensors $\tX=\{\Theta_i\colon i=1,\ldots \}\subset \tP$ satisfying the properties of (i)-(iv) in Lemma~\ref{lem:construction}. By Lemma~\ref{lem:construction}, such a subset of tensors exist. For any tensor  $\Theta\in\tX$, let $\mathbb{P}_{\Theta}$ denote the distribution of $\tY|\Theta$, where $\tY$ is the ordinal tensor. In particular, $\mathbb{P}_{\mathbf{0}}$ is the distribution of $\tY$ induced by the zero parameter tensor $\mathbf{0}$, i.e., the distribution of $\tY$ conditional on the parameter tensor $\Theta=\mathbf{0}$. Based on the Remark for Lemma~\ref{lem:KL}, we have
+\begin{equation}\label{eq:KLbound1}
+KL(\mathbb{P}_{\Theta}|| \mathbb{P}_{\mathbf{0}})\leq C \FnormSize{}{\Theta}^2,
+\end{equation}
+where $C={(4L-6) \dot{f}^2(0)\over  A_\alpha}>0$ is a constant independent of the tensor dimension and rank. 
+Combining the inequality~\eqref{eq:KLbound1} with property (iii) of $\tX$, we have
+\begin{equation}\label{eq:KLbound}
+\text{KL}(\mathbb{P}_{\Theta}||\mathbb{P}_{\mathbf{0}})\leq \gamma^2 R_{\max} d_{\max}.
+\end{equation}
+From~\eqref{eq:KLbound} and the property (i), we deduce that the condition 
+\begin{equation}\label{eq:totalKL}
+{1\over \text{Card}(\tX)-1}\sum_{\Theta \in\tX}\text{KL}(\mathbb{P}_{\Theta}, \mathbb{P}_{\mathbf{0}})\leq \varepsilon \log\left\{\text{Card}(\tX)-1 \right\}
+\end{equation}
+holds for any $ \varepsilon \geq 0$ when $\gamma\in[0,1]$ is chosen to be sufficiently small depending on $\varepsilon$, e.g., $\gamma \leq \sqrt{3\varepsilon}$. By applying Theorem~\ref{thm:Tsybakov} to~\eqref{eq:totalKL}, and in view of the property (iv), we obtain that 
+\begin{equation}\label{eq:final}
+\inf_{\hat \Theta}\sup_{\trueT\in \tX}\mathbb{P}\left(\FnormSize{}{\hat \Theta- \trueT}\geq  {\gamma\over 8} \min\left\{ \alpha\sqrt{d_{\text{total}}}, C^{-1/2}\sqrt{ R_{\max}d_{\max}}\right\} \right)\geq {1\over 2}\left(1-2\varepsilon-\sqrt{16 \varepsilon \over R_{\max}d_{\max}}\right).
+\end{equation}
+Note that $\text{Loss}(\hat \Theta, \trueT)=\FnormSize{}{\hat \Theta- \trueT}^2/d_{\text{total}}$ and $\tX\subset \tP$. By taking $\varepsilon=1/8$ and $\gamma=1/2$, we conclude from~\eqref{eq:final} that
+\begin{equation*}\label{eq:prob}
+\inf_{\hat \Theta}\sup_{\trueT\in \tP}\mathbb{P}\left(\text{Loss}(\hat \Theta, \trueT)\geq {1 \over 256}\min\left \{ \alpha^2,  {C^{-1}R_{\max}d_{\max}\over d_{\text{total}}}\right \}\right)\geq {1\over 2}\left({3\over 4}- {2\over R_{\max}d_{\max}} \right)\geq {1\over 8}.
+\end{equation*}
+This completes the proof. 
+\end{proof}
+
+
+\begin{proof}[Proof of Theorem~\ref{thm:completion}]
+
+For notational convenience, we use $\MFnormSize{}{\Theta}=\sum_{\omega\in\Omega}\Theta^2_\omega$ to denote the sum of squared entries over the observed set $\Omega$, for a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$.
+
+Following a similar argument as in the proof of Theorem~\ref{thm:rate}, we have
+\begin{equation}\label{eq:Taylor2}
+\logl(\Theta)=\logl(\trueT)+\langle\plogl,\ \Vec(\Theta-\trueT)\rangle+{1\over 2}\Vec(\Theta-\trueT)^T\pplogl(\check\Theta)\Vec(\Theta-\trueT),
+\end{equation}
+where
+\begin{enumerate}
+\item $\plogl$ is a length-$d_{\text{total}}$ vector with $|\Omega|$ nonzero entries, and each entry is upper bounded by $L_\alpha>0$. 
+\item $\pplogl$ is a diagonal matrix of size $d_{\text{total}}$-by-$d_{\text{total}}$ with $|\Omega|$ nonzero entries, and each entry is upper bounded by $-U_{\alpha}<0$. 
+\end{enumerate}
+
+Similar to~\eqref{eq:linear} and~\eqref{eq:quadratic}, we have
+\begin{equation}\label{eq:linear2}
+|\langle\plogl,\ \Theta-\trueT\rangle|\leq C_2U_\alpha \sqrt{r_{\max}^{K-1}\sum_k d_k}\MFnormSize{}{\Theta-\trueT}
+\end{equation}
+and
+\begin{equation}\label{eq:quadratic2}
+\Vec(\Theta-\trueT)^T\fpplogl(\check\Theta)\Vec(\Theta-\trueT)\leq -L_\alpha \MFnormSize{}{\Theta-\trueT}^2.
+\end{equation}
+
+Combining~\eqref{eq:Taylor2}-\eqref{eq:quadratic2} with the fact that $\plogl(\hat \Theta)\geq \plogl(\trueT)$, we have
+\begin{equation}\label{eq:sample}
+\MFnormSize{}{\hat \Theta-\trueT}\leq {2C_2U_\alpha  r_{\max}^{(K-1)/2} \over L_\alpha} \sqrt{\sum_kd_k}.
+\end{equation}
+Lastly, we invoke the result regarding the closeness of $\Theta$ to its sampled version $\Theta_{\Omega}$, under the entrywise bound condition. Note that $\mnormSize{}{\hat\Theta-\trueT}\leq 2\alpha$ and $\text{rank}(\hat \Theta-\trueT)\leq 2\mr$. By Lemma~\ref{lem:Mnormbound}, $\anormSize{}{\hat \Theta-\trueT}\leq 2^{3(K-1)/2} \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Therefore, the condition in Lemma~\ref{lem:convexity} holds with $\beta=2^{3(K-1)/2} \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Applying Lemma~\ref{lem:convexity} to~\eqref{eq:sample} gives
+\begin{align}
+ \PiFnormSize{}{\hat \Theta-\trueT}^2&\leq {1\over m}\MFnormSize{}{\hat \Theta-\trueT}^2+c\beta\sqrt{\sum_k d_k\over |\Omega|}\\
+ &\leq {C_2  r^{K-1}_{\max}} {\sum_k d_k \over |\Omega|}+C_1 r_{\max}^{3(K-1)/2}\sqrt{\sum_kd_k\over |\Omega|},
+\end{align}
+with probability at least $1-\exp(-{\sum_kd_k\over \sum_k \log d_k})$ over the sampled set $\Omega$. Here $C_1, C_2>0$ are two constants independent of the tensor dimension and rank. Therefore, 
+\[
+ \PiFnormSize{}{\hat \Theta-\trueT}^2\to 0,\quad \text{as}\quad {|\Omega|\over \sum_kd_k}\to \infty,
+\]
+provided that $r_{\max}=O(1)$.
+\end{proof}
+
+\subsection{Auxiliary lemmas}
+\label{sec:lemma}
+
+We begin with a set of technical lemmas that are useful for the proofs of the main theorems. 
+
+\begin{lem}[\cite{tomioka2014spectral}]\label{lem:tensor}
+Suppose that $\tS=\entry{s_{\omega}}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ tensor whose entries are independent random variables that satisfy
+\[
+\mathbb{E}(s_{\omega})=0,\quad \text{and} \quad\mathbb{E}(e^{ts_{\omega}})\leq e^{t^2L^2/2}.
+\]
+Then the spectral norm $\snormSize{}{\tS}$ satisfies that, 
+\[
+\snormSize{}{\tS}\leq \sqrt{{8L^2} \log (12K) \sum_k d_k +\log (2/\delta)},
+\]
+with probability at least $1-\delta$.
+\end{lem}
+
+\begin{rmk}
+The above lemma provides the bound on the spectral norm of random tensors. The result was firstly presented in~\cite{nguyen2015tensor}, and we adopt the version from~\cite{tomioka2014spectral}.  
+\end{rmk}
+
+\begin{lem} \label{lem:noisytensor}
+Suppose that $\tS=\entry{s_{\omega}}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ tensor whose entries are independent random variables that satisfy
+\[
+\mathbb{E}(s_{\omega})=0,\quad \text{and}\quad |s_{\omega}|\leq U.
+\]
+Then we have
+\[
+\mathbb{P}\left(\snormSize{}{\tS}\geq C_2 U\sqrt{\sum_k d_k} \right)\leq \exp\left(-C_1  \log K \sum_k d_k\right)
+\]
+where $C_1>0$ is an absolute constant, and $C_2>0$ is a constant that depends only on $K$. 
+\end{lem}
+
+\begin{proof}  Note that the random variable $U^{-1}s_{\omega}$ is zero-mean and supported on $[-1,1]$. Therefore, $U^{-1}s_{\omega}$ is sub-Gaussian with parameter ${1-(-1)\over 2}=1$, i.e.
+\[
+\mathbb{E}(U^{-1}s_{\omega})=0,\quad \text{and}\quad \mathbb{E}(e^{tU^{-1}s_{\omega}})\leq e^{t^2/2}.
+\]
+It follows from Lemma~\ref{lem:tensor} that, with probability at least $1-\delta$, 
+\[
+\snormSize{}{U^{-1}\tS}\leq \sqrt{\left(c_0\log K+c_1\right) \sum_k d_k +\log (2/\delta)},
+\]
+where $c_0, c_1>0$ are two absolute constants. Taking $\delta=\exp (-C_1\log K \sum_k d_k)$ yields the final claim, where $C_2=c_0\log K+c_1+1>0$ is another constant.  
+\end{proof}
+
+
+
+\begin{lem} \label{lem:nuclear}
+Let $\tA\in\mathbb{R}^{d_1\times\cdots\times d_K}$ be an order-$K$ tensor with Tucker $\text{rank}(\tA)=(r_1,\ldots,r_K)$. Then
+\[
+\nnormSize{}{\tA} \leq \sqrt{\sum_k r_k\over \max_k r_k} \FnormSize{}{\tA},
+\]
+where $\nnormSize{}{\cdot}$ denotes the nuclear norm of the tensor. 
+\end{lem}
+
+\begin{proof}
+Without loss of generality, suppose $r_1=\min_k r_k$. Let $\tA_{(k)}$ denote the mode-$k$ matricization of $\tA$ for all $k\in[K]$. By \citet[Corollary 4.11]{wang2017operator}, and the invariance relationship between a tensor and its Tucker core~\citep[Section 6]{jiang2017tensor}, we have
+\begin{equation}\label{eq:norminequality}
+\nnormSize{}{\tA} \leq \sqrt{\prod_{k\geq 2} r_k \over \max_{k\geq 2} r_k} \nnormSize{}{\tA_{(1)}},
+\end{equation}
+where $\tA_{(1)}$ is a $d_1$-by-$\prod_{k\geq 2}d_k$ matrix with matrix rank $r_1$. Furthermore, the relationship between the matrix norms implies that $\nnormSize{}{\tA_{(1)}}\leq \sqrt{r_1}\FnormSize{}{\tA_{(1)}}=\sqrt{r_1}\FnormSize{}{\tA}$. Combining this fact with the inequality~\eqref{eq:norminequality} yields the final claim. 
+\end{proof}
+
+
+
+\begin{lem} \label{lem:inq}
+Let $\tA, \; \tB$ be two order-$K$ tensors of the same dimension. Then
+\[ 
+|\langle \tA,\tB\rangle| \leq \snormSize{}{\tA}   \nnormSize{}{\tB}.
+\]
+\end{lem}
+
+\begin{proof}
+By~\citet[Proposition 3.1]{friedland2018nuclear}, there exists a nuclear norm decomposition of $\tB$, such that
+\[
+\tB=\sum_{r} \lambda_r \ma^{(1)}_r\otimes \cdots\otimes \ma^{(K)}_r,\quad \ma_r^{(k)}\in\mathbf{S}^{d_k-1}(\mathbb{R}),\quad \text{for all }k\in[K],
+\]
+and $\nnormSize{}{\tB}=\sum_{r}|\lambda_r|$. Henceforth we have
+\begin{align*}
+|\langle \tA,\tB\rangle|&=| \langle \tA, \sum_{r} \lambda_r \ma^{(1)}_r\otimes \cdots\otimes \ma^{(K)}_r \rangle|\leq \sum_r |\lambda_r| |\langle \tA, \ma^{(1)}_r \otimes \cdots\otimes \ma^{(K)}_r \rangle|\\
+&\leq \sum_{r}|\lambda_r| \snormSize{}{\tA}= \snormSize{}{\tA}\nnormSize{}{\tB},
+\end{align*}
+which completes the proof. 
+\end{proof}
+
+
+\begin{lem}\label{lem:KLentry} Let $X,\; Y$ be two discrete random variables taking values on $L$ possible categories, with category probabilities $\{p_\ell\}_{\ell\in[L]}$ and $\{q_\ell\}_{\ell\in[L]}$, respectively.  Suppose $p_\ell$, $q_\ell>0$ for all $i\in[L]$. Then, the Kullback-Leibler (KL) divergence satisfies that
+\[
+\text{KL}(X||Y)\stackrel{\text{def}}{=}-\sum_{\ell\in[L]}\mathbb{P}_X(\ell)\log\left\{{\mathbb{P}_Y(\ell)\over \mathbb{P}_X(\ell)}\right\} \leq \sum_{\ell \in [L]}{(p_\ell-q_\ell)^2 \over q_\ell}.
+\]
+\end{lem}
+\begin{proof} Using the fact $\log x\leq x-1$ for $x>0$, we have that
+\begin{align}\label{eq:KL}
+\text{KL}(X||Y)&=\sum_{\ell\in[L]}p_\ell\log{p_\ell\over q_\ell}\\
+&\leq \sum_{\ell\in[L]} {p_\ell\over q_\ell}(p_\ell-q_\ell)\\
+&=\sum_{\ell\in[L]} \left({p_\ell\over q_\ell }- 1\right)(p_\ell-q_\ell)+ \sum_{\ell\in[L]} (p_\ell-q_\ell).
+\end{align}
+Note that $\sum_{\ell\in[L]}(p_\ell-q_\ell)=0$. Therefore,
+\[
+\text{KL}(X||Y)\leq \sum_{\ell\in[L]}\left( {p_\ell\over q_\ell}-1\right)\left(p_\ell-q_\ell\right)=\sum_{\ell\in[L]}{(p_\ell-q_\ell)^2\over q_\ell}.
+\]
+\end{proof}
+
+\begin{lem}~\label{lem:KL}
+Let $\tY\in[L]^{d_1\times \cdots \times d_K}$ be an ordinal tensor generated from the model~\eqref{eq:model} with the link function $f$ and parameter tensor $\Theta$. Let $\mathbb{P}_{\Theta}$ denote the joint categorical distribution of $\tY|\Theta$ induced by the parameter tensor $\Theta$, where $\mnormSize{}{\Theta}\leq \alpha$. Define
+\begin{equation}\label{eq:ass}
+A_\alpha=\min_{\ell\in[L], |\theta|\leq \alpha}\left[f(\theta+b_\ell)-f(\theta+b_{\ell-1})\right].
+\end{equation}
+Then, for any two tensors $\Theta,\; \Theta^*$ in the parameter spaces, we have
+\[
+KL(\mathbb{P}_{\Theta}|| \mathbb{P}_{\Theta^*})\leq {2(2L-3)\over A_\alpha} \dot{f}^2(0)\FnormSize{}{\Theta-\Theta^*}^2.
+\]
+\end{lem}
+\begin{proof} Suppose that the distribution over the ordinal tensor $\tY=\entry{y_\omega}$ is induced by $\Theta=\entry{\theta_\omega}$. Then, based on the generative model~\eqref{eq:model},
+\[
+\mathbb{P}(y_\omega=\ell | \theta_\omega)=f(\theta_\omega+b_{\ell})-f(\theta_\omega+b_{\ell-1}),
+\]
+for all $\ell\in[L]$ and $\omega\in[d_1]\times \cdots \times [d_K]$. For notational convenience, we suppress the subscribe in $\theta_\omega$ and simply write $\theta$ (and respectively, $\theta^*$). Based on Lemma~\ref{lem:KLentry} and Taylor expansion, 
+\begin{align}
+\text{KL}(\theta|| \theta^*) & \leq \sum_{\ell\in[L]} {\left[f(\theta+b_{\ell})-f(\theta+b_{\ell-1})-f(\theta^*+b_{\ell})+f(\theta^*+b_{\ell-1})\right]^2\over f(\theta^*+b_{\ell})-f(\theta^*+b_{\ell-1})}\\
+ &\leq \sum_{\ell=2}^{L-1} {\left[\dot{f}(\eta_\ell+b_\ell)-\dot{f}(\eta_{\ell-1}+b_{\ell-1})\right]^2 \over f(\theta^*+b_\ell)-f(\theta^*+b_{\ell-1})} \left(\theta-\theta^*\right)^2+{\dot{f}^2(\eta_1+b_1) \over f(\theta^*+b_1)} (\theta-\theta^*)^2\\
+ &\quad \quad\quad \quad  +{\dot{f}^2(\eta_{L-1}+b_{L-1})\over 1-f(\theta^*+b_{L-1})}(\theta-\theta^*)^2,
+\end{align}
+where $\eta_\ell, \eta_{\ell-1}$ fall between $\theta$ and $\theta^*$, and $\check b_{\ell}$ falls between $b_{\ell-1}$ and $b_\ell$. Therefore,
+\begin{equation}\label{eq:entrywise}
+\text{KL}(\theta|| \theta^*) \leq \left({4(L-2)\over A_\alpha}+ {2\over A_\alpha}\right)\dot{f}^2(0)(\theta-\theta^*)^2={2(2L-3)\over A_\alpha} \dot{f}^2(0)(\theta-\theta^*)^2,
+\end{equation}
+where we have used the bound~\eqref{eq:ass} and the fact that $\dot{f}(\cdot)$ peaks at zero for an unimodal and symmetric function. Now summing~\eqref{eq:entrywise} over the index set $\omega\in[d_1]\times \cdots \times [d_K]$ gives
+\[
+\text{KL}(\mathbb{P}_{\Theta}|| \mathbb{P}_{\Theta^*}) =\sum_{\omega\in[d_1]\times \cdots \times[d_K]} \text{KL}(\theta_\omega || \theta^*_\omega) \leq {2(2L-3)\over A_\alpha} \dot{f}^2(0)\FnormSize{}{\Theta-\Theta^*}^2.
+\]
+\end{proof}
+
+\begin{rmk} In particular, let $\mathbb{P}_{\bf{0}}$ denote the distribution of $\tY|\bf{0}$ induced by the zero parameter tensor. Then we have
+\[
+\text{KL}(\mathbb{P}_{\Theta}||\mathbb{P}_{\bf{0}})\leq {2(2L-3)\over A_\alpha}  \dot{f}^2(0)\FnormSize{}{\Theta}^2.
+\]
+\end{rmk}
+
+
+\begin{lem}\label{lem:construction}
+Assume the same setup as in Theorem~\ref{thm:minimax}. Without loss of generality, suppose $d_1=\max_kd_k$. Define $R=\max_k r_k$ and $d_{\text{total}}=\prod_{k\in[K]} d_k$. For any constant $0\leq \gamma \leq 1$, there exist a finite set of tensors $\tX=\{\Theta_i: i=1,\ldots\}\subset \tP$ satisfying the following four properties:
+\begin{enumerate}[(i)]
+\item $\text{Card}(\tX)\geq 2^{Rd_1/8}+1$, where $\text{Card}$ denotes the cardinality;
+\item $\tX$ contains the zero tensor $\mathbf{0}\in\mathbb{R}^{d_1\times \cdots\times d_K}$;
+\item $\mnormSize{}{\Theta}\leq \gamma \min\left\{ \alpha ,\ C^{-1/2}\sqrt{Rd_1\over d_{\text{total}}} \right\} $ for any element $\Theta\in\tX$;
+\item $\FnormSize{}{\Theta_i-\Theta_j}\geq {\gamma\over 4} \min\left\{ \alpha\sqrt{d_{\text{total}}},\ C^{-1/2}\sqrt{Rd_1}\right\}$ for any two distinct elements $\Theta_i,\; \Theta_j\in\tX$,
+\end{enumerate}
+Here $C=C(\alpha,L,f,\mb)={(4L-6)\dot{f}^2(0)\over A_\alpha }>0$ is a constant independent of the tensor dimension and rank. 
+\end{lem}
+
+\begin{proof}
+Given a constant $0\leq \gamma \leq 1$, we define a set of matrices:
+\[
+\tC=\left\{\mM=(m_{ij})\in\mathbb{R}^{d_1\times R}: a_{ij}\in \left\{ 0,\gamma \min\left\{ \alpha , C^{-1/2}\sqrt{Rd_1\over d_{\text{total}}} \right\}\right\} ,\  \forall (i,j)\in[d_1]\times[R]\right\}.
+\]
+We then consider the associated set of block tensors:
+\begin{align}
+\tB=\tB(\tC)=\{\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}\colon& \Theta=\mA\otimes \mathbf{1}_{d_3}\otimes \cdots \otimes \mathbf{1}_{d_K}, \\
+&\ \text{where}\ \mA=(\mM|\cdots|\mM|\mO) \in\mathbb{R}^{d_1\times d_2},\ \mM\in\tC\},
+\end{align}
+where $\mathbf{1}_d$ denotes a length-$d$ vector with all entries 1, $\mO$ denotes the $d_1\times (d_2-R\lfloor d_2/R \rfloor)$ zero matrix, and $\lfloor d_2/ R \rfloor$ is the integer part of $d_2/R$. In other words, the subtensor $\Theta(\mI, \mI,i_3, \ldots,i_K)\in\mathbb{R}^{d_1\times d_2}$ are the same for all fixed $(i_3,\ldots,i_K)\in[d_3]\times \cdots \times [d_K]$, and furthermore, each subtensor $\Theta(\mI,\mI, i_3,\ldots,i_K)$ itself is filled by copying the matrix $\mM\in\mathbb{R}^{d_1\times R}$ as many times as would fit. 
+
+By construction, any element of $\tB$, as well as the difference of any two elements of $\tB$, has Tucker rank at most $\max_k r_k\leq R$, and the entries of any tensor in $\tB$ take values in $[0,\alpha]$. Thus, $\tB\subset\tP$. By Lemma~\ref{lem:VGbound}, there exists a subset $\tX\subset \tB$ with cardinality $\text{Card}(\tX)\geq 2^{Rd_1/8}+1$ containing the zero $d_1\times \cdots \times d_K$ tensor, such that, for any two distinct elements $\Theta_i$ and $\Theta_j$ in $\tX$, 
+\[
+\FnormSize{}{\Theta_i-\Theta_j}^2 \geq {Rd_1\over 8} \gamma^2\min\left\{ \alpha, {C^{-1}Rd_1 \over d_{\text{total}}}\right\} \lfloor {d_2\over R} \rfloor \prod_{k\geq 3}d_k\geq {\gamma^2\min\left\{ \alpha^2 d_{\text{total}}, C^{-1}Rd_1\right\}  \over 16}.
+\]
+In addition, each entry of $\Theta\in\tX$ is bounded by $\gamma \min\left\{ \alpha , C^{-1/2}\sqrt{Rd_1\over d_{\text{total}}}\right\} $. Therefore the Properties (i) to (iv) are satisfied. 
+\end{proof}
+
+
+
+\begin{lem}[Varshamov-Gilbert bound]\label{lem:VGbound}
+Let $\Omega=\{(w_1,\ldots,w_m)\colon w_i\in\{0,1\}\}$. Suppose $m>8$. Then there exists a subset $\{w^{(0)},\ldots,w^{(M)}\}$ of $\Omega$ such that $w^{(0)}=(0,\ldots,0)$ and
+\[
+\zeronormSize{}{w^{(j)}-w^{(k)}}\geq {m\over 8},\quad \text{for} \ 0\leq j<k\leq M,
+\]
+where $\zeronormSize{}{\cdot}$ denotes the Hamming distance, and $M\geq 2^{m/8}$. 
+\end{lem}
+
+\begin{thm}[\cite{tsybakov2009introduction}]\label{thm:Tsybakov} 
+Assume that a set $\tX$ contains element $\Theta_0, \Theta_1, \ldots,\Theta_M$ ($M\geq 2$) such that
+\begin{itemize}
+\item $d(\Theta_j,\ \Theta_j)\geq 2s>0$, $\forall 0\leq j\leq k\leq M$;
+\item $\mathbb{P}_j\ll\mathbb{P}_0$, $\forall j=1,\ldots,M$, and 
+\[
+{1\over M}\sum_{j=1}^M KL(\mathbb{P}_j||\mathbb{P}_0)\leq \alpha \log M
+\]
+where $d\colon \tX\times \tX\mapsto [0,+\infty]$ is a semi-distance function, $0<\alpha<{1/8}$ and $P_j=P_{\Theta_j}$, $j=0,1\ldots,M$. Then
+\[
+\inf_{\hat \Theta}\sup_{\Theta\in\tX} \mathbb{P}_{\Theta}(d(\hat \Theta, \Theta)\geq s)\geq {\sqrt{M}\over 1+\sqrt{M}}\left(1-2\alpha-\sqrt{2\alpha\over \log M} \right)>0.
+\]
+\end{itemize} 
+
+\end{thm}
+\begin{defn}[\cite{ghadermarzy2019near}] 
+Define $T_{\pm}=\{\tT\in\{\pm\}^{d_1\times \cdots \times d_K}\colon \text{rank}(\tT)=1\}$. The atomic M-norm of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
+\begin{align}
+\anormSize{}{\Theta}&=\inf\{t>0: \Theta\in t\text{conv}(T_{\pm})\}\\
+&=\inf\left\{\sum_{\tX\in T_{\pm}}c_x\colon \Theta=\sum_{\tX\in T_{\pm}} c_x\tX, \ c_x>0\right\}.
+\end{align}
+\end{defn}
+
+\begin{lem}[\cite{ghadermarzy2019near}]\label{lem:Mnormbound}
+Let $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ be an order-$K$, rank-$(r_1,\ldots,r_K)$ tensor. Then
+\[
+\mnormSize{}{\Theta}\leq \anormSize{}{\Theta}\leq \left(\prod_k r_k \over r_{\max}\right)^{3\over 2} \mnormSize{}{\Theta}.
+\]
+\end{lem}
+
+\begin{lem}[\cite{ghadermarzy2019near}]\label{lem:convexity}
+Define $\mathbb{B}_{M}(\beta)=\{\Theta\in \mathbb{R}^{d_1\times \cdots \times d_K}\colon \anormSize{}{\Theta}\leq \beta \}$.  Let $\Omega\subset[d_1]\times\cdots \times [d_K]$ be a random set with $m=|\Omega|$, and assume that each entry in $\Omega$ is drawn with replacement from $[d_1]\times\cdots\times[d_K]$ using probability $\Pi$. Define
+\[
+\PiFnormSize{}{\Theta}^2={1\over m}\mathbb{E}_{\Omega\in\Pi}\MFnormSize{}{\Theta}^2.
+\]
+Then, there exists a universal constant $c>0$, such that, with probability at least $1-\exp\left(-{\sum_kd_k \over \sum_k \log d_k} \right)$ over the sampled set $\Omega$, 
+\[
+{1\over m}\MFnormSize{}{\Theta}^2 \geq \PiFnormSize{}{\Theta}^2-c\beta\sqrt{\sum_k d_k\over m}
+\]
+holds uniformly for all $\Theta\in\mathbb{B}_M(\beta)$. 
+\end{lem}
+
+
+\bibliographystyle{plainnat}
+\bibliography{tensor_wang}
+
+\end{document}
