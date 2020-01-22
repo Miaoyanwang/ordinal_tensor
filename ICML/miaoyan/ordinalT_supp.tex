@@ -200,7 +200,7 @@ From~\eqref{eq:KLbound} and the property (i), we deduce that the condition
 \begin{equation}\label{eq:totalKL}
 {1\over \text{Card}(\tX)-1}\sum_{\Theta \in\tX}\text{KL}(\mathbb{P}_{\Theta}, \mathbb{P}_{\mathbf{0}})\leq \varepsilon \log\left\{\text{Card}(\tX)-1 \right\}
 \end{equation}
-holds for any $ \varepsilon \geq 0$ when $\gamma\in[0,1]$ is chosen to be sufficiently small depending on $\varepsilon$, e.g., $\gamma \leq \sqrt{3\varepsilon}$. By applying Theorem~\ref{thm:Tsybakov} to~\eqref{eq:totalKL}, and in view of the property (iv), we obtain that 
+holds for any $ \varepsilon \geq 0$ when $\gamma\in[0,1]$ is chosen to be sufficiently small depending on $\varepsilon$, e.g., $\gamma \leq \sqrt{3\varepsilon}$. By applying Lemma~\ref{lem:Tsybakov} to~\eqref{eq:totalKL}, and in view of the property (iv), we obtain that 
 \begin{equation}\label{eq:final}
 \inf_{\hat \Theta}\sup_{\trueT\in \tX}\mathbb{P}\left(\FnormSize{}{\hat \Theta- \trueT}\geq  {\gamma\over 8} \min\left\{ \alpha\sqrt{d_{\text{total}}}, C^{-1/2}\sqrt{ R_{\max}d_{\max}}\right\} \right)\geq {1\over 2}\left(1-2\varepsilon-\sqrt{16 \varepsilon \over R_{\max}d_{\max}}\right).
 \end{equation}
@@ -239,10 +239,10 @@ Combining~\eqref{eq:Taylor2}-\eqref{eq:quadratic2} with the fact that $\plogl(\h
 \begin{equation}\label{eq:sample}
 \MFnormSize{}{\hat \Theta-\trueT}\leq {2C_2U_\alpha  r_{\max}^{(K-1)/2} \over L_\alpha} \sqrt{\sum_kd_k}.
 \end{equation}
-Lastly, we invoke the result regarding the closeness of $\Theta$ to its sampled version $\Theta_{\Omega}$, under the entrywise bound condition. Note that $\mnormSize{}{\hat\Theta-\trueT}\leq 2\alpha$ and $\text{rank}(\hat \Theta-\trueT)\leq 2\mr$. By Lemma~\ref{lem:Mnormbound}, $\anormSize{}{\hat \Theta-\trueT}\leq 2^{3(K-1)/2} \alpha \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Therefore, the condition in Lemma~\ref{lem:convexity} holds with $\beta=2^{3(K-1)/2} \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Applying Lemma~\ref{lem:convexity} to~\eqref{eq:sample} gives
+Lastly, we invoke the result regarding the closeness of $\Theta$ to its sampled version $\Theta_{\Omega}$, under the entrywise bound condition. Note that $\mnormSize{}{\hat\Theta-\trueT}\leq 2\alpha$ and $\text{rank}(\hat \Theta-\trueT)\leq 2\mr$. By Lemma~\ref{lem:Mnormbound}, $\anormSize{}{\hat \Theta-\trueT}\leq 2^{3(K-1)/2} \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Therefore, the condition in Lemma~\ref{lem:convexity} holds with $\beta=2^{3(K-1)/2} \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Applying Lemma~\ref{lem:convexity} to~\eqref{eq:sample} gives
 \begin{align}
  \PiFnormSize{}{\hat \Theta-\trueT}^2&\leq {1\over m}\MFnormSize{}{\hat \Theta-\trueT}^2+c\beta\sqrt{\sum_k d_k\over |\Omega|}\\
- &\leq {C_2  r^{K-1}_{\max}} {\sum_k d_k \over |\Omega|}+C_1 r_{\max}^{3(K-1)/2}\sqrt{\sum_kd_k\over |\Omega|},
+ &\leq {C_2  r^{K-1}_{\max}} {\sum_k d_k \over |\Omega|}+C_1 \alpha r_{\max}^{3(K-1)/2}\sqrt{\sum_kd_k\over |\Omega|},
 \end{align}
 with probability at least $1-\exp(-{\sum_kd_k\over \sum_k \log d_k})$ over the sampled set $\Omega$. Here $C_1, C_2>0$ are two constants independent of the tensor dimension and rank. Therefore, 
 \[
@@ -254,50 +254,46 @@ provided that $r_{\max}=O(1)$.
 \subsection{Auxiliary lemmas}
 \label{sec:lemma}
 
-We begin with a set of technical lemmas that are useful for the proofs of the main theorems. 
 
-\begin{lem}[\cite{tomioka2014spectral}]\label{lem:tensor}
-Suppose that $\tS=\entry{s_{\omega}}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ tensor whose entries are independent random variables that satisfy
+We begin with various notion of tensor norms that are useful for the proofs of the main theorems. 
+
+\begin{defn}[Atomic M-norm~\citep{ghadermarzy2019near}]
+Define $T_{\pm}=\{\tT\in\{\pm 1 \}^{d_1\times \cdots \times d_K}\colon \text{rank}(\tT)=1\}$. The atomic M-norm of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
+\begin{align}
+\anormSize{}{\Theta}&=\inf\{t>0: \Theta\in t\text{conv}(T_{\pm})\}\\
+&=\inf\left\{\sum_{\tX\in T_{\pm}}c_x\colon \Theta=\sum_{\tX\in T_{\pm}} c_x\tX, \ c_x>0\right\}.
+\end{align}
+\end{defn}
+
+\begin{defn}[Spectral norm~\citep{lim2005singular}]
+The spectral norm of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
 \[
-\mathbb{E}(s_{\omega})=0,\quad \text{and} \quad\mathbb{E}(e^{ts_{\omega}})\leq e^{t^2L^2/2}.
+\snormSize{}{\Theta}=\sup\left\{\langle \Theta, \mx_1\otimes \cdots \otimes \mx_K\rangle \colon \vnormSize{}{\mx_k}=1,\ \mx_k\in\mathbb{R}^{d_k},\ \text{for all}\ k\in[K]\right\}.
 \]
-Then the spectral norm $\snormSize{}{\tS}$ satisfies that, 
+\end{defn}
+
+\begin{defn}[Nuclear norm~\citep{friedland2018nuclear}]
+The nuclear norm of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
 \[
-\snormSize{}{\tS}\leq \sqrt{{8L^2} \log (12K) \sum_k d_k +\log (2/\delta)},
+\nnormSize{}{\Theta}=\inf
+\left\{
+\sum_{i\in[r]}|\lambda_i|\colon \Theta=\sum_{i=1}^r \lambda_i\mx^{(i)}_1\otimes \cdots \otimes \mx^{(i)}_K,\ \vnormSize{}{\mx^{(i)}_k}=1,\ \mx^{(i)}_k\in\mathbb{R}^{d_k},\ \text{for all} k\in[K],\ i\in[r]
+\right\},
 \]
-with probability at least $1-\delta$.
+where the infimum is taken over all $r\in\mathbb{N}$ and $\norm{\mx^{(i)}_k}=1$ for all $i\in[r]$ and $k\in[K]$.
+\end{defn}
+
+
+
+\begin{lem}[M-norm and infinity norm~\citep{ghadermarzy2019near}]\label{lem:Mnormbound}
+Let $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ be an order-$K$, rank-$(r_1,\ldots,r_K)$ tensor. Then
+\[
+\mnormSize{}{\Theta}\leq \anormSize{}{\Theta}\leq \left(\prod_k r_k \over r_{\max}\right)^{3\over 2} \mnormSize{}{\Theta}.
+\]
 \end{lem}
 
-\begin{rmk}
-The above lemma provides the bound on the spectral norm of random tensors. The result was firstly presented in~\cite{nguyen2015tensor}, and we adopt the version from~\cite{tomioka2014spectral}.  
-\end{rmk}
 
-\begin{lem} \label{lem:noisytensor}
-Suppose that $\tS=\entry{s_{\omega}}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ tensor whose entries are independent random variables that satisfy
-\[
-\mathbb{E}(s_{\omega})=0,\quad \text{and}\quad |s_{\omega}|\leq U.
-\]
-Then we have
-\[
-\mathbb{P}\left(\snormSize{}{\tS}\geq C_2 U\sqrt{\sum_k d_k} \right)\leq \exp\left(-C_1  \log K \sum_k d_k\right)
-\]
-where $C_1>0$ is an absolute constant, and $C_2>0$ is a constant that depends only on $K$. 
-\end{lem}
-
-\begin{proof}  Note that the random variable $U^{-1}s_{\omega}$ is zero-mean and supported on $[-1,1]$. Therefore, $U^{-1}s_{\omega}$ is sub-Gaussian with parameter ${1-(-1)\over 2}=1$, i.e.
-\[
-\mathbb{E}(U^{-1}s_{\omega})=0,\quad \text{and}\quad \mathbb{E}(e^{tU^{-1}s_{\omega}})\leq e^{t^2/2}.
-\]
-It follows from Lemma~\ref{lem:tensor} that, with probability at least $1-\delta$, 
-\[
-\snormSize{}{U^{-1}\tS}\leq \sqrt{\left(c_0\log K+c_1\right) \sum_k d_k +\log (2/\delta)},
-\]
-where $c_0, c_1>0$ are two absolute constants. Taking $\delta=\exp (-C_1\log K \sum_k d_k)$ yields the final claim, where $C_2=c_0\log K+c_1+1>0$ is another constant.  
-\end{proof}
-
-
-
-\begin{lem} \label{lem:nuclear}
+\begin{lem}[Nuclear norm and F-norm] \label{lem:nuclear}
 Let $\tA\in\mathbb{R}^{d_1\times\cdots\times d_K}$ be an order-$K$ tensor with Tucker $\text{rank}(\tA)=(r_1,\ldots,r_K)$. Then
 \[
 \nnormSize{}{\tA} \leq \sqrt{\sum_k r_k\over \max_k r_k} \FnormSize{}{\tA},
@@ -336,6 +332,45 @@ which completes the proof.
 \end{proof}
 
 
+The following lemma provides the bound on the spectral norm of random tensors. The result was firstly presented in~\cite{nguyen2015tensor}, and we adopt the version from~\cite{tomioka2014spectral}.  
+\begin{lem}[\cite{tomioka2014spectral}]\label{lem:tensor}
+Suppose that $\tS=\entry{s_{\omega}}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ tensor whose entries are independent random variables that satisfy
+\[
+\mathbb{E}(s_{\omega})=0,\quad \text{and} \quad\mathbb{E}(e^{ts_{\omega}})\leq e^{t^2L^2/2}.
+\]
+Then the spectral norm $\snormSize{}{\tS}$ satisfies that, 
+\[
+\snormSize{}{\tS}\leq \sqrt{{8L^2} \log (12K) \sum_k d_k +\log (2/\delta)},
+\]
+with probability at least $1-\delta$.
+\end{lem}
+
+
+
+\begin{lem} \label{lem:noisytensor}
+Suppose that $\tS=\entry{s_{\omega}}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ tensor whose entries are independent random variables that satisfy
+\[
+\mathbb{E}(s_{\omega})=0,\quad \text{and}\quad |s_{\omega}|\leq U.
+\]
+Then we have
+\[
+\mathbb{P}\left(\snormSize{}{\tS}\geq C_2 U\sqrt{\sum_k d_k} \right)\leq \exp\left(-C_1  \log K \sum_k d_k\right)
+\]
+where $C_1>0$ is an absolute constant, and $C_2>0$ is a constant that depends only on $K$. 
+\end{lem}
+
+\begin{proof}  Note that the random variable $U^{-1}s_{\omega}$ is zero-mean and supported on $[-1,1]$. Therefore, $U^{-1}s_{\omega}$ is sub-Gaussian with parameter ${1-(-1)\over 2}=1$, i.e.
+\[
+\mathbb{E}(U^{-1}s_{\omega})=0,\quad \text{and}\quad \mathbb{E}(e^{tU^{-1}s_{\omega}})\leq e^{t^2/2}.
+\]
+It follows from Lemma~\ref{lem:tensor} that, with probability at least $1-\delta$, 
+\[
+\snormSize{}{U^{-1}\tS}\leq \sqrt{\left(c_0\log K+c_1\right) \sum_k d_k +\log (2/\delta)},
+\]
+where $c_0, c_1>0$ are two absolute constants. Taking $\delta=\exp (-C_1\log K \sum_k d_k)$ yields the final claim, where $C_2=c_0\log K+c_1+1>0$ is another constant.  
+\end{proof}
+
+
 \begin{lem}\label{lem:KLentry} Let $X,\; Y$ be two discrete random variables taking values on $L$ possible categories, with category probabilities $\{p_\ell\}_{\ell\in[L]}$ and $\{q_\ell\}_{\ell\in[L]}$, respectively.  Suppose $p_\ell$, $q_\ell>0$ for all $i\in[L]$. Then, the Kullback-Leibler (KL) divergence satisfies that
 \[
 \text{KL}(X||Y)\stackrel{\text{def}}{=}-\sum_{\ell\in[L]}\mathbb{P}_X(\ell)\log\left\{{\mathbb{P}_Y(\ell)\over \mathbb{P}_X(\ell)}\right\} \leq \sum_{\ell \in [L]}{(p_\ell-q_\ell)^2 \over q_\ell}.
@@ -353,7 +388,7 @@ Note that $\sum_{\ell\in[L]}(p_\ell-q_\ell)=0$. Therefore,
 \]
 \end{proof}
 
-\begin{lem}~\label{lem:KL}
+\begin{lem}[KL divergence and F-norm]~\label{lem:KL}
 Let $\tY\in[L]^{d_1\times \cdots \times d_K}$ be an ordinal tensor generated from the model~\eqref{eq:model} with the link function $f$ and parameter tensor $\Theta$. Let $\mathbb{P}_{\Theta}$ denote the joint categorical distribution of $\tY|\Theta$ induced by the parameter tensor $\Theta$, where $\mnormSize{}{\Theta}\leq \alpha$. Define
 \begin{equation}\label{eq:ass}
 A_\alpha=\min_{\ell\in[L], |\theta|\leq \alpha}\left[f(\theta+b_\ell)-f(\theta+b_{\ell-1})\right].
@@ -430,7 +465,7 @@ Let $\Omega=\{(w_1,\ldots,w_m)\colon w_i\in\{0,1\}\}$. Suppose $m>8$. Then there
 where $\zeronormSize{}{\cdot}$ denotes the Hamming distance, and $M\geq 2^{m/8}$. 
 \end{lem}
 
-\begin{thm}[\cite{tsybakov2009introduction}]\label{thm:Tsybakov} 
+\begin{lem}[Theorem 2.5 in~\cite{tsybakov2009introduction}]\label{lem:Tsybakov} 
 Assume that a set $\tX$ contains element $\Theta_0, \Theta_1, \ldots,\Theta_M$ ($M\geq 2$) such that
 \begin{itemize}
 \item $d(\Theta_j,\ \Theta_j)\geq 2s>0$, $\forall 0\leq j\leq k\leq M$;
@@ -438,29 +473,15 @@ Assume that a set $\tX$ contains element $\Theta_0, \Theta_1, \ldots,\Theta_M$ (
 \[
 {1\over M}\sum_{j=1}^M KL(\mathbb{P}_j||\mathbb{P}_0)\leq \alpha \log M
 \]
-where $d\colon \tX\times \tX\mapsto [0,+\infty]$ is a semi-distance function, $0<\alpha<{1/8}$ and $P_j=P_{\Theta_j}$, $j=0,1\ldots,M$. Then
+where $d\colon \tX\times \tX\mapsto [0,+\infty]$ is a semi-distance function, $0<\alpha<{1/8}$ and $P_j=P_{\Theta_j}$, $j=0,1\ldots,M$. 
+\end{itemize} 
+Then
 \[
 \inf_{\hat \Theta}\sup_{\Theta\in\tX} \mathbb{P}_{\Theta}(d(\hat \Theta, \Theta)\geq s)\geq {\sqrt{M}\over 1+\sqrt{M}}\left(1-2\alpha-\sqrt{2\alpha\over \log M} \right)>0.
 \]
-\end{itemize} 
-
-\end{thm}
-\begin{defn}[\cite{ghadermarzy2019near}] 
-Define $T_{\pm}=\{\tT\in\{\pm\}^{d_1\times \cdots \times d_K}\colon \text{rank}(\tT)=1\}$. The atomic M-norm of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
-\begin{align}
-\anormSize{}{\Theta}&=\inf\{t>0: \Theta\in t\text{conv}(T_{\pm})\}\\
-&=\inf\left\{\sum_{\tX\in T_{\pm}}c_x\colon \Theta=\sum_{\tX\in T_{\pm}} c_x\tX, \ c_x>0\right\}.
-\end{align}
-\end{defn}
-
-\begin{lem}[\cite{ghadermarzy2019near}]\label{lem:Mnormbound}
-Let $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ be an order-$K$, rank-$(r_1,\ldots,r_K)$ tensor. Then
-\[
-\mnormSize{}{\Theta}\leq \anormSize{}{\Theta}\leq \left(\prod_k r_k \over r_{\max}\right)^{3\over 2} \mnormSize{}{\Theta}.
-\]
 \end{lem}
 
-\begin{lem}[\cite{ghadermarzy2019near}]\label{lem:convexity}
+\begin{lem}[Lemma 28 in~\cite{ghadermarzy2019near}]\label{lem:convexity}
 Define $\mathbb{B}_{M}(\beta)=\{\Theta\in \mathbb{R}^{d_1\times \cdots \times d_K}\colon \anormSize{}{\Theta}\leq \beta \}$.  Let $\Omega\subset[d_1]\times\cdots \times [d_K]$ be a random set with $m=|\Omega|$, and assume that each entry in $\Omega$ is drawn with replacement from $[d_1]\times\cdots\times[d_K]$ using probability $\Pi$. Define
 \[
 \PiFnormSize{}{\Theta}^2={1\over m}\mathbb{E}_{\Omega\in\Pi}\MFnormSize{}{\Theta}^2.

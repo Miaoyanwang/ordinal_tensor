@@ -90,7 +90,7 @@
 \begin{document}
 
 \twocolumn[
-\icmltitle{Tensor denoising and completion based on ordinal observations}
+\icmltitle{Optimal tensor denoising and completion based on ordinal observations}
 
 % It is OKAY to include author information, even for blind
 % submissions: the style file will automatically remove it for you
@@ -140,7 +140,7 @@ Higher-order tensors arise frequently in applications such as neuroimaging, reco
 %{\color{red}In contrast to the continuous-valued problems, problems with ordinal tensors exhibit an intrinsic phase transition depending on the signal-to-noise ratio. (Not sure whether this should be mentioned)}
 We propose a multi-linear cumulative link model, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. 
 Our error bound enjoys a faster convergence rate than existing results, and we show that the proposed estimator is minimax optimal under the considered model. 
-An efficient completion method is further developed, which guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional tensor using only $O(Kd)$ noisy, quantized observations. We demonstrate the outperformance of our approach over previous methods through applications to the tasks of clustering and collaborative filtering. 
+An efficient completion method is further developed, which guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional tensor using only $O(Kd)$ noisy, quantized observations. We demonstrate the outperformance of our approach over previous methods on the tasks of clustering and collaborative filtering. 
 
 \end{abstract}
 
@@ -150,11 +150,9 @@ Higher-order tensors commonly arise in modern applications. In a context-aware r
 {\color{red}(Prior work and our contribution. See Table~\ref{tab:compare} for comparison.)}
 
 \begin{table*}[http]
-\begin{center}
-\includegraphics[width=17cm]{compare.pdf}
-\end{center}
-\vspace{-.5cm}
-\caption{Comparison of various low-rank estimation methods based on categorical observations. For an order-$K$ dimensional-$(d,\ldots,d)$ ordinal tensor with $L$-level observations, we report the error bound in the recovered signal (for tensor denoising) and required sample complexity (for tensor completion) as functions of tensor dimension. {\color{red}(font in the table seems different)}}~\label{tab:compare}
+\centerline{\includegraphics[width=16cm]{compare.pdf}}
+\vspace{-.4cm}
+\caption{Comparison of various low-rank estimation methods based on categorical observations. For an order-$K$ dimensional-$(d,\ldots,d)$ ordinal tensor with $L$-level observations, we report the error bound in the recovered signal (for tensor denoising) and required sample complexity (for tensor completion) as functions of tensor dimension. {\color{red}(font in the table seems odd...)}}~\label{tab:compare}
 \end{table*}
 
 \section{Preliminaries}
@@ -305,7 +303,7 @@ We next establish the statistical optimality of our estimator $\hat \Theta$. The
 
 
 \begin{thm}[Minimax lower bound]\label{thm:minimax} 
-Assume the same set-up as in Theorem~\ref{thm:rate}, and $d_{\max}=\max_k d_k \geq 8$. Let $\inf_{\hat \Theta}$ denote the infimum over all estimators $\hat \tA\in\tP$ based on the ordinal tensor observation $\tY\in[L]^{d_1\times \cdots \times d_K}$. Then, under the model~\eqref{eq:model},
+Assume the same set-up as in Theorem~\ref{thm:rate}, and $d_{\max}=\max_k d_k \geq 8$. Let $\inf_{\hat \Theta}$ denote the infimum over all estimators $\hat \Theta\in\tP$ based on the ordinal tensor observation $\tY\in[L]^{d_1\times \cdots \times d_K}$. Then, under the model~\eqref{eq:model},
 \begin{align}\label{eq:lower}
 \inf_{\hat \Theta }\sup_{\trueT\in\tP} \mathbb{P}\Big\{& \text{MSE}(\hat \Theta, \trueT) \\
 & \geq {1\over 256} \min\left( \alpha^2, \ { Cr_{\max}d_{\max} \over \prod_k d_k} \right) \Big\} \geq {1\over 8},
@@ -338,7 +336,7 @@ The equality is attained in the case of uniform sampling for which $\mu=1$.
 
 
 \begin{thm}~\label{thm:completion}
-Assume the same set-up as in Theorem~\ref{thm:rate}. Suppose that we observe a subset of tensor entries $\{y_\omega\}_{\omega\in\Omega}$, where $\Omega$ is chosen at random with replacement according to a probability distribution $\Pi$. Let $\hat \Theta$ be the solution to~\eqref{eq:estimator}, and assume $r_{\max}=O(1)$. Then, with very high probability over the sampled set $\Omega$, 
+Assume the same set-up as in Theorem~\ref{thm:rate}. Suppose that we observe a subset of tensor entries $\{y_\omega\}_{\omega\in\Omega}$, where $\Omega$ is chosen at random with replacement according to a probability distribution $\Pi$. Let $\hat \Theta$ be the solution to~\eqref{eq:estimator}, and assume $r_{\max}=O(1)$. Then, with very high probability over the sampled set $\Omega$ ({\color{red} not over $\tY$?}), 
 \[
 \PiFnormSize{}{\Theta-\hat \Theta}^2 \to 0,\quad \text{ as }\quad {|\Omega|\over \sum_k d_k} \ \to \infty. 
 \]
