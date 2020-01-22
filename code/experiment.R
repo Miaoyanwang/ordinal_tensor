@@ -1,12 +1,12 @@
-source("function.R")
+source("functions.R")
 ########## brain tensor analysis ##########
-source("B_functions.R")
 load("../data/dti_brain.RData")
 ##ttnsr=tensor[,,attr[,2]=="22-25"] ## subset of individuals
 ttnsr=tensor
 d=dim(ttnsr)
 
-r=c(24,24,7)
+r=c(25,25,7)
+### random initilization
 A_1 = randortho(d[1])[,1:r[1]]
 A_2 = randortho(d[2])[,1:r[2]]
 A_3 = randortho(d[3])[,1:r[3]]
@@ -16,10 +16,70 @@ tic()
 result = fit_ordinal_MM(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE)
 toc()
 
+########## Music analysis #######################
+source("functions.R")###
+load("../data/InCar_Music.RData")
+ttnsr=tensor
+ttnsr[ttnsr==-1]=NA
+missing=which(is.na(ttnsr)==F)
+d=dim(ttnsr)
+set.seed(1)
+r=c(2,2,2) ## need to select via BIC ..
+alpha=100
+A_1 = randortho(d[1])[,1:r[1]]
+A_2 = randortho(d[2])[,1:r[2]]
+A_3 = randortho(d[3])[,1:r[3]]
+C = rand_tensor(modes = r)
+C=C/max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))*alpha/10
+
+############# experiement ##########################
+mask=sample(1:2884,2884*0.1,replace=T)
+index=which(is.na(ttnsr)==F)[mask]
+true=ttnsr[index]
+ttnsr[index]=NA
+##### Method 1: continuous tucker #########
+tic()
+result = tucker_missing(ttnsr,r,TRUE,alpha=alpha)
+toc()
+fitted=ttl(result$Z,list(result$U[[1]],result$U[[2]],result$U[[3]]),ms=1:3)
+mean((true-fitted@data[index])^2) #MSE= 18.96803
+mean(abs(true-fitted@data[index])) #MAD= 2.589925
+
+###### Method 2: ordinal tucker #########
+tic()
+result = fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = alpha)
+toc()
+fitted=ttl(result$C,list(result$A_1,result$A_2,result$A_3),ms=1:3)@data
+est=estimation(fitted,result$omega,"median")
+mean((true-est@data[index])^2) ## MSE = 2.381944
+mean(abs(true-est@data[index])) ## MAD = 1.256944
+
+######### Method 3: ordinal matrix##################
+data=k_unfold(as.tensor(ttnsr),1)@data
+d=dim(data)
+r=2
+set.seed(18)
+A_1=  randortho(d[1])[,1:r]
+A_2 = matrix(rnorm(d[2]*r,0,1),nrow=d[2])
+A_2 = A_2/max(abs(A_1%*%t(A_2)))*alpha/10
+
+tic()
+result = fit_ordinal_matrix(data,A_1,A_2,omega=TRUE,alph = alpha)
+toc()
+fitted=result$A_1%*%t(result$A_2)
+est=estimation(fitted,c(0,0),"mean") ## omega cannot be estimated
+mean((true-est[index])^2) ## MSE = 4.173611
+mean(abs(true-est[index])) ## MAD = 1.395833
+#################################
+tic()
+result = fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = 1000)
+toc()
+
+
 ########## simulate tucker tensor with d, r ##############################
 set.seed(18)
-d=c(68,68,68)
-r=c(23,23,2)
+d=c(20,20,20)
+r=c(3,3,3)
 B_1 = matrix(runif(d[1]*r[1],min=-1,max=1),nrow = d[1])
 B_2 = matrix(runif(d[2]*r[2],min=-1,max=1),nrow = d[2])
 B_3 = matrix(runif(d[3]*r[3],min=-1,max=1),nrow = d[3])
@@ -31,8 +91,8 @@ theta = theta/max(abs(theta))*7 ## specify signal = 7
 omega = c(-0.2,0.2)
 
 ttnsr <- realization(theta,omega)@data
-#missing = 1*(rand_tensor(modes = d)>0)@data ## uniform missingness with p=0.5
-#ttnsr =ttnsr *missing 
+missing = 1*(rand_tensor(modes = d)>0)@data ## uniform missingness with p=0.5
+ttnsr[missing==1]=NA
 
 
 #initial point
@@ -46,11 +106,6 @@ thetainit=ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
 ## with omega
 tic()
 result1 <- fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE)
-toc()
-
-## with omega
-tic()
-result2 <- fit_ordinal_MM(ttnsr,C,A_1,A_2,A_3,omega=TRUE)
 toc()
 
 tic()
@@ -76,8 +131,9 @@ legend("topleft", legend=c(paste("slope = ",round(md$coefficients[2],3)), "slope
 tic()
 result3 <- fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE)
 toc()
+
 tic()
-result4 <- fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph=10)
+result4 <- fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE,10)
 toc()
 
 thetahat3 <- ttm(ttm(ttm(result3$C,result3$A_1,1),result3$A_2,2),result3$A_3,3)@data
