@@ -239,7 +239,7 @@ Combining~\eqref{eq:Taylor2}-\eqref{eq:quadratic2} with the fact that $\plogl(\h
 \begin{equation}\label{eq:sample}
 \MFnormSize{}{\hat \Theta-\trueT}\leq {2C_2U_\alpha  r_{\max}^{(K-1)/2} \over L_\alpha} \sqrt{\sum_kd_k}.
 \end{equation}
-Lastly, we invoke the result regarding the closeness of $\Theta$ to its sampled version $\Theta_{\Omega}$, under the entrywise bound condition. Note that $\mnormSize{}{\hat\Theta-\trueT}\leq 2\alpha$ and $\text{rank}(\hat \Theta-\trueT)\leq 2\mr$. By Lemma~\ref{lem:Mnormbound}, $\anormSize{}{\hat \Theta-\trueT}\leq 2^{3(K-1)/2} \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Therefore, the condition in Lemma~\ref{lem:convexity} holds with $\beta=2^{3(K-1)/2} \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Applying Lemma~\ref{lem:convexity} to~\eqref{eq:sample} gives
+Lastly, we invoke the result regarding the closeness of $\Theta$ to its sampled version $\Theta_{\Omega}$, under the entrywise bound condition. Note that $\mnormSize{}{\hat\Theta-\trueT}\leq 2\alpha$ and $\text{rank}(\hat \Theta-\trueT)\leq 2\mr$. By Lemma~\ref{lem:Mnormbound}, $\anormSize{}{\hat \Theta-\trueT}\leq 2^{3(K-1)/2} \alpha \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Therefore, the condition in Lemma~\ref{lem:convexity} holds with $\beta=2^{3(K-1)/2} \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Applying Lemma~\ref{lem:convexity} to~\eqref{eq:sample} gives
 \begin{align}
  \PiFnormSize{}{\hat \Theta-\trueT}^2&\leq {1\over m}\MFnormSize{}{\hat \Theta-\trueT}^2+c\beta\sqrt{\sum_k d_k\over |\Omega|}\\
  &\leq {C_2  r^{K-1}_{\max}} {\sum_k d_k \over |\Omega|}+C_1 r_{\max}^{3(K-1)/2}\sqrt{\sum_kd_k\over |\Omega|},
