@@ -352,7 +352,7 @@ Theorem~\ref{thm:completion} shows that our estimator achieves consistency when 
         \begin{algorithmic}[]
             \STATE{\bfseries Input:}  \text{ Ordinal tensor }
             $\mathcal{Y}\in [L]^{d_1\times\cdots\times d_K}
-            $,\\ \hspace{.43in} Rank $\mr\in \mathbb{N_+}^{K}$,\\
+            $,\\ \hspace{.43in} Rank $\mr\in \mathbb{N}_+^{K}$,\\
             \hspace{.43in} Entry-wise bound $\alpha\in \mathbb{R_+}$.
             \STATE{\bfseries Output:} $(\hat\Theta,\hat{\mb}) =  \argmax_{(\Theta,\mb)\in \mathcal{D}\times\mathcal{B}}  \mathcal{L}_{\mathcal{Y},\Omega}(\Theta,\mb).$
             \STATE Initialize  Core tensor $\mathcal{C}^{(0)}$,\\
@@ -393,7 +393,7 @@ where $\hat \Theta(\mr)$ is the estimator given the rank $\mr$, and $p_e(\mr)\st
 
 
 \section{Experiments}
-In this section, we evaluate the empirical performance of our rank-constrained M-estimatation. We consider ordinal tensors with various number of categories, and compare the recovery accuracy with other tensor-based methods. Unless otherwise stated, we generate ordinal-valued tensor under the latent-variable model~\eqref{eq:latent} with i.i.d.\ $N(0,\sigma^2)$ noise. The signal tensor is simulated based on~\eqref{eq:Tucker}, with core tensor generated from i.i.d. N(0,1), and the factor matrices uniformly from orthogonal ensembles. The cut-off points are generated i.i.d.from $N(0,1)$. In each simulation study, we report the summary statistics across $n_{\text{sim}}$ = 30 replications.
+In this section, we evaluate the empirical performance of our rank-constrained estimation. We consider ordinal tensors with various number of categories, and compare the recovery accuracy with other tensor-based methods. Unless otherwise stated, we generate ordinal-valued tensor under the latent-variable model~\eqref{eq:latent} with i.i.d.\ $N(0,\sigma^2)$ noise. The signal tensor is simulated based on~\eqref{eq:Tucker}, with core tensor generated from i.i.d. N(0,1), and the factor matrices uniformly from orthogonal ensembles. The cut-off points are generated i.i.d.from $N(0,1)$. In each simulation study, we report the summary statistics across $n_{\text{sim}}$ = 30 replications.
 
 \subsection{Finite-sample performance}\label{sec:simulation}
 
@@ -408,21 +408,21 @@ The human connectome project (HCP) is a 68 × 68 × 136 tensor where the first two
 
 Also, we compare our ordinal tensor decomposition method with a logistic link function with the classical continuous Tucker decomposition method. We use 5 folded cross validation method for the comparison. Specifically, we randomly split the tensor entries into 5 similar sized pieces and alternatively use each piece of entries as a test data using other 80\% entries as a training data. The entries in the test data are encoded as missing and then predicted based on the tensor decomposition from the training data. We set the rank of the tensor as $\mr = (23,23,8)$ which minimizes BIC value. Table 1 shows RMSE, MAE and error (false prediction rate), averaged over 5 test set results. We can check that our ordinal tensor decomposition model outperforms the classic continuous decomposition in all criteria.
 
-\begin{table}[H]
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{c|ccc|c}
-\hline
-\multirow{2}{*}{Critera}&\multicolumn{3}{c|}{Our method}&Continuous method\\
-& $\hat y^{(\text{Mean})}_\omega$ & $\hat y^{(\text{Median})}_\omega$ & $\hat y^{(\text{Mode})}_\omega$ &~\cite{filipovic2015tucker}\\
-\hline
-MSE& &  & 0.1504&0.1604\\
-MAD&  &  &0.1504&0.1600\\
-MCR& &&0.1502&0.1598\\
-\hline
-\end{tabular}
-}
-\caption{Comparison of tensor denoising on HCP dataset.}
-\end{table}
+%\begin{table}[H]
+%\resizebox{\linewidth}{!}{%
+%\begin{tabular}{c|ccc|c}
+%\hline
+%\multirow{2}{*}{Critera}&\multicolumn{3}{c|}{Our method}&Continuous method\\
+%& $\hat y^{(\text{Mean})}_\omega$ & $\hat y^{(\text{Median})}_\omega$ & $\hat y^{(\text{Mode})}_\omega$ &~\cite{filipovic2015tucker}\\
+%\hline
+%MSE& &  & 0.1504&0.1604\\
+%MAD&  &  &0.1504&0.1600\\
+%MCR& &&0.1502&0.1598\\
+%\hline
+%\end{tabular}
+%}
+%\caption{Comparison of tensor denoising on HCP dataset.}
+%\end{table}
 
 
 
