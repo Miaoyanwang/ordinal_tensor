@@ -152,7 +152,7 @@ Higher-order tensors commonly arise in modern applications. In a context-aware r
 \begin{table*}[http]
 \centerline{\includegraphics[width=16cm]{compare.pdf}}
 \vspace{-.4cm}
-\caption{Comparison of various low-rank estimation methods based on categorical observations. For an order-$K$ dimensional-$(d,\ldots,d)$ ordinal tensor with $L$-level observations, we report the error bound in the recovered signal (for tensor denoising) and required sample complexity (for tensor completion) as functions of tensor dimension. {\color{red}(font in the table seems odd...)}}~\label{tab:compare}
+\caption{Comparison of various low-rank estimation methods based on categorical observations. For an order-$K$ dimensional-$(d,\ldots,d)$ ordinal tensor with $L$-level observations, we report the error bound in the recovered signal (for tensor denoising) and required sample complexity (for tensor completion) as functions of tensor dimensions. {\color{red}(font in the table seems odd...)}}~\label{tab:compare}
 \end{table*}
 
 \section{Preliminaries}
@@ -216,7 +216,7 @@ The link function is assumed to satisfy:
 \begin{enumerate}
 \item $f(\theta)$ is strictly increasing, strictly log-concave, and twice-differentiable in $\theta\in\mathbb{R}/\{0\}$.
 \vspace{-.2cm}
-\item $f'(\theta)$ is unimodal and symmetric with respect to $\theta=0$. 
+\item $f'(\theta)$ is unimodal, and symmetric with respect to $\theta=0$. 
 \end{enumerate}
 \end{assumption}
 
@@ -262,7 +262,7 @@ We define a few key quantities that will be used in our theory. Let $g_\ell=f(\t
 A_\alpha &= \min_{\ell\in[L], |\theta|\leq \alpha} g_\ell(\theta),\quad  U_\alpha=\max_{\ell\in[L], |\theta|\leq \alpha } {\dot{g}_\ell(\theta)\over g_\ell(\theta)},\\
  L_\alpha &= \min_{\ell\in[L], |\theta|\leq \alpha }\left[{\dot{g}_\ell^2 (\theta)\over g_\ell^2(\theta)} -{\ddot{g}_\ell(\theta)\over g_\ell(\theta)}\right],
 \end{align}
-where $\dot{g}(\theta)=dg(\theta)/d\theta$, and $\alpha$ is the entrywise bound of $\Theta$. In view of equation~\eqref{eq:latent}, these quantities characterize the geometry (such as flatness and convexity) of the latent noise distribution. Under the assumption~\ref{ass:link}, all these quantities are strictly positive and independent of the tensor dimension. 
+where $\dot{g}(\theta)=dg(\theta)/d\theta$, and $\alpha$ is the entrywise bound of $\Theta$. In view of equation~\eqref{eq:latent}, these quantities characterize the geometry (such as flatness and convexity) of the latent noise distribution. Under the Assumption~\ref{ass:link}, all these quantities are strictly positive and independent of tensor dimensions. 
 
 
 \subsection{Estimation error for tensor denoising}
@@ -281,9 +281,9 @@ where $c_1, c_2>0$ are two constants that depend only on $K$.
 \end{thm}
 Theorem~\ref{thm:rate} provides the statistical converge for the estimator~\eqref{eq:estimator}. Its proof is given in the Supplements. In fact, the proof of this theorem shows that the same statistical rate holds not only for the global optimizer of~\eqref{eq:estimator}, but also for any local optimizer $\check \Theta$ in the level set $\{\check\Theta\in\tP: \logl(\check\Theta)\geq \logl(\trueT)\}$. This suggests that the local optimality itself is not necessarily a severe concern in our context, as long as the objective value at the estimator is large enough. In Section~\ref{sec:simulation}, we will perform empirical studies to assess the algorithmic stability and its impact to statistical efficiency. 
 
-A similar conclusion can be obtained for the prediction error, measured in KL divergence, between the two generative distributions. 
+A similar conclusion can be obtained for the prediction error, measured in Kullback-Leibler (KL) divergence, between the two categorical distributions. 
 \begin{cor}[Prediction error]~\label{cor:prediction}
-Assume the same set-up as in Theorem~\ref{thm:rate}. Let $\mathbb{P}_{\tY}$ and $\hat{\mathbb{P}}_{\tY}$ denote the distributions generating the $L$-level ($L\geq 2$) ordinal tensor $\tY$, given the true parameter $\Theta$ and its estimator $\hat \Theta$, respectively. Then, with very high probability, 
+Assume the same set-up as in Theorem~\ref{thm:rate}. Let $\mathbb{P}_{\tY}$ and $\hat{\mathbb{P}}_{\tY}$ denote the distributions generating the $L$-level ordinal tensor $\tY$, given the true parameter $\Theta$ and its estimator $\hat \Theta$, respectively. Assume $L\geq 2$. Then, with very high probability, 
 \begin{equation}\label{eq:KLrate}
 \text{KL}(\mathbb{P}_{\tY} || \hat{\mathbb{P}}_{\tY}) \leq  {c_2 U^2_\alpha r_{\max}^{K-1}  \over L^2_\alpha } {(4L-6)\dot{f}^2(0)  \over A_\alpha} {\sum_kd_k\over  \prod_k d_k},
 \end{equation}
@@ -296,7 +296,7 @@ To gain insight into these bounds, we consider a special setting where the dimen
 Hence, the estimator achieves consistency with polynomial convergence rate. Comparing to max norm based estimator $\tilde{\Theta}$ proposed by~\citet{ghadermarzy2018learning}, $\text{MSE}(\tilde{\Theta}, \trueT) \asymp  d^{-(K-1)/2}$, we see that our bound has a faster convergence rate. We believe the improvement comes from utilizing the exact low-rank structure of $\Theta$, whereas an scale-sensitive surrogate rank measure was employed in~\citet{ghadermarzy2018learning}. 
 
 Our bound also generalizes the previous results on ordinal matrices. The convergence rate for rank-constrained matrix denoising was $O(1/\sqrt{d})$~\citep{bhaskar2016probabilistic}, which fits into our special case when $K=2$. Furthermore, our results~\eqref{eq:rate} and~\eqref{eq:KLrate} reveal that the convergence becomes favorably as the order of tensor data increases. 
-Intuitively, for tensor data analysis, we can view the number of entries, $\prod_k d_k$, as the sample size, and the number of free parameters in $\tP$ is roughly on the order of $\sum_{k}d_k$, assuming $r_{\max}=O(1)$. Compared to the matrix case, a higher tensor order implies more effective samples per parameter and thus exhibits a faster convergence rate in high dimensions. 
+Intuitively, for tensor data analysis, the sample size is the number of tensor entries, $\prod_k d_k$, and the number of free parameters is roughly on the order of $\sum_{k}d_k$, assuming $r_{\max}=O(1)$. A higher tensor order implies higher effective sample size per parameter, and thus exhibits a faster convergence rate in high dimensions. 
 
 
 We next establish the statistical optimality of our estimator $\hat \Theta$. The result is based on the information theory, and therefore applies to all estimators in $\tP$, including but not limited to $\hat \Theta$ in~\eqref{eq:estimator}. We show that this lower bound matches the upper bound in~\eqref{eq:rate} as a function of tensor dimensions. 
@@ -308,20 +308,20 @@ Assume the same set-up as in Theorem~\ref{thm:rate}, and $d_{\max}=\max_k d_k \g
 \inf_{\hat \Theta }\sup_{\trueT\in\tP} \mathbb{P}\Big\{& \text{MSE}(\hat \Theta, \trueT) \\
 & \geq {1\over 256} \min\left( \alpha^2, \ { Cr_{\max}d_{\max} \over \prod_k d_k} \right) \Big\} \geq {1\over 8},
 \end{align}
-where $C=C(\alpha, L, f,\mb)>0$ is a constant independent of the tensor dimension and rank. 
+where $C=C(\alpha, L, f,\mb)>0$ is a constant independent of tensor dimensions and the rank. 
 \end{thm}
 
 
 \subsection{Sample complexity for tensor completion}
 
-Now we consider the problem of tensor completion, when only a subset of entries $\Omega$ are observed. We consider a general sampling procedure induced by $\Pi$, and assess the accuracy using the weighted squared deviation:
+Now we consider the problem of tensor completion, when only a subset of entries $\Omega$ are observed. We consider a general sampling procedure induced by $\Pi$. The recovery accuracy is assessed by the weighted squared deviation:
 \begin{align}\label{eq:weighted}
 \PiFnormSize{}{\Theta-\hat \Theta}^2&\stackrel{\text{def}}{=}
 {1\over |\Omega|}\mathbb{E}_{\Omega\sim \Pi}\FnormSize{}{\Theta-\hat \Theta}^2\notag \\
 &=\sum_{\omega\in[d_1]\times \cdots \times [d_K]} \pi_{\omega}(\Theta_{\omega}-\hat \Theta_{\omega})^2.
 \end{align}
 
-Note that the recovery error depends on the distribution. In particular, the entries with higher sampling probabilities are equipped with better accuracy guarantee, compared to the ones with lower sampling probabilities. 
+Note that the recovery error depends on the distribution $\Pi$. In particular, the entries with higher sampling probabilities are equipped with better accuracy guarantee, compared to the ones with lower sampling probabilities. 
 
 \begin{rmk} If we assume each tensor entry is sampled with some positive probability, i.e., there exits a constant $\mu> 0$ such that 
 \[
@@ -345,11 +345,35 @@ Theorem~\ref{thm:completion} shows that our estimator achieves consistency when 
 
 \section{Numerical Implementation}\label{sec:algorithm}
 \subsection{Alternating optimization}
-\begin{figure*}[http]
-\begin{center}
-\includegraphics[width=16cm]{algorithm.pdf}
- \end{center}
-\end{figure*}
+
+
+\begin{algorithm}[tb]
+        \caption{Ordinal tensor decomposition }\label{alg}
+        \begin{algorithmic}[]
+            \STATE{\bfseries Input:}  \text{ Ordinal tensor }
+            $\mathcal{Y}\in [L]^{d_1\times\cdots\times d_K}
+            $,\\ \hspace{.43in} Rank $\mr\in \mathbb{N_+}^{K}$,\\
+            \hspace{.43in} Entry-wise bound $\alpha\in \mathbb{R_+}$.
+            \STATE{\bfseries Output:} $(\hat\Theta,\hat{\mb}) =  \argmax_{(\Theta,\mb)\in \mathcal{D}\times\mathcal{B}}  \mathcal{L}_{\mathcal{Y},\Omega}(\Theta,\mb).$
+            \STATE Initialize  Core tensor $\mathcal{C}^{(0)}$,\\
+            \hspace{.5in} Factor matrices $ \{\mM_1^{(0)},\cdots,\mM_K^{(0)}\}$,\\
+            \hspace{.5in} Cut-off points $\mb^{(0)}$.
+            \FOR{$t = 1,2,\cdots,$}
+            \FOR{$k = 1,2,\cdots,K$}
+            \STATE{Update $\mM_k$ while fixing other blocks.}
+            \STATE $\mM_k^{(t+1)}\gets\argmax_{\mM_k\in\mathbb{R}^{d_k\times r_K}}\mathcal{L}_{\mathcal{Y},\Omega}(\mM_k)$
+            \newline
+             s.t. $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha$, where $\Theta^{(t+1)}$ is the parameter tensor based on the current block estimates. 
+            \ENDFOR
+            \STATE {Update $\mathcal{C}$ while fixing other blocks: $\mathcal{C}^{(t+1)} \gets \argmax_{\mathcal{C}\in \mathbb{R}^{r_1\times\cdots\times r_K}}\mathcal{L}_{\mathcal{Y},\Omega}(\mathcal{C})$, s.t. $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha$. 
+               \STATE {Update $\Theta$ based on the current block estimates: $\Theta^{(t+1)} \gets \mathcal{C}^{(t+1)}\times_1\mM_1^{(t+1)}\cdots\times_K\mM_K^{(t+1)}$. 
+            \STATE {Update $\mb$ while fixing $\Theta^{(t+1)}$: $\mb^{(t+1)} \gets \argmax_{\mb\in \mathbb{R}^{L-1}}\mathcal{L}_{\mathcal{Y},\Omega}\big(\Theta^{(t+1)},\mb\big)$
+            \ENDFOR
+            \STATE \textbf{return}
+            $\Theta,\mb$
+        \end{algorithmic}
+    \end{algorithm}
+
 In this section, we describe the algorithm to seek the optimizer of~\eqref{eq:objective}. The objective function $\logl(\Theta)$ is concave in $\Theta$ whenever $\tP$ is log-concave~\cite{mccullagh1980regression}. However, the feasible set $\tP$ is not a convex set, which makes the optimization~\eqref{eq:objective} a non-convex problem. One approach to handle this problem is utilizing the Tucker decomposition and converting optimization into a block-wise convex problem. Let us denote the low Tucker-rank tensor as
 \begin{equation}\label{eq:Tucker}
 \Theta=\tC\times_1\mM_1\times_1 \cdots \times_K \mM_K,
@@ -377,12 +401,60 @@ In this section, we evaluate the empirical performance of our rank-constrained M
 
 
 \section{Real data application}
-In this section, we apply our ordinal tensor decomposition method to two real-world datasets of ordinal tensors. In the first application, we use our model to analyze an ordinal tensor consisting of structural connectivity patterns among 68 brain regions for 136 individuals from Human Connec- tome Project (HCP) (Geddes 2016). In the second application, we perform tensor completion from the data with missing values. The data tensor records the ratings from scale 1 to 5 of 42 users to 139 songs on 26 contexts (Baltrunas et al. 2011).
+In this section, we apply our ordinal tensor decomposition method to two real-world datasets of ordinal tensors. In the first application, we use our model to analyze an ordinal tensor consisting of structural connectivity patterns among 68 brain regions for 136 individuals from Human Connectome Project (HCP) (Geddes 2016). In the second application, we perform tensor completion from the data with missing values. The data tensor records the ratings from scale 1 to 5 of 42 users to 139 songs on 26 contexts (Baltrunas et al. 2011).
 
 \subsection{Human Connection Project (HCP)}
 The human connectome project (HCP) is a 68 × 68 × 136 tensor where the first two modes have 68 indices representing brain regions and the last mode has 136 indices meaning individuals. All the individual images were preprocessed following a standard pipeline (Zhang et al. 2018), and the brain was parcellated to 68 regions of interest following the Desikan atlas (Desikan et al. 2006). The tensor entries consist of $\{1, 2, 3\}$, the strength of fiber connections between 68 brain regions for each of the 136 individuals. First, we apply our ordinal tensor decomposition method with a logistic link function to the HCP data and identify similar brain nodes based on latent parameters. The BIC result suggests $\mr = (23, 23, 8)$ with $\logl(\hat \Theta,\hat \mb) = - 216645.8$.
 
 Also, we compare our ordinal tensor decomposition method with a logistic link function with the classical continuous Tucker decomposition method. We use 5 folded cross validation method for the comparison. Specifically, we randomly split the tensor entries into 5 similar sized pieces and alternatively use each piece of entries as a test data using other 80\% entries as a training data. The entries in the test data are encoded as missing and then predicted based on the tensor decomposition from the training data. We set the rank of the tensor as $\mr = (23,23,8)$ which minimizes BIC value. Table 1 shows RMSE, MAE and error (false prediction rate), averaged over 5 test set results. We can check that our ordinal tensor decomposition model outperforms the classic continuous decomposition in all criteria.
+
+\begin{table}[H]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{c|ccc|c}
+\hline
+\multirow{2}{*}{Critera}&\multicolumn{3}{c|}{Our method}&Continuous method\\
+& $\hat y^{(\text{Mean})}_\omega$ & $\hat y^{(\text{Median})}_\omega$ & $\hat y^{(\text{Mode})}_\omega$ &~\cite{filipovic2015tucker}\\
+\hline
+MSE& &  & 0.1504&0.1604\\
+MAD&  &  &0.1504&0.1600\\
+MCR& &&0.1502&0.1598\\
+\hline
+\end{tabular}
+}
+\caption{Comparison of tensor denoising on HCP dataset.}
+\end{table}
+
+
+
+\subsection{InCarMusic recommendation system}
+InCarMusic is a mobile application that offers music recommendation to passengers of cars based on contexts (Baltrunas et al. 2011). Our goal is to perform the tensor completion to the $42\times 139\times 26$ ordinal tensor and thereby we can offer context-specific music recommendation to users. The tensor entries consist of ordinal observations on the scale 1 to 5, the ratings of 42 users to 139 songs on 26 contexts and are encoded as NA for missing values. The number of missing values is 148,904 and the number of available values is 2,884.
+We suggest three estimators $\hat y_\omega$ based on $(\hat \theta_\omega,\hat \mb)$:
+\begin{itemize}
+\item (Mean) $\hat y^{(\text{Mean})}_\omega=\sum_\ell \ell g_\ell(\hat \theta_\omega,\hat \mb) $;
+\item (Median) $\hat y^{(\text{Median})}_\omega=\min\{\ell\in[L]\colon f_\ell(\hat \theta_\omega,\hat \mb)\geq 0.5\}$;
+\item (Mode) $\hat y^{(\text{Mode})}_\omega=\argmax_\ell g_\ell(\hat \theta_\omega,\hat \mb) $
+\end{itemize}
+Note that, under the ordinal tensor model~\eqref{eq:model}, the estimator $\hat y^{(\text{Mean})}_\omega$ (uniformally?) minimizes $\mathbb{E}(y_\omega-\hat y_\omega)^2$, and the estimator $\hat y^{(\text{Median})}_\omega$ minimizes $\mathbb{E}|y_\omega-\hat y_\omega|$ (?). In contrast, these three estimators degenerate to a single estimator under the continuous-valued tensor decomposition model. We assess the accuracy using three metrics: Mean squared error (MSE), Mean absolute deviation (MAD), and Misclassification rate (MCR).  
+
+Results are averaged from 5 fold cross validation. {\color{red} add s.e. to the above table.} 
+
+\begin{table}[H]
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{c|ccc|c}
+\hline
+\multirow{2}{*}{Critera}&\multicolumn{3}{c|}{Our method}&Continuous method\\
+& $\hat y^{(\text{Mean})}_\omega$ & $\hat y^{(\text{Median})}_\omega$ & $\hat y^{(\text{Mode})}_\omega$ &~\cite{filipovic2015tucker}\\
+\hline
+MSE& \color{red}2.01&2.14 & 3.64&8.18\\
+MAD& 1.23  &  {\color{red}1.13}&1.26&2.36\\
+MCR& 0.80&0.75&{\color{red}0.54}&0.96\\
+\hline
+\end{tabular}
+}
+\caption{Comparison of tensor completion performance on InCarMusic dataset.}
+\end{table}
+
+We also attempted to run matrix ordinal mehod~\citep{bhaskar2016probabilistic} to the InCarMusic dataset. Unfortunately, the $\mb$ cannot be estimated from their method. 
 
 \bibliography{tensor_wang}
 \bibliographystyle{icml2020}

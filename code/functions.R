@@ -4,7 +4,7 @@ library(pracma)
 library(doParallel)
 epsilon=10^-4
 
-########### simulation ordinal tensors based on logist model with arbitrary k
+########### simulate an ordinal tensor based on logist model with arbitrary k
 realization = function(theta,omega){
   theta=as.tensor(theta)
   thet <- c(theta@data)
@@ -15,8 +15,9 @@ realization = function(theta,omega){
   return(as.tensor(array(thet,dim =theta@modes)))
 }      
 
-
-estimation = function(theta,omega,type){
+########### predict the response based on the estimated parameter
+estimation = function(theta,omega,type){ 
+   k=length(omega) 
   if(is.matrix(theta)){
   thet=c(theta)
   }else{
@@ -24,12 +25,12 @@ estimation = function(theta,omega,type){
   thet <- c(theta@data)
   }
   p = theta_to_p(thet,omega)
-  if(type=="max"){  # score prediction based on the mode 
+  if(type=="mode"){  # score prediction based on the mode 
   for (j in 1:length(thet)) thet[j] <-  which.max(p[j,])
   }else if(type=="mean"){ # score prediction based on the mean 
   for (j in 1:length(thet)) thet[j] <-  sum(p[j,]*(1:(k+1))) ## why rounding to integer?
   }else if(type=="median"){# score prediction based on the median 
-  for (j in 1:length(thet)) thet[j] <-  which(c(cumsum(p[i,]),1)>=0.5)[1] ## median
+  for (j in 1:length(thet)) thet[j] <-  which(c(cumsum(p[j,]),1)>=0.5)[1] ## median
   }
   if(is.matrix(theta)) return(as.matrix(thet,dim=dim(theta)))
   else return(as.tensor(array(thet,dim =theta@modes)))
@@ -116,7 +117,7 @@ gradient_tensor=function(A_1,A_2,A_3,C,ttnsr,omega,type="ordinal"){
     return(output)
 }
 
-# gradient with respect to core (gradient not using kronecker product at all)
+# gradient with respect to the core tensor (gradient not using kronecker product at all)
 gc = function(A_1,A_2,A_3,C,ttnsr,omega){
     g = gradient_tensor(A_1,A_2,A_3,C,ttnsr,omega) ## first, take entrywise gradient w.r.t. theta
   
@@ -127,7 +128,7 @@ gc = function(A_1,A_2,A_3,C,ttnsr,omega){
      
             
 
-####### update a factor matrix at one time while holding others fixed ###########
+####### update one factor matrix at a time while holding others fixed ###########
 comb = function(A,W,ttnsr,k,omega,alph=TRUE,type="ordinal"){
   nA = A
   tnsr1 <- k_unfold(as.tensor(ttnsr),k)@data
@@ -163,8 +164,6 @@ corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alph=TRUE){
 
 
 fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = TRUE){
-    
-  #alphbound <- alph+10^-4
   if(is.logical(alph)) alpha_minus=alpha_minus2=TRUE
   else{
         alpha_minus=alph-epsilon
@@ -273,12 +272,12 @@ logistic = function(x){
     return(1/(1+exp(-x)))
 }
 
-## BIC: Inputs d and r are vectors. 
+## BIC: Inputs d and r are vectors
 bic = function(ttnsr,theta,omega,d,r){
     return(2*likelihood(ttnsr,theta,omega)+(prod(r)+sum(r*(d-r)))*log(prod(d)))
 }
 
-## continous Tucker decomposition with possibly missing data
+## continous Tucker decomposition with possibly missing entries
 tucker_missing=function(ttnsr,r,alpha,ini=TRUE){
     if(is.logical(alpha)) alpha_minus=alpha_minus2=TRUE
     else{
@@ -288,9 +287,9 @@ tucker_missing=function(ttnsr,r,alpha,ini=TRUE){
     
     if(is.logical(ini)){
         d=dim(ttnsr)
-        A_1 = randortho(d[1])[,1:r[1]]
-        A_2 = randortho(d[2])[,1:r[2]]
-        A_3 = randortho(d[3])[,1:r[3]]
+        A_1 = as.matrix(randortho(d[1])[,1:r[1]])
+        A_2 = as.matrix(randortho(d[2])[,1:r[2]])
+        A_3 = as.matrix(randortho(d[3])[,1:r[3]])
         C = rand_tensor(modes = r)
     }else{
         A_1=ini[[1]];A_2=ini[[2]];A_3=ini[[3]];C=ini[[4]]

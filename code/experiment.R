@@ -24,13 +24,14 @@ ttnsr[ttnsr==-1]=NA
 missing=which(is.na(ttnsr)==F)
 d=dim(ttnsr)
 set.seed(1)
-r=c(2,2,2) ## need to select via BIC ..
+r=c(1,1,1) ## need to select via BIC ..
 alpha=100
-A_1 = randortho(d[1])[,1:r[1]]
-A_2 = randortho(d[2])[,1:r[2]]
-A_3 = randortho(d[3])[,1:r[3]]
+A_1 = as.matrix(randortho(d[1])[,1:r[1]])
+A_2 = as.matrix(randortho(d[2])[,1:r[2]])
+A_3 = as.matrix(randortho(d[3])[,1:r[3]])
 C = rand_tensor(modes = r)
 C=C/max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))*alpha/10
+
 
 ############# experiement ##########################
 mask=sample(1:2884,2884*0.1,replace=T)
@@ -44,22 +45,25 @@ toc()
 fitted=ttl(result$Z,list(result$U[[1]],result$U[[2]],result$U[[3]]),ms=1:3)
 mean((true-fitted@data[index])^2) #MSE= 18.96803
 mean(abs(true-fitted@data[index])) #MAD= 2.589925
+mean(true!=round(fitted@data[index])) ## MCR
 
 ###### Method 2: ordinal tucker #########
 tic()
 result = fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = alpha)
 toc()
 fitted=ttl(result$C,list(result$A_1,result$A_2,result$A_3),ms=1:3)@data
-est=estimation(fitted,result$omega,"median")
+bic(ttnsr,fitted,result$omega,d,r)## 10860.46
+est=estimation(fitted,result$omega,"mean")
 mean((true-est@data[index])^2) ## MSE = 2.381944
 mean(abs(true-est@data[index])) ## MAD = 1.256944
+mean(true!=round(est@data[index])) ## MCR
 
 ######### Method 3: ordinal matrix##################
 data=k_unfold(as.tensor(ttnsr),1)@data
 d=dim(data)
-r=2
+r=1
 set.seed(18)
-A_1=  randortho(d[1])[,1:r]
+A_1=  as.matrix(randortho(d[1])[,1:r])
 A_2 = matrix(rnorm(d[2]*r,0,1),nrow=d[2])
 A_2 = A_2/max(abs(A_1%*%t(A_2)))*alpha/10
 
@@ -70,6 +74,7 @@ fitted=result$A_1%*%t(result$A_2)
 est=estimation(fitted,c(0,0),"mean") ## omega cannot be estimated
 mean((true-est[index])^2) ## MSE = 4.173611
 mean(abs(true-est[index])) ## MAD = 1.395833
+mean(true!=round(est[index])) ## MCR
 #################################
 tic()
 result = fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alph = 1000)
