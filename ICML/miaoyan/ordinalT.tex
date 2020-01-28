@@ -363,9 +363,9 @@ Theorem~\ref{thm:completion} shows that our estimator achieves consistency when 
             \STATE{Update $\mM_k$ while fixing other blocks.}
             \STATE $\mM_k^{(t+1)}\gets\argmax_{\mM_k\in\mathbb{R}^{d_k\times r_K}}\mathcal{L}_{\mathcal{Y},\Omega}(\mM_k)$
             \newline
-             s.t. $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha$, where $\Theta^{(t+1)}$ is the parameter tensor based on the current block estimates. 
+             s.t.\ $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha$, where $\Theta^{(t+1)}$ is the parameter tensor based on the current block estimates. 
             \ENDFOR
-            \STATE {Update $\mathcal{C}$ while fixing other blocks: $\mathcal{C}^{(t+1)} \gets \argmax_{\mathcal{C}\in \mathbb{R}^{r_1\times\cdots\times r_K}}\mathcal{L}_{\mathcal{Y},\Omega}(\mathcal{C})$, s.t. $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha$. 
+            \STATE {Update $\mathcal{C}$ while fixing other blocks: $\mathcal{C}^{(t+1)} \gets \argmax_{\mathcal{C}\in \mathbb{R}^{r_1\times\cdots\times r_K}}\mathcal{L}_{\mathcal{Y},\Omega}(\mathcal{C})$, s.t.\ $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha$. 
                \STATE {Update $\Theta$ based on the current block estimates: $\Theta^{(t+1)} \gets \mathcal{C}^{(t+1)}\times_1\mM_1^{(t+1)}\cdots\times_K\mM_K^{(t+1)}$. 
             \STATE {Update $\mb$ while fixing $\Theta^{(t+1)}$: $\mb^{(t+1)} \gets \argmax_{\mb\in \mathbb{R}^{L-1}}\mathcal{L}_{\mathcal{Y},\Omega}\big(\Theta^{(t+1)},\mb\big)$
             \ENDFOR

@@ -1,6 +1,6 @@
 load("dti_brain.RData")
 load("rank_23_23_8.RData")
-theta = make_theta(result)
+theta = result$theta
 thetan = tucker(theta,rank = result$C@modes)
 
 # clust1 is clustering from mode 1, cluster 2 is clustering from mode 2
