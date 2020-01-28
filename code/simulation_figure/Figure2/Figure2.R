@@ -48,7 +48,7 @@ levels(Output$rank)=c("r=3","r=5","r=8")
 
 p=ggplot(data=Output,aes(x=dim,y=MSE))+geom_line(aes(color=rank),size=1.5)+ labs(x='tensor dimension', y='MSE',size=1.5)+theme(text = element_text(size=rel(4)),legend.text = element_text(size = 15),axis.text.x = element_text(size=15),axis.text.y = element_text(size=15))
 
-p=p+stat_function(fun=function(d) 10^2.63/(d^2),lty=2,size=1.5)
+p=p+stat_function(fun=function(d) 10^2.96/(d^2),lty=2,size=1.5)
 g <- ggplot_build(p)
 col=unlist(unique(g$data[[1]]["colour"]))[c(1,2,3)]
 

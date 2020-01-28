@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  23 JAN 2020 19:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 JAN 2020 13:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -324,8 +324,16 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 108.
 \cv@tmpc@=\count121
 \cv@tmpc=\count122
 )
+(/usr/local/texlive/2016/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen131
+\WF@size=\dimen132
+\c@WF@wrappedlines=\count123
+\WF@box=\box32
+\WF@everypar=\toks19
+Package: wrapfig 2003/01/31  v 3.6
+)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/multirow/multirow.sty
-\bigstrutjot=\dimen131
+\bigstrutjot=\dimen133
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2016/03/10 v2.15b AMS math features
@@ -337,51 +345,51 @@ Package: amstext 2000/06/29 v2.01 AMS text
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks19
-\ex@=\dimen132
+\@emptytoks=\toks20
+\ex@=\dimen134
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen133
+\pmbraise@=\dimen135
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count123
+\inf@bad=\count124
 LaTeX Info: Redefining \frac on input line 199.
-\uproot@=\count124
-\leftroot@=\count125
+\uproot@=\count125
+\leftroot@=\count126
 LaTeX Info: Redefining \overline on input line 297.
-\classnum@=\count126
-\DOTSCASE@=\count127
+\classnum@=\count127
+\DOTSCASE@=\count128
 LaTeX Info: Redefining \ldots on input line 394.
 LaTeX Info: Redefining \dots on input line 397.
 LaTeX Info: Redefining \cdots on input line 518.
-\Mathstrutbox@=\box32
-\strutbox@=\box33
-\big@size=\dimen134
+\Mathstrutbox@=\box33
+\strutbox@=\box34
+\big@size=\dimen136
 LaTeX Font Info:    Redeclaring font encoding OML on input line 634.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 635.
-\macc@depth=\count128
-\c@MaxMatrixCols=\count129
+\macc@depth=\count129
+\c@MaxMatrixCols=\count130
 \dotsspace@=\muskip11
-\c@parentequation=\count130
-\dspbrk@lvl=\count131
-\tag@help=\toks20
-\row@=\count132
-\column@=\count133
-\maxfields@=\count134
-\andhelp@=\toks21
-\eqnshift@=\dimen135
-\alignsep@=\dimen136
-\tagshift@=\dimen137
-\tagwidth@=\dimen138
-\totwidth@=\dimen139
-\lineht@=\dimen140
-\@envbody=\toks22
+\c@parentequation=\count131
+\dspbrk@lvl=\count132
+\tag@help=\toks21
+\row@=\count133
+\column@=\count134
+\maxfields@=\count135
+\andhelp@=\toks22
+\eqnshift@=\dimen137
+\alignsep@=\dimen138
+\tagshift@=\dimen139
+\tagwidth@=\dimen140
+\totwidth@=\dimen141
+\lineht@=\dimen142
+\@envbody=\toks23
 \multlinegap=\skip67
 \multlinetaggap=\skip68
-\mathdisplay@stack=\toks23
+\mathdisplay@stack=\toks24
 LaTeX Info: Redefining \[ on input line 2739.
 LaTeX Info: Redefining \] on input line 2740.
 )
@@ -397,15 +405,15 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2015/03/04 v2.20.2
-\thm@style=\toks24
-\thm@bodyfont=\toks25
-\thm@headfont=\toks26
-\thm@notefont=\toks27
-\thm@headpunct=\toks28
+\thm@style=\toks25
+\thm@bodyfont=\toks26
+\thm@headfont=\toks27
+\thm@notefont=\toks28
+\thm@headpunct=\toks29
 \thm@preskip=\skip69
 \thm@postskip=\skip70
 \thm@headsep=\skip71
-\dth@everypar=\toks29
+\dth@everypar=\toks30
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/tools/bm.sty
 Package: bm 2016/02/27 v1.2a Bold Symbol Support (DPC/FMi)
@@ -425,25 +433,25 @@ LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
-\g_MT_multlinerow_int=\count135
-\l_MT_multwidth_dim=\dimen141
+\g_MT_multlinerow_int=\count136
+\l_MT_multwidth_dim=\dimen143
 \origjot=\skip72
-\l_MT_shortvdotswithinadjustabove_dim=\dimen142
-\l_MT_shortvdotswithinadjustbelow_dim=\dimen143
-\l_MT_above_intertext_sep=\dimen144
-\l_MT_below_intertext_sep=\dimen145
-\l_MT_above_shortintertext_sep=\dimen146
-\l_MT_below_shortintertext_sep=\dimen147
+\l_MT_shortvdotswithinadjustabove_dim=\dimen144
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen145
+\l_MT_above_intertext_sep=\dimen146
+\l_MT_below_intertext_sep=\dimen147
+\l_MT_above_shortintertext_sep=\dimen148
+\l_MT_below_shortintertext_sep=\dimen149
 )
-\c@thm=\count136
-\c@lem=\count137
-\c@prop=\count138
-\c@pro=\count139
-\c@assumption=\count140
-\c@defn=\count141
-\c@cor=\count142
-\c@example=\count143
-\c@rmk=\count144
+\c@thm=\count137
+\c@lem=\count138
+\c@prop=\count139
+\c@pro=\count140
+\c@assumption=\count141
+\c@defn=\count142
+\c@cor=\count143
+\c@example=\count144
+\c@rmk=\count145
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/dsfont.sty
 Package: dsfont 1995/08/01 v0.1 Double stroke roman fonts
@@ -503,17 +511,17 @@ File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 )
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count145
-\scratchdimen=\dimen148
-\scratchbox=\box34
-\nofMPsegments=\count146
-\nofMParguments=\count147
-\everyMPshowfont=\toks30
-\MPscratchCnt=\count148
-\MPscratchDim=\dimen149
-\MPnumerator=\count149
-\makeMPintoPDFobject=\count150
-\everyMPtoPDFconversion=\toks31
+\scratchcounter=\count146
+\scratchdimen=\dimen150
+\scratchbox=\box35
+\nofMPsegments=\count147
+\nofMParguments=\count148
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count149
+\MPscratchDim=\dimen151
+\MPnumerator=\count150
+\makeMPintoPDFobject=\count151
+\everyMPtoPDFconversion=\toks32
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -529,7 +537,7 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\AtBeginShipoutBox=\box35
+\AtBeginShipoutBox=\box36
 Package hyperref Info: Link coloring ON on input line 90.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
@@ -538,7 +546,7 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count151
+\c@section@level=\count152
 )
 LaTeX Info: Redefining \ref on input line 90.
 LaTeX Info: Redefining \pageref on input line 90.
@@ -554,7 +562,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 125.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 125.
-\c@@affil@anon=\count152
+\c@@affil@anon=\count153
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
@@ -596,13 +604,13 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 <compare.pdf, id=5, 513.11702pt x 93.951pt>
 File: compare.pdf Graphic file (type pdf)
  <use compare.pdf>
-Package pdftex.def Info: compare.pdf used on input line 153.
+Package pdftex.def Info: compare.pdf used on input line 152.
 (pdftex.def)             Requested size: 455.24408pt x 83.35808pt.
 
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 171.
+(amsmath)                 on input line 170.
 
 [1{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
@@ -614,178 +622,184 @@ as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.229 \begin{equation}
+l.228 \begin{equation}
                       \label{eq:space} <./compare.pdf>]
 
-LaTeX Font Warning: Command \small invalid in math mode on input line 230.
+LaTeX Font Warning: Command \small invalid in math mode on input line 229.
 
-LaTeX Font Info:    Calculating math sizes for size <> on input line 231.
+LaTeX Font Info:    Calculating math sizes for size <> on input line 230.
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <0.7> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <0.5> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 231.
+(Font)              size <5> substituted on input line 230.
 
 
-Underfull \hbox (badness 1281) in paragraph at lines 241--242
+Underfull \hbox (badness 1281) in paragraph at lines 244--245
 []\OT1/ptm/m/n/10 (+20) (P2) Given an in-com-plete set of or-di-nal ob-ser-va-t
 ion
  []
 
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 252.
+LaTeX Font Info:    Try loading font information for U+dsrom on input line 255.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
 ) [3]
-Underfull \hbox (badness 1014) in paragraph at lines 295--297
+Underfull \hbox (badness 1014) in paragraph at lines 298--300
 \OT1/ptm/m/n/10 (+20) es-ti-ma-tor $[]$ pro-posed by [][]Gha-der-marzy et al.[]
 [] ([][]2018[][]),
  []
 
 [4]
-Underfull \hbox (badness 5667) in paragraph at lines 370--371
-[] []\OT1/ptm/m/n/10 (+20) Update $\OML/cmm/b/it/10 b$ \OT1/ptm/m/n/10 (+20) wh
-ile fix-ing $\OT1/cmr/m/n/10 ^^B[]$\OT1/ptm/m/n/10 (+20) : $\OML/cmm/b/it/10 b[
-] \OMS/cmsy/m/n/10  
+Underfull \hbox (badness 6141) in paragraph at lines 371--373
+\OMS/cmsy/m/n/10 C[]   [][] L[]\OT1/cmr/m/n/10 (\OMS/cmsy/m/n/10 C\OT1/cmr/m/n/
+10 )$\OT1/ptm/m/n/10 (+20) , s.t.
  []
 
-./ordinalT.tex:371: Missing } inserted.
-<inserted text> 
-                }
-l.371             \ENDFOR
-                         
-? 
-./ordinalT.tex:371: Missing } inserted.
-<inserted text> 
-                }
-l.371             \ENDFOR
-                         
-? 
-./ordinalT.tex:371: Missing } inserted.
-<inserted text> 
-                }
-l.371             \ENDFOR
-                         
-? 
-[5]
-Missing character: There is no × in font ptmr7t!
-Missing character: There is no × in font ptmr7t!
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 433.
-
- (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/omsptm.fd
-File: omsptm.fd 
-)
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 433.
+<algorithm.pdf, id=211, 206.57979pt x 189.88843pt>
+File: algorithm.pdf Graphic file (type pdf)
+ <use algorithm.pdf>
+Package pdftex.def Info: algorithm.pdf used on input line 393.
+(pdftex.def)             Requested size: 142.26378pt x 130.76817pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-
-Package natbib Warning: Citation `filipovic2015tucker' on page 6 undefined on i
-nput line 453.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 442--454
-[][]
- []
-
-(./ordinalT.bbl [6pdfTeX warning (ext4): destination with the same identifier (
-name{table.2}) has been already used, duplicate ignored
+ [5pdfTeX warning (ext4): destination with the same identifier (name{figure.1})
+ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.52 
+l.403 \end{align}
+                  <./algorithm.pdf>]
+<panel.pdf, id=269, 570.8487pt x 565.4381pt>
+File: panel.pdf Graphic file (type pdf)
+ <use panel.pdf>
+Package pdftex.def Info: panel.pdf used on input line 424.
+(pdftex.def)             Requested size: 236.15796pt x 233.91905pt.
+
+Overfull \hbox (1.28046pt too wide) in paragraph at lines 424--426
+[][]
+ []
+
+[6pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.445 
+       <./panel.pdf>]
+Missing character: There is no × in font ptmr7t!
+Missing character: There is no × in font ptmr7t!
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 500.
+
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 500.
+ (./ordinalT.bbl [7pdfTeX warning (ext4): destination with the same identifier 
+(name{table.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.26 
+     pdfTeX warning (ext4): destination with the same identifier (name{table.3}
+) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.26 
      ])
-
-Package natbib Warning: There were undefined citations.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 463.
-[7
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 530.
+ [8
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 463.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 530.
  (./ordinalT.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 463.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 463.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 530.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 530.
 Package rerunfilecheck Info: File `ordinalT.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -793,16 +807,19 @@ Package rerunfilecheck Info: File `ordinalT.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 4.5pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 463.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 530.
  ) 
 Here is how much of TeX's memory you used:
- 10369 strings out of 493014
- 151529 string characters out of 6133351
- 289870 words of memory out of 5000000
- 13423 multiletter control sequences out of 15000+600000
- 47108 words of font info for 225 fonts, out of 8000000 for 9000
+ 10509 strings out of 493014
+ 153462 string characters out of 6133351
+ 291748 words of memory out of 5000000
+ 13522 multiletter control sequences out of 15000+600000
+ 50259 words of font info for 243 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 31i,19n,45p,930b,547s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 31i,19n,45p,1411b,547s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local
@@ -834,10 +851,10 @@ st/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
 ype1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/t
 imes/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmri
 8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on ordinalT.pdf (7 pages, 325865 bytes).
+Output written on ordinalT.pdf (8 pages, 383790 bytes).
 PDF statistics:
- 335 PDF objects out of 1000 (max. 8388607)
- 291 compressed objects within 3 object streams
- 63 named destinations out of 1000 (max. 500000)
- 28678 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 478 PDF objects out of 1000 (max. 8388607)
+ 400 compressed objects within 4 object streams
+ 74 named destinations out of 1000 (max. 500000)
+ 32784 words of extra memory for PDF output out of 35830 (max. 10000000)
 

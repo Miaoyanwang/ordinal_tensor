@@ -45,6 +45,7 @@ Output=data.frame(MSE=c(t(apply(MSE_raw,c(1:2),mean))),rank=as.factor(rep(rlist,
 save(MSE_raw,Output,file="Figure4.RData")
 
 ################ plot ############
+load("Figure4.RData")
 library(ggplot2)
 Output$rank=as.factor(Output$rank)
 levels(Output$rank)=c("r=3","r=5","r=8")

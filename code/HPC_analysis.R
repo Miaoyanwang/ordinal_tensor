@@ -3,7 +3,6 @@ source("functions.R")
 load("../data/dti_brain.RData")
 set.seed(18)
 
-
 ### 5 fold ################ To Chanwoo: Please changes the sampling per instruction #####
 ind = 1:length(tensor)
 l = length(tensor)%/%5+1

@@ -369,11 +369,13 @@ Theorem~\ref{thm:completion} shows that our estimator achieves consistency when 
              s.t. $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha$, where $\Theta^{(t+1)}$ is the parameter tensor based on the current block estimates. 
             \ENDFOR
             \STATE {Update $\mathcal{C}$ while fixing other blocks:}
-            \STATE{$\mathcal{C}^{(t+1)} \gets \argmax_{\mathcal{C}\in \mathbb{R}^{r_1\times\cdots\times r_K}}\mathcal{L}_{\mathcal{Y},\Omega}(\mathcal{C})$, s.t. $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha$}
-               \STATE {Update $\Theta$ based on the current block estimates: 
-               \STATE{$\Theta^{(t+1)} \gets \mathcal{C}^{(t+1)}\times_1\mM_1^{(t+1)}\cdots\times_K\mM_K^{(t+1)}$}
-            \STATE {Update $\mb$ while fixing $\Theta^{(t+1)}$: \\
-          \STATE{$\mb^{(t+1)} \gets \argmax_{\mb\in \mathbb{R}^{L-1}}\mathcal{L}_{\mathcal{Y},\Omega}\big(\Theta^{(t+1)},\mb\big)$}
+              \newline$\mathcal{C}^{(t+1)} \gets \argmax_{\mathcal{C}\in \mathbb{R}^{r_1\times\cdots\times r_K}}\mathcal{L}_{\mathcal{Y},\Omega}(\mathcal{C})$, s.t. $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha$
+               \STATE {Update $\Theta$ based on the current block estimates:} 
+                   \newline
+                   $\Theta^{(t+1)} \gets \mathcal{C}^{(t+1)}\times_1\mM_1^{(t+1)}\cdots\times_K\mM_K^{(t+1)}$
+            \STATE {Update $\mb$ while fixing $\Theta^{(t+1)}$:}
+              \newline
+              $\mb^{(t+1)} \gets \argmax_{\mb\in \mathbb{R}^{L-1}}\mathcal{L}_{\mathcal{Y},\Omega}\big(\Theta^{(t+1)},\mb\big)$
             \ENDFOR
             \STATE \textbf{return}
             $\Theta,\mb$
@@ -446,21 +448,48 @@ The human connectome project (HCP) is a 68 × 68 × 136 tensor where the first two
 
 Also, we compare our ordinal tensor decomposition method with a logistic link function with the classical continuous Tucker decomposition method. We use 5 folded cross validation method for the comparison. Specifically, we randomly split the tensor entries into 5 similar sized pieces and alternatively use each piece of entries as a test data using other 80\% entries as a training data. The entries in the test data are encoded as missing and then predicted based on the tensor decomposition from the training data. We set the rank of the tensor as $\mr = (23,23,8)$ which minimizes BIC value. Table 1 shows RMSE, MAE and error (false prediction rate), averaged over 5 test set results. We can check that our ordinal tensor decomposition model outperforms the classic continuous decomposition in all criteria.
 
-\begin{table}[H]
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{c|ccc|c}
-\hline
-\multirow{2}{*}{Critera}&\multicolumn{3}{c|}{Our method}&Continuous method\\
-& $\hat y^{(\text{Mean})}_\omega$ & $\hat y^{(\text{Median})}_\omega$ & $\hat y^{(\text{Mode})}_\omega$ &~\cite{filipovic2015tucker}\\
-\hline
-MSE& 0.1504&  0.1504 & 0.1504&0.1604\\
-MAD& 0.1503&0.1503 &0.1503&0.1600\\
-MCR& 0.1503& 0.1502&0.1502& 0.1598\\
-\hline
+
+
+\begin{table}[t]
+\label{CV}
+\vskip 0.15in
+\begin{center}
+\begin{small}
+\begin{sc}
+\begin{tabular}{lcccr}
+\toprule
+ Method & RMSE & MAE & ERROR \\
+\midrule
+\begin{tabular}[c]{@{}c@{}}Oridnal tensor\\ Decomposition\end{tabular}  & 0.1504 & 0.1503& 0.1502 \\ \\
+\begin{tabular}[c]{@{}c@{}}Conti tensor\\ Decomposition\end{tabular} & 0.1604& 0.1600& 0.1598\\ \\
+\begin{tabular}[c]{@{}c@{}}1bit-completion\\ (probit)\end{tabular}  & 0.3658 & 0.3633 & 0.3620\\
+\begin{tabular}[c]{@{}c@{}}1bit-completion\\ (logistic)\end{tabular}  &  0.4519& 0.4219 & 0.4068
+\\
+\bottomrule
 \end{tabular}
-}
-\caption{Comparison of tensor decomposition on HCP dataset.}
+\end{sc}
+\end{small}
+\end{center}
+\vskip -0.1in
+\caption{Results of comparisons among 4 methods on the HCP data predicting the test data. Four methods are the ordinal tensor decomposition algorithm, the continuous tensor decomposition algorithm and the 1 bit tensor completion method with probit link function and logistic link function. Each method is evaluated by RMSE, MAE, error(false prediction rate).}
 \end{table}
+
+
+%\begin{table}[H]
+%\resizebox{\linewidth}{!}{%
+%\begin{tabular}{c|ccc|c}
+%\hline
+%\multirow{2}{*}{Critera}&\multicolumn{3}{c|}{Our method}&Continuous method\\
+%& $\hat y^{(\text{Mean})}_\omega$ & $\hat y^{(\text{Median})}_\omega$ & $\hat y^{(\text{Mode})}_\omega$ &~\cite{filipovic2015tucker}\\
+%\hline
+%MSE& 0.1504&  0.1504 & 0.1504&0.1604\\
+%MAD& 0.1503&0.1503 &0.1503&0.1600\\
+%MCR& 0.1503& 0.1502&0.1502& 0.1598\\
+%\hline
+%\end{tabular}
+%}
+%\caption{Comparison of tensor decomposition on HCP dataset.}
+%\end{table}
 
 
 
