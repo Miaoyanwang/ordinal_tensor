@@ -1,10 +1,11 @@
 ### Cross validation ######
 source("functions.R")
-load("dti_brain.RData")
+load("../data/dti_brain.RData")
 set.seed(18)
-ind = sample(1:length(tensor),length(tensor))
 
-### 5 fold ################ Please make changes to the sampling #####
+
+### 5 fold ################ To Chanwoo: Please changes the sampling per instruction #####
+ind = 1:length(tensor)
 l = length(tensor)%/%5+1
 i1 = ind[1:l]
 i2 = ind[(l+1):(2*l)]

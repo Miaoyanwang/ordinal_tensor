@@ -26,6 +26,7 @@ To-do:
 
 #################
 Change log (on 01/23)
+## In functions.R
 1. naming convention: thet -> theta/theta_output; alph -> alpha; change alpha --> omega in some sub-functions for naming consistency.
 2. change the encoding of missing values to NA. (Previous version uses encoding -1)
 3. merge various score prediction methods. Add option type="mean", "median", or "mode".
@@ -33,3 +34,7 @@ Change log (on 01/23)
 5. remove the function make_theta. Add theta as an output of decomposition. 
 6. change the function tucker_missing and rename it as ``fit_continuous''. The two decomposition functions, fit_continuous and fit_ordinal, now have exactly the same input and output format. 
 7. add two new functions for comparison: continuous tensor decomposition (tucker_missing); ordinal matrix decomposition (fit_ordinal_matrix; perhaps no need to compare??)
+
+## In crossvalidation.R:
+1. change the name to HPC_analysis.R
+2. learn up the code 
