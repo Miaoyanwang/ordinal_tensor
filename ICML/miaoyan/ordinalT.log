@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 JAN 2020 13:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 JAN 2020 13:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -807,15 +807,12 @@ Package rerunfilecheck Info: File `ordinalT.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 4.5pt have occurred.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 530.
  ) 
 Here is how much of TeX's memory you used:
  10509 strings out of 493014
  153462 string characters out of 6133351
- 291748 words of memory out of 5000000
+ 291778 words of memory out of 5000000
  13522 multiletter control sequences out of 15000+600000
  50259 words of font info for 243 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -851,10 +848,10 @@ st/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
 ype1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/t
 imes/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmri
 8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on ordinalT.pdf (8 pages, 383790 bytes).
+Output written on ordinalT.pdf (8 pages, 384933 bytes).
 PDF statistics:
- 478 PDF objects out of 1000 (max. 8388607)
- 400 compressed objects within 4 object streams
+ 485 PDF objects out of 1000 (max. 8388607)
+ 404 compressed objects within 5 object streams
  74 named destinations out of 1000 (max. 500000)
  32784 words of extra memory for PDF output out of 35830 (max. 10000000)
 
