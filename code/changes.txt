@@ -1,5 +1,5 @@
 functions.R: main functions.  
-HPC_analysis.R: crossvaligdation for brain HPC analysis
+HPC_analysis.R: cross validation for HPC data
 braindataclustering.R: clustering for HPC data
 InCarMusic.R: tensor completion for InCarMusic data
 
