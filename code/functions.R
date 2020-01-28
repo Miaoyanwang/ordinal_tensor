@@ -185,7 +185,7 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
   cost=NULL
   omg = omega
   k=length(unique(as.factor(c(ttnsr))))
-    while ((error > 10^-12)&(iter<15) ) {
+    while ((error > 10^-4)&(iter<50) ) {
       iter = iter +1
       #update omega
       prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
