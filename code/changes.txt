@@ -1,28 +1,7 @@
-Original script: speedup2.R
-New scripts: 
-function.R consists of functions.  
-experiment.R consists of simulations.  
-
-#################
-Change log:
-1. change matrix multiplication in g() and Hessi() --> avoid explicit construction of diagonal matrices for better memory allocation and faster computation
-2. use ttl in place of ttm --> better memory allocation 
-3. merge fit_ordinal() and fit_ordinal2()
-4. update core tensor first, then update factor matrices --> output satisfies constraints....
-5. add fit_ordinal_cp() for cp low-rank tensors
-6. reformat rTensor objects into array class
-7. allow missing values (i.e. tensor entries < 0)
-8. orthogonalize factor matrices after each update --> better numerical stability; identifiable up to rotation 
-
-
-#################
-To-do:
-1. allow K ordinal levels -> I changed realization, Hessian, h1(cost), g1(cost) functions to allow K ordinal levels. Likelihood function is also changed.
-2. speed-up BIC search. checked
-3. further speed-up. checked
-4. Tucker vs. CP?
-5. verify the non-convexity in intercept and slope jointly? -> the function is convex in terms of intercept and slope. (revisit)
-6. allow signal tensor of rank 1 -> rank 1 case is available now in functions.R
+functions.R: main functions.  
+HPC_analysis.R: crossvaligdation for brain HPC analysis
+braindataclustering.R: clustering for HPC data
+InCarMusic.R: tensor completion for InCarMusic data
 
 #################
 Change log (on 01/23)
@@ -36,5 +15,25 @@ Change log (on 01/23)
 7. add two new functions for comparison: continuous tensor decomposition (tucker_missing); ordinal matrix decomposition (fit_ordinal_matrix; perhaps no need to compare??)
 
 ## In crossvalidation.R:
-1. change the name to HPC_analysis.R
-2. learn up the code 
+1. rename as HPC_analysis.R
+2. clean up the code 
+
+
+###################################################
+Previous Change log:
+1. change matrix multiplication in g() and Hessi() --> avoid explicit construction of diagonal matrices for better memory allocation and faster computation
+2. use ttl in place of ttm --> better memory allocation 
+3. merge fit_ordinal() and fit_ordinal2()
+4. update core tensor first, then update factor matrices --> output satisfies constraints....
+5. add fit_ordinal_cp() for cp low-rank tensors
+6. reformat rTensor objects into array class
+7. allow missing values (i.e. tensor entries < 0)
+8. orthogonalize factor matrices after each update --> better numerical stability; identifiable up to rotation 
+Previous To-do:
+1. allow K ordinal levels -> I changed realization, Hessian, h1(cost), g1(cost) functions to allow K ordinal levels. Likelihood function is also changed.
+2. speed-up BIC search. checked
+3. further speed-up. checked
+4. Tucker vs. CP?
+5. verify the non-convexity in intercept and slope jointly? -> the function is convex in terms of intercept and slope. (revisit)
+6. allow signal tensor of rank 1 -> rank 1 case is available now in functions.R
+
