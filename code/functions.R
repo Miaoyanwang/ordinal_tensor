@@ -28,7 +28,7 @@ estimation = function(theta,omega,type){
   if(type=="mode"){  # score prediction based on the mode 
   for (j in 1:length(theta_output)) theta_output[j] <-  which.max(p[j,])
   }else if(type=="mean"){ # score prediction based on the mean 
-  for (j in 1:length(theta_output)) theta_output[j] <-  sum(p[j,]*(1:(k+1))) ## why rounding to integer?
+  for (j in 1:length(theta_output)) theta_output[j] <-  sum(p[j,]*(1:(k+1))) ## why rounding to integer? : I thought prediction has to integer because all observations are integers.
   }else if(type=="median"){# score prediction based on the median 
   for (j in 1:length(theta_output)) theta_output[j] <-  which(c(cumsum(p[j,]),1)>=0.5)[1] ## median
   }
@@ -63,6 +63,7 @@ hc = function(A_1,A_2,A_3,C,ttnsr,omega,type="ordinal"){
 }
 
 ########### gradient with arbitrary k ###########
+# gradient with respect to factor matrices
 g1 = function(A_1,W,ttnsr,omega,type="ordinal"){
   k = length(omega)
   theta_output =W%*%c(A_1)
