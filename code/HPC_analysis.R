@@ -1,10 +1,11 @@
 ### Cross validation ######
 source("functions.R")
 load("../data/dti_brain.RData")
-set.seed(18)
+
 
 ### 5 fold ################ To Chanwoo: Please changes the sampling per instruction #####
-ind = 1:length(tensor)
+set.seed(18)
+ind = sample(1:length(tensor),length(tensor)) # I used this sample function in my own code. I think I mistook copying code well.
 l = length(tensor)%/%5+1
 i1 = ind[1:l]
 i2 = ind[(l+1):(2*l)]
@@ -34,7 +35,7 @@ save(result,file = paste("CV23_23_8_",index,".RData",sep = ""))
 
 ########## Analysis after getting the above output files ################
 CV = as.data.frame(matrix(nrow = 5, ncol = 3))
-names(CV) = c("MSE","MAE","Error_rate")
+names(CV) = c("MSE","MAD","MCR")
 for (i in 1:5) {
   test_index = cindex[[i]]
   load(paste("CV23_23_8_",i,".RData",sep = ""))
@@ -59,7 +60,7 @@ save(result,file = paste("OCV23_23_8_",index,".RData",sep = ""))
 ########## Analysis after getting the above output files ################
 
 OCV = as.data.frame(matrix(nrow = 5, ncol = 3))
-names(OCV) = c("MSE","MAE","Error_rate")
+names(OCV) = c("MSE","MAD","MCR")
 for (i in 1:5) {
   test_index = cindex[[i]]
   load(paste("OCV23_23_8_",i,".RData",sep = ""))
