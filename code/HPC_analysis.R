@@ -67,7 +67,7 @@ for (i in 1:5) {
   #theta = result$theta # alternatively, direct output the theta from result object
   theta =ttl(result$C,list(result$A_1,result$A_2,result$A_3),ms=1:3)@data
   out = estimation(theta,result$omega,type="mode")@data # we can also use other estimator via type="mode","mean", or "median"
-  OCV[i,1] = mean((round(out)[test_index]-tensor[test_index])^2)
+  OCV[i,1] = mean((round(out)[test_index]-tensor[test_index])^2) # if we use type ="mode",  can we not use "round" function?
   OCV[i,2] = mean(abs(round(out)[test_index]-tensor[test_index]))
   OCV[i,3] = error_rate = mean(round(out[test_index])!=tensor[test_index])
 }
