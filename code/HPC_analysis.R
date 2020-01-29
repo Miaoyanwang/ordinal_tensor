@@ -45,6 +45,7 @@ for (i in 1:5) {
   CV[i,2] = mean(abs(round(theta)[test_index]-tensor[test_index]))
   CV[i,3] = error_rate = mean(round(theta)[test_index]!=tensor[test_index])
 }
+apply(CV,2,mean)
 
 ##################### ordinal glm tucker decomposition CV#################
 d = dim(tensor)
