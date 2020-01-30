@@ -290,7 +290,7 @@ bic = function(ttnsr,theta,omega,d,r){
 }
 
 ## continous Tucker decomposition with possibly missing entries
-fit_continuous=function(ttnsr,C,A_1,A_2,A_3,alpha){
+fit_continuous=function(ttnsr,C,A_1,A_2,A_3,alpha = TRUE){
     if(is.logical(alpha)) alpha_minus=alpha_minus2=TRUE
     else{
         alpha_minus=alpha-epsilon
