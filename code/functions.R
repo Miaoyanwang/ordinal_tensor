@@ -244,6 +244,7 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
           cost = c(cost,new)
           (error <- abs((new-prev)/prev))
       }
+       message(paste(iter,"-th  iteration -- cost value is",new," -----------------"))
     }
   
   result$C <- C; result$A_1 <- A_1; result$A_2 <- A_2; result$A_3 <- A_3
@@ -254,7 +255,7 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
   return(result)
 }
 
-likelihood = function(ttnsr,theta,omega,type="ordinal"){
+likelihood = function(ttnsr,theta,omega=0,type="ordinal"){
     index=which(is.na(ttnsr)==F & is.na(theta)==F)
     ttnsr=ttnsr[index]
     theta=theta[index]
@@ -280,12 +281,11 @@ theta_to_p=function(theta,omega){
 }
 
 logistic = function(x){
-    output=1/(1+exp(-x))
-    return(output)
+    return(1/(1+exp(-x)))
 }
 
 ## BIC: Inputs d and r are vectors
-bic = function(ttnsr,theta,omega,d,r){
+bic = function(ttnsr,theta,omega=0,d,r){
     return(2*likelihood(ttnsr,theta,omega)+(prod(r)+sum(r*(d-r)))*log(prod(d)))
 }
 
@@ -353,6 +353,7 @@ fit_continuous=function(ttnsr,C,A_1,A_2,A_3,alpha = TRUE){  ## To allow input wi
             cost = c(cost,new)
             (error <- abs((new-prev)/prev))
         }
+        message(paste(iter,"-th  iteration -- cost value is",new," -----------------"))
     }
     
     
