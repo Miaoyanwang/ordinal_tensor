@@ -185,7 +185,7 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
   iter = 0
   cost=NULL
   omg = omega
-  k=length(unique(as.factor(c(ttnsr))))
+  k=length(unique(as.factor(c(ttnsr))))-is.element(NA,ttnsr) ## for NA not being included in length
     while ((error > 10^-4)&(iter<50) ) {
       iter = iter +1
       #update omega
@@ -290,7 +290,7 @@ bic = function(ttnsr,theta,omega,d,r){
 }
 
 ## continous Tucker decomposition with possibly missing entries
-fit_continuous=function(ttnsr,C,A_1,A_2,A_3,alpha = TRUE){
+fit_continuous=function(ttnsr,C,A_1,A_2,A_3,alpha = TRUE){  ## To allow input without alpha, I changed alpha = TRUE
     if(is.logical(alpha)) alpha_minus=alpha_minus2=TRUE
     else{
         alpha_minus=alpha-epsilon
