@@ -149,3 +149,35 @@ for(i in 1:10){
   }
 }
 
+###################### Getting a data summary##############################
+################### continuous decomposition ###############
+cv_rep = matrix(nrow =10,ncol = 2)
+for(k in 1:10){
+  cv_rep[k,] = apply(CV[((k-1)*5+1):(k*5),],2,mean)  
+}
+
+cv_summary = rbind(apply(cv_rep,2,mean),apply(cv_rep,2,sd))
+colnames(cv_summary) = c("MAD","MCR")
+rownames(cv_summary) = c("mean","sd")
+
+################### ordinal decomposition with mode ######## 
+ocvmode_rep = matrix(nrow =10,ncol = 2)
+for(k in 1:10){
+  ocvmode_rep[k,] = apply(OCVmode[((k-1)*5+1):(k*5),],2,mean)  
+}
+
+ocvmode_summary = rbind(apply(ocvmode_rep,2,mean),apply(ocvmode_rep,2,sd))
+colnames(ocvmode_summary) = c("MAD","MCR")
+rownames(ocvmode_summary) = c("mean","sd")
+
+################### ordinal decomposition with median ######
+ocvmedian_rep = matrix(nrow =10,ncol = 2)
+for(k in 1:10){
+  ocvmedian_rep[k,] = apply(OCVmedian[((k-1)*5+1):(k*5),],2,mean)  
+}
+
+ocvmedian_summary = rbind(apply(ocvmedian_rep,2,mean),apply(ocvmedian_rep,2,sd))
+colnames(ocvmedian_summary) = c("MAD","MCR")
+rownames(ocvmedian_summary) = c("mean","sd")
+
+
