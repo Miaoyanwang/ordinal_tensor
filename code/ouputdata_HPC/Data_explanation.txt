@@ -3,3 +3,5 @@ CV*.RData : cross validation result of continuous Tucker decomposition
 OCV*.RData : cross validation result of Ordinal GLM Tucker decomposition
 TCCV_*.RData : cross validation result of 1-bit tensor completion with probit link function.
 TCLCV_*.RData : cross validation result of 1-bit tensor completion with logistic link function.
+cv1bitzip: 10 repeated stratified cv for 1bit tensor completion
+* file size is too large for conti and ordi 10 repeated cv to upload.
