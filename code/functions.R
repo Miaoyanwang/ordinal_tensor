@@ -32,7 +32,7 @@ estimation = function(theta,omega,type){
   }else if(type=="median"){# score prediction based on the median 
   for (j in 1:length(theta_output)) theta_output[j] <-  which(c(cumsum(p[j,]),1)>=0.5)[1] ## median
   }
-  if(is.matrix(theta)) return(as.matrix(theta_output,dim=dim(theta)))
+  if(is.matrix(theta)) return(matrix(theta_output,nrow=dim(theta)[1],ncol=dim(theta)[2]))
   else return(as.tensor(array(theta_output,dim =theta@modes)))
 }   
 
@@ -186,7 +186,7 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
   cost=NULL
   omg = omega
   k=length(unique(as.factor(c(ttnsr))))-is.element(NA,ttnsr) ## for NA not being included in length
-    while ((error > 10^-4)&(iter<50) ) {
+    while ((error > 10^-4)&(iter<10) ) {
       iter = iter +1
       #update omega
       prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
@@ -205,7 +205,7 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
 
       prev <- likelihood(ttnsr,prevtheta,omega)
       
-    
+      
       #update A_1
       W <-kronecker(A_3,A_2)%*%t(k_unfold(C,1)@data)
       A_1<- comb(A_1,W,ttnsr,1,omega,alpha_minus2)
@@ -229,22 +229,24 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
       qr_res=qr(A_3)
       A_3=qr.Q(qr_res)
       C=ttm(C,qr.R(qr_res),3)
-      
-      # update C
-      C_update <- corecomb(A_1,A_2,A_3,C,ttnsr,omega)
-      
-      if(!is.logical(alpha) & max(abs(ttl(C_update,list(A_1,A_2,A_3),ms=1:3)@data))>=alpha_minus2){
-          theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
-          new <- likelihood(ttnsr,theta,omega)
-          cost = c(cost,new); break 
-      }else{
-          C=C_update
-          theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
-          new <- likelihood(ttnsr,theta,omega)
-          cost = c(cost,new)
-          (error <- abs((new-prev)/prev))
-      }
-       message(paste(iter,"-th  iteration -- cost value is",new," -----------------"))
+
+     # update C
+     C_update <- corecomb(A_1,A_2,A_3,C,ttnsr,omega)
+    
+     if(!is.logical(alpha) & max(abs(ttl(C_update,list(A_1,A_2,A_3),ms=1:3)@data))>=alpha_minus2){
+     theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+     new <- likelihood(ttnsr,theta,omega)
+     cost = c(cost,new); break 
+     }else{
+     C=C_update
+     theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
+     new <- likelihood(ttnsr,theta,omega)
+     cost = c(cost,new)
+     (error <- abs((new-prev)/prev))
+     }
+
+
+      message(paste(iter,"-th  iteration -- cost value is",new," -----------------"))
     }
   
   result$C <- C; result$A_1 <- A_1; result$A_2 <- A_2; result$A_3 <- A_3
@@ -308,13 +310,14 @@ fit_continuous=function(ttnsr,C,A_1,A_2,A_3,alpha = TRUE){  ## To allow input wi
     cost=NULL
     omega=0
     
-    while ((error > 10^-4)&(iter<50) ) {
+    while ((error > 10^-4)&(iter<10) ) {
         iter = iter +1
         
         prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
         prev <- likelihood(ttnsr,prevtheta,omega,type="Gaussian") 
         
-
+    
+        
         W <-kronecker(A_3,A_2)%*%t(k_unfold(C,1)@data)
         A_1 <- comb(A_1,W,ttnsr,1,omega,alpha= alpha_minus2,type="Gaussian")
         #orthognalize A_1
@@ -339,8 +342,6 @@ fit_continuous=function(ttnsr,C,A_1,A_2,A_3,alpha = TRUE){  ## To allow input wi
         C=ttm(C,qr.R(qr_res),3)
         
         C_update <- corecomb(A_1,A_2,A_3,C,ttnsr,omega,type="Gaussian")
-    
-    
         
         if(!is.logical(alpha) & max(abs(ttl(C_update,list(A_1,A_2,A_3),ms=1:3)@data))>=alpha_minus2){
             theta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
@@ -353,6 +354,7 @@ fit_continuous=function(ttnsr,C,A_1,A_2,A_3,alpha = TRUE){  ## To allow input wi
             cost = c(cost,new)
             (error <- abs((new-prev)/prev))
         }
+        
         message(paste(iter,"-th  iteration -- cost value is",new," -----------------"))
     }
     
@@ -380,7 +382,8 @@ fit_ordinal_matrix = function(ttnsr,A_1,A_2,omega=TRUE,alpha = TRUE){
     iter = 0
     cost=NULL
     omg = omega
-    
+    k=length(unique(as.factor(c(ttnsr))))-is.element(NA,ttnsr) 
+      
     while ((error > 10^-4)&(iter<10) ) {
         iter = iter +1
         #update omega
@@ -390,10 +393,13 @@ fit_ordinal_matrix = function(ttnsr,A_1,A_2,omega=TRUE,alpha = TRUE){
         if(is.logical(omg)) {
             omega=tryCatch(polr(as.factor(c(ttnsr))~offset(-c(prevtheta)))$zeta,error=function(c)"omega cannot be reliably estimated",warning=function(c)"omega cannot be reliably estimated")
             if(inherits(omega,"numeric")==FALSE){
-                print("Warning: omega cannot be estimated!"); break
+                print("Warning: omega cannot be estimated! Omega from previous step is used");
+                if(iter==1) omega=logit(1:(k-1)/k)
+                else omega=currentomega
             }
             currentomega=omega
         }
+        
         
         prev <- likelihood(ttnsr,prevtheta,omega)
         
@@ -434,6 +440,56 @@ fit_ordinal_matrix = function(ttnsr,A_1,A_2,omega=TRUE,alpha = TRUE){
     return(result)
 }
 
+### convert an order-K multi-level tensor to an order-(K+1) binary tensor; alternatively, convert to an order-K binary tensor by comparing to its average
+M_to_one=function(tensor,K,type="category"){
+    if(type=="sign"){
+        ave=mean(tensor,na.rm=T) ## taking average
+        scale=sqrt(sum((tensor-ave)^2,na.rm=T)) ## F norm
+        binary=2*((tensor-ave>0)-0.5) ## 1 for positive and -1 for negative
+        E=array(1,dim=dim(binary))
+        E[is.na(binary)]=0
+        binary[E==0]=0
+        return(list("binary"=binary,"E"=E,"ave"=ave,"scale"=scale))
+    }
+    
+    binary=array(0,dim=c(dim(tensor),K-1))
+    if(type=="category"){
+        for(k in 1:(K-1)){
+            prepare=tensor   
+            prepare[tensor!=k]=-1
+            prepare[tensor==k]=1
+            binary[,,,k]=prepare
+        }}else if(type=="cumulative"){
+            for(k in 1:(K-1)){
+                prepare=tensor   
+                prepare[tensor>k]=-1
+                prepare[tensor<=k]=1
+                binary[,,,k]=prepare
+            }
+        } 
+        
+        if(K==2) binary=binary[,,,1]
+        E=array(1,dim=dim(binary))
+        E[is.na(binary)]=0
+        binary[E==0]=0 ## missingness should be encoded as zero
+        return(list("binary"=binary,"E"=E))
+}
+### convert output from 1-bit tensor decomposition to M-level probability tensor
+one_to_M=function(prob,K,type="categorical"){
+    output=array(0,dim=c(dim(prob)[1:3],K))
+    if(type=="categorical"){
+        output[,,,1:(K-1)]=prob
+        output[,,,K]=1-apply(prob,c(1:3),sum)
+        return(output)
+    }else if(type=="cumulative"){
+        output[,,,1]=prob[,,,1]
+        for(k in 2:(K-1)){
+            output[,,,k]=prob[,,,k]-prob[,,,(k-1)]
+        }
+        output[,,,K]=1-prob[,,,(K-1)]
+        return(output)
+    }
+}
 ##########################End of scripts#######################################
 ## Unused functions are removed from this script. Those functions are now saved in old_code/unused_functions.R
 

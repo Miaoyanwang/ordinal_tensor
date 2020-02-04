@@ -11,7 +11,7 @@ Change log (on 01/23)
 3. merge various score prediction methods. Add option type="mean", "median", or "mode".
 4. wrap the conversion from theta to p as a stand-alone function (theta_to_p)
 5. remove the function make_theta. Add theta as an output of decomposition. 
-6. change the function tucker_missing and rename it as ``fit_continuous''. The two decomposition functions, fit_continuous and fit_ordinal, now have exactly the same input and output format. 
+6. change the function tucker_missing and rename it as ``fit_continuous''. The two decomposition functions, fit_continuous and fit_ordinal, now have exactly the same input and output formats. 
 7. add two new functions for comparison: continuous tensor decomposition (tucker_missing); ordinal matrix decomposition (fit_ordinal_matrix; perhaps no need to compare??)
 
 ## In crossvalidation.R:
