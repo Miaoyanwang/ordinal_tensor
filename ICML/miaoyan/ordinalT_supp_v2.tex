@@ -512,10 +512,10 @@ can be written as the form of summations of $\lambda(u,v)$. To prove the convexi
 \lambda(u,v) = \log\big[f(u)-f(v)\big]=\log\big[\int\mathds{1}_{(u,v)}(x)f'(x)dx\big].
 \end{equation*}
 Notice that  $\mathds{1}_{(u,v)}(x)$ is log-concave to $(u,v,x)$ and $f'(x)$ is log-concave to $x$ because $f'(x) = \frac{e^x}{(1+e^x)^2}$. Those convexities imply that $\mathds{1}_{(u,v)}(x)f'(x)$
-is a log-concave function to $(u,v,x)$. Therefore, we can conclude that the $\lambda(u,v)$ is a concave function from the lemma~\ref{lem:convexity}.
+is a log-concave function to $(u,v,x)$. Therefore, we can conclude that the $\lambda(u,v)$ is a concave function from the lemma~\ref{lem:lossconvexity}.
 \end{proof}
 
-\begin{lem}[Corollary 3.5 in~\cite{brascamp2002extensions}]\label{lem:convexity}
+\begin{lem}[Corollary 3.5 in~\cite{brascamp2002extensions}]\label{lem:lossconvexity}
 Let $F(x,y):\mathbb{R}^{m+n}\rightarrow \mathbb{R}$ be an integrable function where $x\in \mathbb{R}^{m},y\in \mathbb{R}^n$. Let $$G(x) = \int_{\mathbb{R}^n}F(x,y)dy.$$ If $F(x,y)$ is a log concave function to (x,y), then $G(x)$ is a log concave function.
 \end{lem}
 
