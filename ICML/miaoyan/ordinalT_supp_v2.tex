@@ -184,7 +184,6 @@ This completes the proof.
 The result follows immediately from Theorem~\ref{thm:rate} and Lemma~\ref{lem:KL}.
 \end{proof}
 
-\subsection{Sample complexity for tensor completion}
 \begin{proof}[Proof of Theorem~\ref{thm:minimax}]
 
 Let $d_{\text{total}}=\prod_{k\in[K]}d_k$, and $\gamma\in[0,1]$ be a constant to be specified later.  Our strategy is to construct a finite set of tensors $\tX=\{\Theta_i\colon i=1,\ldots \}\subset \tP$ satisfying the properties of (i)-(iv) in Lemma~\ref{lem:construction}. By Lemma~\ref{lem:construction}, such a subset of tensors exist. For any tensor  $\Theta\in\tX$, let $\mathbb{P}_{\Theta}$ denote the distribution of $\tY|\Theta$, where $\tY$ is the ordinal tensor. In particular, $\mathbb{P}_{\mathbf{0}}$ is the distribution of $\tY$ induced by the zero parameter tensor $\mathbf{0}$, i.e., the distribution of $\tY$ conditional on the parameter tensor $\Theta=\mathbf{0}$. Based on the Remark for Lemma~\ref{lem:KL}, we have
@@ -211,6 +210,7 @@ Note that $\text{Loss}(\hat \Theta, \trueT)=\FnormSize{}{\hat \Theta- \trueT}^2/
 This completes the proof.
 \end{proof}
 
+\subsection{Sample complexity for tensor completion}
 
 \begin{proof}[Proof of Theorem~\ref{thm:completion}]
 
@@ -239,7 +239,8 @@ Combining~\eqref{eq:Taylor2}-\eqref{eq:quadratic2} with the fact that $\logl(\ha
 \begin{equation}\label{eq:sample}
 \MFnormSize{}{\hat \Theta-\trueT}\leq {2C_2U_\alpha  r_{\max}^{(K-1)/2} \over L_\alpha} \sqrt{\sum_kd_k}.
 \end{equation}
-Lastly, we invoke the result regarding the closeness of $\Theta$ to its sampled version $\Theta_{\Omega}$, under the entrywise bound condition. Note that $\mnormSize{}{\hat\Theta-\trueT}\leq 2\alpha$ and $\text{rank}(\hat \Theta-\trueT)\leq 2\mr$. By Lemma~\ref{lem:Mnormbound}, $\anormSize{}{\hat \Theta-\trueT}\leq 2^{(3K-1)/2} \alpha \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Therefore, the condition in Lemma~\ref{lem:convexity} holds with $\beta=2^{(3K-1)/2}\alpha \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Applying Lemma~\ref{lem:convexity} to~\eqref{eq:sample} gives
+Lastly, we invoke the result regarding the closeness of $\Theta$ to its sampled version $\Theta_{\Omega}$, under the entrywise bound condition. Note that $\mnormSize{}{\hat\Theta-\trueT}\leq 2\alpha$ and $\text{rank}(\hat \Theta-\trueT)\leq 2\mr$. By Lemma~\ref{lem:Mnormbound}, $\anormSize{}{\hat \Theta-\trueT}\leq 2^{(3K-1)/2} \alpha \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Therefore, the condition in Lemma~\ref{lem:convexity} holds with $\beta=2^{(3K-1)/2}\alpha \left({\prod r_k \over r_{\max}}\right)^{3/2}$.
+Applying Lemma~\ref{lem:convexity} to~\eqref{eq:sample} gives
 \begin{align}
  \PiFnormSize{}{\hat \Theta-\trueT}^2&\leq {1\over m}\MFnormSize{}{\hat \Theta-\trueT}^2+c\beta\sqrt{\sum_k d_k\over |\Omega|}\\
  &\leq {C_2  r^{K-1}_{\max}} {\sum_k d_k \over |\Omega|}+C_1 \alpha r_{\max}^{3(K-1)/2}\sqrt{\sum_kd_k\over |\Omega|},
@@ -537,7 +538,7 @@ We interpret $\big(\mM_K\otimes\cdots\otimes\mM_1\big)$ as principal axes and $\
 
 \subsection{Clustering result on HCP}
 We perform $K$-means method to cluster brain nodes based on the suggested above method. We have the estimated latent parameter $\hat\Theta$ with the rank $(23,23,8)$ which minimizes the BIC value. The number of clusters is chosen to be eight from the elbow method in figure ~\ref{figure:elbow}.
-The table in \ref{table:clustering} shows eight cluster groups and their entries. Most of brain nodes fall into the cluster $\#1$ and the cluster $\#2$ which can be represented as the left side brain and the right side brain. From the group $\#3$ to the group $\#8$ , entries of each cluster share the same name encoded in the data and play a similar role in the brain. For example, the group $\#3$ and the group $\#4$ are the left and the right side of the regions called Supramarginal gyrus. Those regions are known to be in charge of interpreting tactile sensory data and involved in perception of space and limbs location \cite{carlson2012physiology,reed1994nature}. The figure \ref{figure:brain image} shows the nodes in the dataset on the brain image. Each node is connected by edges within the same cluster and the groups can be paired as the right part and the left part of the brain. The results show that the clustering based on our model successfully group the brain nodes without knowledge of the brain region.
+The table in \ref{table:clustering} shows eight cluster groups and their entries. Most of brain nodes fall into the cluster $\#1$ and the cluster $\#2$ which can be represented as the left side brain and the right side brain. From the cluster $\#3$ to the cluster $\#8$ , entries of each cluster share the same name encoded in the data and play a similar role in the brain. For example, the cluster $\#3$ and the cluster $\#4$ are the left and the right side of the regions called Supramarginal gyrus. Those regions are known to be in charge of interpreting tactile sensory data and involved in perception of space and limbs location \cite{carlson2012physiology,reed1994nature}. The figure \ref{figure:brain image} shows the nodes in the dataset on the brain image. Each node is connected by edges within the same cluster and the groups can be paired as the right part and the left part of the brain. The results show that the clustering based on our model successfully group the brain nodes without knowledge of the brain region.
 \begin{figure}[H]
   \label{figure:elbow}
   \begin{center}
@@ -555,10 +556,10 @@ The table in \ref{table:clustering} shows eight cluster groups and their entries
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 Group       & \multicolumn{3}{c|}{\#1}                                                  & \multicolumn{3}{c|}{\#2}                                      \\ \hline
-Brain nodes & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}"RMF\_L","Fpole\_L","Insula\_L",\\ "SupF\_L","CaudMF\_L",\\ "parsTriangularis\_L","parsOpercularis\_L",\\ "preCentral\_L","Tpole\_L","SupT\_L",\\ "SupT\_L","postCentral\_L", "SupP\_L",\\ "IP\_L","LO\_L","MOF\_L","SupF\_L",\\ "IsthmusC\_L","Precuneus\_L",\\ "Cuneus\_L","paraHippo\_L",\\ "Lingual\_L","SupT\_L","LO\_L"\end{tabular}} & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}"RMF\_R","Fpole\_R","Insula\_R",\\ "SupF\_R", "CaudMF\_R",\\ "parsTriangularis\_R" ,"parsOpercularis\_R",\\ "preCentral\_R", "Tpole\_R","SupT\_R",\\ "SupT\_R","postCentral\_R","SupP\_R",\\ "IP\_R","LO\_R","MOF\_R", "SupF\_R",\\ "IsthmusC\_R","Precuneus\_R",\\ "Cuneus\_R","paraHippo\_R",\\ "Lingual\_R","SupT\_R","LO\_R"\end{tabular}} \\ \hline
+Brain nodes & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}} ``RMF\_L'',``'Fpole\_L",``Insula\_L",\\ ``SupF\_L",``CaudMF\_L",\\ ``parsTriangularis\_L",``parsOpercularis\_L",\\ ``preCentral\_L",``Tpole\_L",``SupT\_L",\\ ``SupT\_L",``postCentral\_L", ``SupP\_L",\\ ``IP\_L",``LO\_L",``MOF\_L",``SupF\_L",\\ ``IsthmusC\_L",``Precuneus\_L",\\ ``Cuneus\_L",``paraHippo\_L",\\ ``Lingual\_L",``SupT\_L",``LO\_L"\end{tabular}} & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}``RMF\_R",``Fpole\_R",``Insula\_R",\\ ``SupF\_R", ``CaudMF\_R",\\ ``parsTriangularis\_R" ,``parsOpercularis\_R",\\ ``preCentral\_R", ``Tpole\_R",``SupT\_R",\\ ``SupT\_R",``postCentral\_R",``SupP\_R",\\ ``IP\_R",``LO\_R",``MOF\_R", ``SupF\_R",\\ ``IsthmusC\_R",``Precuneus\_R",\\ ``Cuneus\_R",``paraHippo\_R",\\ ``Lingual\_R",``SupT\_R",``LO\_R"\end{tabular}} \\ \hline
 Group       & \#3    & \#4    & \#5   & \#6  & \#7 & \#8
 \\ \hline
-Brain nodes & \begin{tabular}[c]{@{}c@{}}"SupraM\_L" \\ "SupraM\_L" \\ "SupraM\_L" \\ "SupraM\_L"\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}"SupraM\_R" \\ "SupraM\_R" \\ "SupraM\_R" \\ "SupraM\_R"\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}"IT\_L" \\ "IT\_L" \\ "IT\_L"\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}"IT\_R" \\ "IT\_R" \\ "IT\_R"\end{tabular}                                                          & \begin{tabular}[c]{@{}c@{}}"MT\_L" \\ "MT\_L" \\ "MT\_L"\end{tabular}                                                         & \begin{tabular}[c]{@{}c@{}}"MT\_R" \\ "MT\_R"\\ "MT\_R"\end{tabular}                                                         \\ \hline
+Brain nodes & \begin{tabular}[c]{@{}c@{}}``SupraM\_L" \\ ``SupraM\_L" \\ ``SupraM\_L" \\ ``SupraM\_L"\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}``SupraM\_R" \\ ``SupraM\_R" \\ ``SupraM\_R" \\ ``SupraM\_R"\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}``IT\_L" \\ ``IT\_L" \\ ``IT\_L"\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}``IT\_R" \\ ``IT\_R" \\ ``IT\_R"\end{tabular}                                                          & \begin{tabular}[c]{@{}c@{}}``MT\_L" \\ ``MT\_L" \\ ``MT\_L"\end{tabular}                                                         & \begin{tabular}[c]{@{}c@{}}``MT\_R" \\ ``MT\_R"\\ ``MT\_R"\end{tabular}                                                         \\ \hline
 \end{tabular}
 \end{sc}
 \end{small}
