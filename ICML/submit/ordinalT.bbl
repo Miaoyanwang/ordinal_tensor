@@ -1,4 +1,4 @@
-\begin{thebibliography}{31}
+\begin{thebibliography}{29}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -66,18 +66,10 @@ De~Silva, V. and Lim, L.-H.
 \newblock \emph{SIAM Journal on Matrix Analysis and Applications}, 30\penalty0
   (3):\penalty0 1084--1127, 2008.
 
-\bibitem[Filipovi{\'c} \& Juki{\'c}(2015)Filipovi{\'c} and
-  Juki{\'c}]{filipovic2015tucker}
-Filipovi{\'c}, M. and Juki{\'c}, A.
-\newblock Tucker factorization with missing data with application to low-rank
-  tensor completion.
-\newblock \emph{Multidimensional systems and signal processing}, 26\penalty0
-  (3):\penalty0 677--692, 2015.
-
 \bibitem[Geddes(2016)]{geddes2016human}
 Geddes, L.
 \newblock Human brain mapped in unprecedented detail.
-\newblock \emph{Nature International weekly journal of science}, 2016.
+\newblock \emph{Nature}, 2016.
 
 \bibitem[Ghadermarzy et~al.(2018)Ghadermarzy, Plan, and
   Yilmaz]{ghadermarzy2018learning}
@@ -149,14 +141,6 @@ Oseledets, I.~V.
 \newblock \emph{SIAM Journal on Scientific Computing}, 33\penalty0
   (5):\penalty0 2295--2317, 2011.
 
-\bibitem[Sidiropoulos et~al.(2017)Sidiropoulos, De~Lathauwer, Fu, Huang,
-  Papalexakis, and Faloutsos]{sidiropoulos2017tensor}
-Sidiropoulos, N.~D., De~Lathauwer, L., Fu, X., Huang, K., Papalexakis, E.~E.,
-  and Faloutsos, C.
-\newblock Tensor decomposition for signal processing and machine learning.
-\newblock \emph{IEEE Transactions on Signal Processing}, 65\penalty0
-  (13):\penalty0 3551--3582, 2017.
-
 \bibitem[Sur \& Cand{\`e}s(2019)Sur and Cand{\`e}s]{sur2019modern}
 Sur, P. and Cand{\`e}s, E.~J.
 \newblock A modern maximum-likelihood theory for high-dimensional logistic
@@ -179,7 +163,7 @@ Wang, M. and Li, L.
 Wang, M. and Zeng, Y.
 \newblock Multiway clustering via tensor block models.
 \newblock \emph{Advances in Neural Information Processing Systems 32 (NeurIPS
-  2019)}, pp.\  arXiv:1906.03807, 2019.
+  2019). arXiv:1906.03807}, 2019.
 
 \bibitem[Xia \& Zhou(2019)Xia and Zhou]{xia2019sup}
 Xia, D. and Zhou, F.

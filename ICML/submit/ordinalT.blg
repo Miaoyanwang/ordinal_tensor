@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: ordinalT.aux
 The style file: icml2020.bst
 Database file #1: tensor_wang.bib
-You've used 31 entries,
+You've used 29 entries,
             2773 wiz_defined-function locations,
-            814 strings with 10652 characters,
-and the built_in function-call counts, 15828 in all, are:
-= -- 1478
-> -- 835
-< -- 26
-+ -- 283
-- -- 252
-* -- 1284
-:= -- 2343
-add.period$ -- 97
-call.type$ -- 31
-change.case$ -- 175
-chr.to.int$ -- 31
-cite$ -- 62
-duplicate$ -- 728
-empty$ -- 1310
-format.name$ -- 306
-if$ -- 3376
+            800 strings with 10179 characters,
+and the built_in function-call counts, 14353 in all, are:
+= -- 1328
+> -- 757
+< -- 24
++ -- 257
+- -- 228
+* -- 1175
+:= -- 2150
+add.period$ -- 91
+call.type$ -- 29
+change.case$ -- 161
+chr.to.int$ -- 29
+cite$ -- 58
+duplicate$ -- 653
+empty$ -- 1208
+format.name$ -- 278
+if$ -- 3041
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 31
-newline$ -- 163
-num.names$ -- 124
-pop$ -- 322
+missing$ -- 29
+newline$ -- 153
+num.names$ -- 116
+pop$ -- 298
 preamble$ -- 1
-purify$ -- 144
+purify$ -- 132
 quote$ -- 0
-skip$ -- 586
+skip$ -- 505
 stack$ -- 0
-substring$ -- 808
-swap$ -- 116
-text.length$ -- 8
+substring$ -- 716
+swap$ -- 81
+text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 341
+type$ -- 319
 warning$ -- 0
-while$ -- 153
+while$ -- 142
 width$ -- 0
-write$ -- 412
+write$ -- 385
