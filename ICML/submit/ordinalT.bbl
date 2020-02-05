@@ -1,9 +1,15 @@
-\begin{thebibliography}{31}
+\begin{thebibliography}{32}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Acar et~al.(2010)Acar, Dunlavy, Kolda, and M{\o}rup]{acar2010scalable}
+Acar, E., Dunlavy, D.~M., Kolda, T.~G., and M{\o}rup, M.
+\newblock Scalable tensor factorizations with missing data.
+\newblock In \emph{Proceedings of the 2010 SIAM international conference on
+  data mining}, pp.\  701--712. SIAM, 2010.
 
 \bibitem[Adomavicius \& Tuzhilin(2011)Adomavicius and
   Tuzhilin]{adomavicius2011context}
@@ -39,6 +45,13 @@ Cai, T. and Zhou, W.-X.
 \newblock \emph{The Journal of Machine Learning Research}, 14\penalty0
   (1):\penalty0 3619--3647, 2013.
 
+\bibitem[Chen et~al.(2019)Chen, Raskutti, and Yuan]{chen2019non}
+Chen, H., Raskutti, G., and Yuan, M.
+\newblock Non-convex projected gradient descent for generalized low-rank tensor
+  regression.
+\newblock \emph{The Journal of Machine Learning Research}, 20\penalty0
+  (1):\penalty0 172--208, 2019.
+
 \bibitem[Davenport et~al.(2014)Davenport, Plan, Van Den~Berg, and
   Wootters]{davenport2014}
 Davenport, M.~A., Plan, Y., Van Den~Berg, E., and Wootters, M.
@@ -61,12 +74,6 @@ Filipovi{\'c}, M. and Juki{\'c}, A.
 \newblock \emph{Multidimensional systems and signal processing}, 26\penalty0
   (3):\penalty0 677--692, 2015.
 
-\bibitem[Friedland \& Lim(2018)Friedland and Lim]{friedland2018nuclear}
-Friedland, S. and Lim, L.-H.
-\newblock Nuclear norm of higher-order tensors.
-\newblock \emph{Mathematics of Computation}, 87\penalty0 (311):\penalty0
-  1255--1281, 2018.
-
 \bibitem[Geddes(2016)]{geddes2016human}
 Geddes, L.
 \newblock Human brain mapped in unprecedented detail.
@@ -85,11 +92,6 @@ Ghadermarzy, N., Plan, Y., and Yilmaz, {\"O}.
 \newblock Near-optimal sample complexity for convex tensor completion.
 \newblock \emph{Information and Inference: A Journal of the IMA}, 8\penalty0
   (3):\penalty0 577--619, 2019.
-
-\bibitem[Hillar \& Lim(2013)Hillar and Lim]{hillar2013most}
-Hillar, C.~J. and Lim, L.-H.
-\newblock Most tensor problems are {NP}-hard.
-\newblock \emph{Journal of the ACM (JACM)}, 60\penalty0 (6):\penalty0 45, 2013.
 
 \bibitem[Hitchcock(1927)]{hitchcock1927expression}
 Hitchcock, F.~L.
@@ -146,6 +148,14 @@ Oseledets, I.~V.
 \newblock Tensor-train decomposition.
 \newblock \emph{SIAM Journal on Scientific Computing}, 33\penalty0
   (5):\penalty0 2295--2317, 2011.
+
+\bibitem[Sidiropoulos et~al.(2017)Sidiropoulos, De~Lathauwer, Fu, Huang,
+  Papalexakis, and Faloutsos]{sidiropoulos2017tensor}
+Sidiropoulos, N.~D., De~Lathauwer, L., Fu, X., Huang, K., Papalexakis, E.~E.,
+  and Faloutsos, C.
+\newblock Tensor decomposition for signal processing and machine learning.
+\newblock \emph{IEEE Transactions on Signal Processing}, 65\penalty0
+  (13):\penalty0 3551--3582, 2017.
 
 \bibitem[Sur \& Cand{\`e}s(2018)Sur and Cand{\`e}s]{sur2018modern}
 Sur, P. and Cand{\`e}s, E.~J.

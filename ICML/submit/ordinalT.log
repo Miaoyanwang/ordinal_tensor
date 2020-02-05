@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  5 FEB 2020 00:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  5 FEB 2020 09:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -632,7 +632,7 @@ File: omsptm.fd
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 147.
 
-<compare.pdf, id=29, 513.11702pt x 86.724pt>
+<compare.pdf, id=33, 513.11702pt x 86.724pt>
 File: compare.pdf Graphic file (type pdf)
  <use compare.pdf>
 Package pdftex.def Info: compare.pdf used on input line 152.
@@ -760,7 +760,7 @@ Underfull \hbox (badness 6141) in paragraph at lines 363--365
 10 )$\OT1/ptm/m/n/10 (+20) , s.t.
  []
 
-[5] <algorithm.pdf, id=291, 414.64517pt x 192.14687pt>
+[5] <algorithm.pdf, id=296, 414.64517pt x 192.14687pt>
 File: algorithm.pdf Graphic file (type pdf)
  <use algorithm.pdf>
 Package pdftex.def Info: algorithm.pdf used on input line 383.
@@ -774,7 +774,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.405 
-       <./algorithm.pdf>] <panel.pdf, id=367, 570.12602pt x 576.37991pt>
+       <./algorithm.pdf>] <panel.pdf, id=372, 570.12602pt x 576.37991pt>
 File: panel.pdf Graphic file (type pdf)
 
 <use panel.pdf>
@@ -785,13 +785,13 @@ Overfull \hbox (1.28046pt too wide) in paragraph at lines 409--411
 [][]
  []
 
-<panel2.pdf, id=387, 567.52333pt x 574.46695pt>
+<panel2.pdf, id=392, 567.52333pt x 574.46695pt>
 File: panel2.pdf Graphic file (type pdf)
  <use panel2.pdf>
-Package pdftex.def Info: panel2.pdf used on input line 434.
+Package pdftex.def Info: panel2.pdf used on input line 433.
 (pdftex.def)             Requested size: 236.15796pt x 239.04799pt.
 
-Overfull \hbox (1.28046pt too wide) in paragraph at lines 434--436
+Overfull \hbox (1.28046pt too wide) in paragraph at lines 433--435
 [][]
  []
 
@@ -803,9 +803,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.444 \section
+l.442 \section
               {Data Applications} <./panel.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 453--474
+Underfull \vbox (badness 1867) has occurred while \output is active []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 451--473
 [][]
  []
 
@@ -814,20 +817,22 @@ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.487 
-      pdfTeX warning (ext4): destination with the same identifier (name{table.2
-}) has been already used, duplicate ignored
+l.486 \newpage
+              pdfTeX warning (ext4): destination with the same identifier (name
+{table.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.487 
-       <./panel2.pdf>] (./ordinalT.bbl [9])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 493.
- [10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 493.
+l.486 \newpage
+               <./panel2.pdf>] (./ordinalT.bbl [9])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 491.
+ [10
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 491.
  (./ordinalT.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 493.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 493.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 491.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 491.
 Package rerunfilecheck Info: File `ordinalT.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -835,16 +840,16 @@ Package rerunfilecheck Info: File `ordinalT.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 4.5pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 493.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 491.
  ) 
 Here is how much of TeX's memory you used:
- 11088 strings out of 493014
- 162819 string characters out of 6133351
- 311199 words of memory out of 5000000
- 14068 multiletter control sequences out of 15000+600000
- 48178 words of font info for 239 fonts, out of 8000000 for 9000
+ 11103 strings out of 493014
+ 163056 string characters out of 6133351
+ 311282 words of memory out of 5000000
+ 14073 multiletter control sequences out of 15000+600000
+ 48781 words of font info for 245 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 31i,19n,45p,1716b,620s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,19n,45p,1695b,620s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local
@@ -877,10 +882,10 @@ pe1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/ti
 mes/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmr8a
 .pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times/utmri8a.pfb></us
 r/local/texlive/2016/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on ordinalT.pdf (10 pages, 478230 bytes).
+Output written on ordinalT.pdf (10 pages, 478504 bytes).
 PDF statistics:
- 650 PDF objects out of 1000 (max. 8388607)
- 554 compressed objects within 6 object streams
- 101 named destinations out of 1000 (max. 500000)
+ 653 PDF objects out of 1000 (max. 8388607)
+ 557 compressed objects within 6 object streams
+ 102 named destinations out of 1000 (max. 500000)
  28693 words of extra memory for PDF output out of 29859 (max. 10000000)
 
