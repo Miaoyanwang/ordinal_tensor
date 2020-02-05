@@ -1,4 +1,4 @@
-\begin{thebibliography}{32}
+\begin{thebibliography}{31}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -102,7 +102,14 @@ Hitchcock, F.~L.
 \bibitem[Hong et~al.(2019)Hong, Kolda, and Duersch]{hong2018generalized}
 Hong, D., Kolda, T.~G., and Duersch, J.~A.
 \newblock Generalized canonical polyadic tensor decomposition.
-\newblock \emph{Siam Review, in press. arXiv preprint arXiv:1808.07452}, 2019.
+\newblock \emph{SIAM Review, in press. arXiv:1808.07452}, 2019.
+
+\bibitem[Hore et~al.(2016)Hore, Vi{\~n}uela, Buil, Knight, McCarthy, Small, and
+  Marchini]{hore2016tensor}
+Hore, V., Vi{\~n}uela, A., Buil, A., Knight, J., McCarthy, M.~I., Small, K.,
+  and Marchini, J.
+\newblock Tensor decomposition for multiple-tissue gene expression experiments.
+\newblock \emph{Nature genetics}, 48\penalty0 (9):\penalty0 1094, 2016.
 
 \bibitem[Kolda \& Bader(2009)Kolda and Bader]{kolda2009tensor}
 Kolda, T.~G. and Bader, B.~W.
@@ -136,13 +143,6 @@ Nickel, M., Tresp, V., and Kriegel, H.-P.
 \newblock In \emph{International Conference on Machine Learning}, volume~11,
   pp.\  809--816, 2011.
 
-\bibitem[Oh et~al.(2018)Oh, Park, Lee, and Kang]{oh2018scalable}
-Oh, S., Park, N., Lee, S., and Kang, U.
-\newblock Scalable tucker factorization for sparse tensors-algorithms and
-  discoveries.
-\newblock In \emph{2018 IEEE 34th International Conference on Data Engineering
-  (ICDE)}, pp.\  1120--1131. IEEE, 2018.
-
 \bibitem[Oseledets(2011)]{oseledets2011tensor}
 Oseledets, I.~V.
 \newblock Tensor-train decomposition.
@@ -157,11 +157,12 @@ Sidiropoulos, N.~D., De~Lathauwer, L., Fu, X., Huang, K., Papalexakis, E.~E.,
 \newblock \emph{IEEE Transactions on Signal Processing}, 65\penalty0
   (13):\penalty0 3551--3582, 2017.
 
-\bibitem[Sur \& Cand{\`e}s(2018)Sur and Cand{\`e}s]{sur2018modern}
+\bibitem[Sur \& Cand{\`e}s(2019)Sur and Cand{\`e}s]{sur2019modern}
 Sur, P. and Cand{\`e}s, E.~J.
 \newblock A modern maximum-likelihood theory for high-dimensional logistic
   regression.
-\newblock \emph{arXiv preprint arXiv:1803.06964}, 2018.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 116\penalty0
+  (29):\penalty0 14516--14525, 2019.
 
 \bibitem[Tucker(1966)]{tucker1966some}
 Tucker, L.~R.
@@ -174,25 +175,17 @@ Wang, M. and Li, L.
   decomposition and its statistical optimality.
 \newblock \emph{arXiv preprint arXiv:1811.05076}, 2018.
 
-\bibitem[Wang et~al.(2019)Wang, Fischer, and Song]{wang2017three}
-Wang, M., Fischer, J., and Song, Y.~S.
-\newblock Three-way clustering of multi-tissue multi-individual gene expression
-  data using constrained tensor decomposition.
-\newblock \emph{Annals of Applied Statistics, in press}, 2019.
+\bibitem[Wang \& Zeng(2019)Wang and Zeng]{zeng2019multiway}
+Wang, M. and Zeng, Y.
+\newblock Multiway clustering via tensor block models.
+\newblock \emph{Advances in Neural Information Processing Systems 32 (NeurIPS
+  2019)}, pp.\  arXiv:1906.03807, 2019.
 
 \bibitem[Xia \& Zhou(2019)Xia and Zhou]{xia2019sup}
 Xia, D. and Zhou, F.
 \newblock The sup-norm perturbation of hosvd and low rank tensor denoising.
 \newblock \emph{Journal of Machine Learning Research}, 20\penalty0
   (61):\penalty0 1--42, 2019.
-
-\bibitem[Xie et~al.(2016)Xie, Zhao, Meng, Xu, Gu, Zuo, and
-  Zhang]{xie2016multispectral}
-Xie, Q., Zhao, Q., Meng, D., Xu, Z., Gu, S., Zuo, W., and Zhang, L.
-\newblock Multispectral images denoising by intrinsic tensor sparsity
-  regularization.
-\newblock In \emph{Proceedings of the IEEE Conference on Computer Vision and
-  Pattern Recognition}, pp.\  1692--1700, 2016.
 
 \bibitem[Yuan \& Zhang(2016)Yuan and Zhang]{yuan2016tensor}
 Yuan, M. and Zhang, C.-H.
