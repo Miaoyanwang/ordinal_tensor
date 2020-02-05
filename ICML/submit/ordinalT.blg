@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: ordinalT.aux
+The style file: icml2020.bst
+Database file #1: tensor_wang.bib
+You've used 31 entries,
+            2773 wiz_defined-function locations,
+            809 strings with 10557 characters,
+and the built_in function-call counts, 15328 in all, are:
+= -- 1422
+> -- 799
+< -- 27
++ -- 271
+- -- 240
+* -- 1235
+:= -- 2284
+add.period$ -- 97
+call.type$ -- 31
+change.case$ -- 171
+chr.to.int$ -- 31
+cite$ -- 62
+duplicate$ -- 708
+empty$ -- 1293
+format.name$ -- 296
+if$ -- 3262
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 31
+newline$ -- 163
+num.names$ -- 124
+pop$ -- 319
+preamble$ -- 1
+purify$ -- 140
+quote$ -- 0
+skip$ -- 556
+stack$ -- 0
+substring$ -- 756
+swap$ -- 97
+text.length$ -- 8
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 341
+warning$ -- 0
+while$ -- 151
+width$ -- 0
+write$ -- 410

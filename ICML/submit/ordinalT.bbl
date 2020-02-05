@@ -1,0 +1,205 @@
+\begin{thebibliography}{31}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Adomavicius \& Tuzhilin(2011)Adomavicius and
+  Tuzhilin]{adomavicius2011context}
+Adomavicius, G. and Tuzhilin, A.
+\newblock Context-aware recommender systems.
+\newblock In \emph{Recommender systems handbook}, pp.\  217--253. Springer,
+  2011.
+
+\bibitem[Baltrunas et~al.(2011)Baltrunas, Kaminskas, Ludwig, Moling, Ricci,
+  Aydin, L{\"u}ke, and Schwaiger]{baltrunas2011incarmusic}
+Baltrunas, L., Kaminskas, M., Ludwig, B., Moling, O., Ricci, F., Aydin, A.,
+  L{\"u}ke, K.-H., and Schwaiger, R.
+\newblock Incarmusic: Context-aware music recommendations in a car.
+\newblock In \emph{International Conference on Electronic Commerce and Web
+  Technologies}, pp.\  89--100. Springer, 2011.
+
+\bibitem[Bhaskar(2016)]{bhaskar2016probabilistic}
+Bhaskar, S.~A.
+\newblock Probabilistic low-rank matrix completion from quantized measurements.
+\newblock \emph{The Journal of Machine Learning Research}, 17\penalty0
+  (1):\penalty0 2131--2164, 2016.
+
+\bibitem[Bhaskar \& Javanmard(2015)Bhaskar and Javanmard]{bhaskar20151}
+Bhaskar, S.~A. and Javanmard, A.
+\newblock 1-bit matrix completion under exact low-rank constraint.
+\newblock In \emph{2015 49th Annual Conference on Information Sciences and
+  Systems (CISS)}, pp.\  1--6. IEEE, 2015.
+
+\bibitem[Cai \& Zhou(2013)Cai and Zhou]{cai2013max}
+Cai, T. and Zhou, W.-X.
+\newblock A max-norm constrained minimization approach to 1-bit matrix
+  completion.
+\newblock \emph{The Journal of Machine Learning Research}, 14\penalty0
+  (1):\penalty0 3619--3647, 2013.
+
+\bibitem[Davenport et~al.(2014)Davenport, Plan, Van Den~Berg, and
+  Wootters]{davenport2014}
+Davenport, M.~A., Plan, Y., Van Den~Berg, E., and Wootters, M.
+\newblock 1-bit matrix completion.
+\newblock \emph{Information and Inference: A Journal of the IMA}, 3\penalty0
+  (3):\penalty0 189--223, 2014.
+
+\bibitem[De~Silva \& Lim(2008)De~Silva and Lim]{de2008tensor}
+De~Silva, V. and Lim, L.-H.
+\newblock Tensor rank and the ill-posedness of the best low-rank approximation
+  problem.
+\newblock \emph{SIAM Journal on Matrix Analysis and Applications}, 30\penalty0
+  (3):\penalty0 1084--1127, 2008.
+
+\bibitem[Filipovi{\'c} \& Juki{\'c}(2015)Filipovi{\'c} and
+  Juki{\'c}]{filipovic2015tucker}
+Filipovi{\'c}, M. and Juki{\'c}, A.
+\newblock Tucker factorization with missing data with application to low-rank
+  tensor completion.
+\newblock \emph{Multidimensional systems and signal processing}, 26\penalty0
+  (3):\penalty0 677--692, 2015.
+
+\bibitem[Friedland \& Lim(2018)Friedland and Lim]{friedland2018nuclear}
+Friedland, S. and Lim, L.-H.
+\newblock Nuclear norm of higher-order tensors.
+\newblock \emph{Mathematics of Computation}, 87\penalty0 (311):\penalty0
+  1255--1281, 2018.
+
+\bibitem[Geddes(2016)]{geddes2016human}
+Geddes, L.
+\newblock Human brain mapped in unprecedented detail.
+\newblock \emph{Nature International weekly journal of science}, 2016.
+
+\bibitem[Ghadermarzy et~al.(2018)Ghadermarzy, Plan, and
+  Yilmaz]{ghadermarzy2018learning}
+Ghadermarzy, N., Plan, Y., and Yilmaz, O.
+\newblock Learning tensors from partial binary measurements.
+\newblock \emph{IEEE Transactions on Signal Processing}, 67\penalty0
+  (1):\penalty0 29--40, 2018.
+
+\bibitem[Ghadermarzy et~al.(2019)Ghadermarzy, Plan, and
+  Yilmaz]{ghadermarzy2019near}
+Ghadermarzy, N., Plan, Y., and Yilmaz, {\"O}.
+\newblock Near-optimal sample complexity for convex tensor completion.
+\newblock \emph{Information and Inference: A Journal of the IMA}, 8\penalty0
+  (3):\penalty0 577--619, 2019.
+
+\bibitem[Hillar \& Lim(2013)Hillar and Lim]{hillar2013most}
+Hillar, C.~J. and Lim, L.-H.
+\newblock Most tensor problems are {NP}-hard.
+\newblock \emph{Journal of the ACM (JACM)}, 60\penalty0 (6):\penalty0 45, 2013.
+
+\bibitem[Hitchcock(1927)]{hitchcock1927expression}
+Hitchcock, F.~L.
+\newblock The expression of a tensor or a polyadic as a sum of products.
+\newblock \emph{Journal of Mathematics and Physics}, 6\penalty0 (1-4):\penalty0
+  164--189, 1927.
+
+\bibitem[Hong et~al.(2019)Hong, Kolda, and Duersch]{hong2018generalized}
+Hong, D., Kolda, T.~G., and Duersch, J.~A.
+\newblock Generalized canonical polyadic tensor decomposition.
+\newblock \emph{Siam Review, in press. arXiv preprint arXiv:1808.07452}, 2019.
+
+\bibitem[Kolda \& Bader(2009)Kolda and Bader]{kolda2009tensor}
+Kolda, T.~G. and Bader, B.~W.
+\newblock Tensor decompositions and applications.
+\newblock \emph{SIAM review}, 51\penalty0 (3):\penalty0 455--500, 2009.
+
+\bibitem[McCullagh(1980)]{mccullagh1980regression}
+McCullagh, P.
+\newblock Regression models for ordinal data.
+\newblock \emph{Journal of the Royal Statistical Society: Series B
+  (Methodological)}, 42\penalty0 (2):\penalty0 109--127, 1980.
+
+\bibitem[Mu et~al.(2014)Mu, Huang, Wright, and Goldfarb]{mu2014square}
+Mu, C., Huang, B., Wright, J., and Goldfarb, D.
+\newblock Square deal: Lower bounds and improved relaxations for tensor
+  recovery.
+\newblock In \emph{International Conference on Machine Learning}, pp.\  73--81,
+  2014.
+
+\bibitem[Negahban et~al.(2011)Negahban, Wainwright,
+  et~al.]{negahban2011estimation}
+Negahban, S., Wainwright, M.~J., et~al.
+\newblock Estimation of (near) low-rank matrices with noise and
+  high-dimensional scaling.
+\newblock \emph{The Annals of Statistics}, 39\penalty0 (2):\penalty0
+  1069--1097, 2011.
+
+\bibitem[Nickel et~al.(2011)Nickel, Tresp, and Kriegel]{nickel2011three}
+Nickel, M., Tresp, V., and Kriegel, H.-P.
+\newblock A three-way model for collective learning on multi-relational data.
+\newblock In \emph{International Conference on Machine Learning}, volume~11,
+  pp.\  809--816, 2011.
+
+\bibitem[Oh et~al.(2018)Oh, Park, Lee, and Kang]{oh2018scalable}
+Oh, S., Park, N., Lee, S., and Kang, U.
+\newblock Scalable tucker factorization for sparse tensors-algorithms and
+  discoveries.
+\newblock In \emph{2018 IEEE 34th International Conference on Data Engineering
+  (ICDE)}, pp.\  1120--1131. IEEE, 2018.
+
+\bibitem[Oseledets(2011)]{oseledets2011tensor}
+Oseledets, I.~V.
+\newblock Tensor-train decomposition.
+\newblock \emph{SIAM Journal on Scientific Computing}, 33\penalty0
+  (5):\penalty0 2295--2317, 2011.
+
+\bibitem[Sur \& Cand{\`e}s(2018)Sur and Cand{\`e}s]{sur2018modern}
+Sur, P. and Cand{\`e}s, E.~J.
+\newblock A modern maximum-likelihood theory for high-dimensional logistic
+  regression.
+\newblock \emph{arXiv preprint arXiv:1803.06964}, 2018.
+
+\bibitem[Tucker(1966)]{tucker1966some}
+Tucker, L.~R.
+\newblock Some mathematical notes on three-mode factor analysis.
+\newblock \emph{Psychometrika}, 31\penalty0 (3):\penalty0 279--311, 1966.
+
+\bibitem[Wang \& Li(2018)Wang and Li]{wang2018learning}
+Wang, M. and Li, L.
+\newblock Learning from binary multiway data: Probabilistic tensor
+  decomposition and its statistical optimality.
+\newblock \emph{arXiv preprint arXiv:1811.05076}, 2018.
+
+\bibitem[Wang et~al.(2019)Wang, Fischer, and Song]{wang2017three}
+Wang, M., Fischer, J., and Song, Y.~S.
+\newblock Three-way clustering of multi-tissue multi-individual gene expression
+  data using constrained tensor decomposition.
+\newblock \emph{Annals of Applied Statistics, in press}, 2019.
+
+\bibitem[Xia \& Zhou(2019)Xia and Zhou]{xia2019sup}
+Xia, D. and Zhou, F.
+\newblock The sup-norm perturbation of hosvd and low rank tensor denoising.
+\newblock \emph{Journal of Machine Learning Research}, 20\penalty0
+  (61):\penalty0 1--42, 2019.
+
+\bibitem[Xie et~al.(2016)Xie, Zhao, Meng, Xu, Gu, Zuo, and
+  Zhang]{xie2016multispectral}
+Xie, Q., Zhao, Q., Meng, D., Xu, Z., Gu, S., Zuo, W., and Zhang, L.
+\newblock Multispectral images denoising by intrinsic tensor sparsity
+  regularization.
+\newblock In \emph{Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pp.\  1692--1700, 2016.
+
+\bibitem[Yuan \& Zhang(2016)Yuan and Zhang]{yuan2016tensor}
+Yuan, M. and Zhang, C.-H.
+\newblock On tensor completion via nuclear norm minimization.
+\newblock \emph{Foundations of Computational Mathematics}, 16\penalty0
+  (4):\penalty0 1031--1068, 2016.
+
+\bibitem[Zhang et~al.(2019)]{zhang2019cross}
+Zhang, A. et~al.
+\newblock Cross: Efficient low-rank tensor completion.
+\newblock \emph{The Annals of Statistics}, 47\penalty0 (2):\penalty0 936--964,
+  2019.
+
+\bibitem[Zhou et~al.(2013)Zhou, Li, and Zhu]{zhou2013tensor}
+Zhou, H., Li, L., and Zhu, H.
+\newblock Tensor regression with applications in neuroimaging data analysis.
+\newblock \emph{Journal of the American Statistical Association}, 108\penalty0
+  (502):\penalty0 540--552, 2013.
+
+\end{thebibliography}
