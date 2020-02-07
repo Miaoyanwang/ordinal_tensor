@@ -136,17 +136,17 @@
 \printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
 
 \begin{abstract}
-Higher-order tensors arise frequently in applications such as neuroimaging, recommendation system, social network analysis, and psychological studies. We consider the problem of low-rank tensor estimation from possibly incomplete, ordinal-valued observations. Two related problems are studied, one on tensor denoising and another on tensor completion. We propose a multi-linear cumulative link model, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. Our mean squared error bound enjoys a faster convergence rate than previous results, and we show that the proposed estimator is minimax optimal under the class of low-rank models. Furthermore, the procedure developed serves as an efficient completion method which guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional low-rank tensor using only $\tO(Kd)$ noisy, quantized observations. We demonstrate the outperformance of our approach over previous methods on the tasks of clustering and collaborative filtering.
+Higher-order tensors arise frequently in applications such as neuroimaging, recommendation system, social network analysis, and psychological studies. We consider the problem of low-rank tensor estimation from possibly incomplete, ordinal-valued observations. Two related problems are studied, one on tensor denoising and another on tensor completion. We propose a multi-linear cumulative link model, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. Our mean squared error bound enjoys a faster convergence rate than previous results, and we show that the proposed estimator is minimax optimal under the class of low-rank models. Furthermore, the procedure developed serves as an efficient completion method which guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional low-rank tensor using only $\tilde \tO(Kd)$ noisy, quantized observations. We demonstrate the outperformance of our approach over previous methods on the tasks of clustering and collaborative filtering.
 
 \end{abstract}
 
 
 \section{Introduction}
-Multidimensional arrays, a.k.a.\ tensors, arise in a variety of applications including recommendation systems~\citep{adomavicius2011context}, social networks~\citep{nickel2011three}, genomics~\citep{hore2016tensor}, and neuroimaging~\citep{zhou2013tensor}. There is a growing need to develop general methods for analyzing these noisy, high-dimensional datasets that can handle two main problems. The problem of tensor denoising -- which aims to recover a signal tensor from its noisy entries -- has gained increased attention in theory and applications~\citep{xia2019sup,zeng2019multiway}. A related problem, tensor completion, examines the minimum number of entries needed for a consistent recovery~\citep{ghadermarzy2018learning,ghadermarzy2019near}. Low-rankness is often imposed to the signal tensor, which efficiently reduces the intrinsic dimension in both problems.
+Multidimensional arrays, a.k.a.\ tensors, arise in a variety of applications including recommendation systems~\citep{baltrunas2011incarmusic}, social networks~\citep{nickel2011three}, genomics~\citep{hore2016tensor}, and neuroimaging~\citep{zhou2013tensor}. There is a growing need to develop general methods for analyzing these noisy, high-dimensional datasets that can handle two main problems. The problem of tensor denoising -- which aims to recover a signal tensor from its noisy entries -- has gained increased attention in theory and applications~\citep{xia2019sup,zeng2019multiway}. A related problem, tensor completion, examines the minimum number of entries needed for a consistent recovery~\citep{ghadermarzy2018learning,ghadermarzy2019near}. Low-rankness is often imposed to the signal tensor, which efficiently reduces the intrinsic dimension in both problems.
 
-A number of low-rank tensor estimation methods have been proposed~\citep{kolda2009tensor,acar2010scalable}, revitalizing classical methods such as CANDECOMP/PARAFAC (CP) decomposition~\citep{hitchcock1927expression} and Tucker decomposition~\citep{tucker1966some}. These tensor methods treat the entries as continuous-valued. In many cases, however, we encounter datasets of which the entries are qualitative. For example, the Netflix problem records the ratings of users to movies over weeks. Each data is a rating on a nominal scale \{{\it very like, like, neutral, dislike, very dislike}\}. Another example is in the signal processing, where the digits are frequently rounded or truncated so that only integer values are available. The qualitative observations take values in a limited set of categories, making the learning problem harder compared to  continuous observations.
+A number of low-rank tensor estimation methods have been proposed~\citep{kolda2009tensor,acar2010scalable}, revitalizing classical methods such as CANDECOMP/PARAFAC (CP) decomposition~\citep{hitchcock1927expression} and Tucker decomposition~\citep{tucker1966some}. These tensor methods treat the entries as continuous-valued. In many cases, however, we encounter datasets of which the entries are qualitative. For example, the Netflix problem records the ratings of users on movies over time. Each data is a rating on a nominal scale \{{\it very like, like, neutral, dislike, very dislike}\}. Another example is in the signal processing, where the digits are frequently rounded or truncated so that only integer values are available. The qualitative observations take values in a limited set of categories, making the learning problem harder compared to  continuous observations.
 
- Ordinal entries are categorical variables with an ordering among the categories; for example, {\it very like} $\prec$ {\it like} $\prec$ {\it neutral} $\prec \cdots$. The analyses of tensors with the ordinal entries are mainly complicated by two key properties needed for a reasonable model. First, the model should be invariant under a reversal of categories, say from the example, {\it very like} $\succ$ {\it like} $\succ$ {\it neutral} $\succ \cdots$, but not under arbitrary label permutations. Second, the parameter interpretations should be consistent under merging or splitting of contiguous categories. The classical continuous tensor model~\cite{kolda2009tensor, ghadermarzy2019near} fails in the first aspect, whereas the binary tensor model~\cite{ghadermarzy2018learning} lacks the second property. An appropriate model for ordinal tensors has not yet to be studied.
+ Ordinal entries are categorical variables with an ordering among the categories; for example, {\it very like} $\prec$ {\it like} $\prec$ {\it neutral} $\prec \cdots$. The analyses of tensors with the ordinal entries are mainly complicated by two key properties needed for a reasonable model. First, the model should be invariant under a reversal of categories, say, from the Netflix example, {\it very like} $\succ$ {\it like} $\succ$ {\it neutral} $\succ \cdots$, but not under arbitrary label permutations. Second, the parameter interpretations should be consistent under merging or splitting of contiguous categories. The classical continuous tensor model~\cite{kolda2009tensor, ghadermarzy2019near} fails in the first aspect, whereas the binary tensor model~\cite{ghadermarzy2018learning} lacks the second property. An appropriate model for ordinal tensors has yet to be studied.
 
 \begin{table*}[ht]
 \centerline{\includegraphics[width=16cm]{compare.pdf}}
@@ -155,11 +155,11 @@ A number of low-rank tensor estimation methods have been proposed~\citep{kolda20
 \vspace{-.5cm}
 \end{table*}
 
-{\bf Our contribution.} This paper presents an efficient low-rank estimation method and theory for tensors with ordinal-valued entries. Our main contributions are summarized in Table~\ref{tab:compare}. We propose a cumulative link model for higher-order tensors, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. The upper bound for the mean squared error is established, and we show that the obtained bound has minimax optimal rate in high dimensions under the low-rank model. Our estimator enjoys a faster convergence rate $\tO(d^{-(K-1)/2})$ than $\tO(d^{-K})$ in~\citet{ghadermarzy2018learning}, which is a substantial improvement as the order $K$ increases. Furthermore, our proposal serves as an efficient completion algorithm that guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional low-rank tensor using only $\tO(Kd)$ noisy, quantized observations.
+{\bf Our contribution.} This paper presents an efficient low-rank estimation method and theory for tensors with ordinal-valued entries. Our main contributions are summarized in Table~\ref{tab:compare}. We propose a cumulative link model for higher-order tensors, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. The mean squared error bound is established, and we show that the obtained bound has minimax optimal rate in high dimensions under the low-rank model. Our estimator enjoys a faster convergence rate $\tO(d^{-(K-1)/2})$ than $\tO(d^{-K})$ in~\citet{ghadermarzy2018learning}, which is a substantial improvement as the order $K$ increases. Furthermore, our proposal serves as an efficient completion algorithm that guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional low-rank tensor using only $\tilde \tO(Kd)$ noisy, quantized observations.
 
 {\bf Related work.} Our work is related to, but clearly distinctive from, several lines of existing literature. Matrix completion from quantized samples was firstly introduced for binary observations~\cite{cai2013max,davenport2014,bhaskar20151} and then extended to ordinal observations~\cite{bhaskar2016probabilistic}. As we show in Section~\ref{sec:theory}, applying existing matrix methods to an ordinal tensor results in a suboptimal estimator with a slower convergence rate. Therefore, a full exploitation of the tensor structure is necessary; this is the focus of the current paper.
 
-Our work is also connected to non-Gaussian tensor decomposition. Existing work focuses exclusively on univariate observations such as binary- or continuous-valued entries~\citep{wang2018learning,hong2018generalized}. As we mentioned earlier, the ordinal observations add considerable challenges to the model formulation. We handle the problems from two perspectives. From statistical perspective, our proposed model generalizes the usual binary tensor model while preserving palindromic invariance~\cite{mccullagh1980regression} for ordinal observations. From algorithm perspective, our alternating optimization compares favorably to the approximate (non-convex) algorithm developed in the context of binary tensors~\cite{ghadermarzy2018learning}. We numerically compare the two approaches in Section~\ref{sec:experiment}.
+Our work is also connected to non-Gaussian tensor decomposition. Existing work focuses exclusively on univariate observations such as binary- or continuous-valued entries~\citep{wang2018learning,hong2018generalized,ghadermarzy2018learning}. As we mentioned earlier, the ordinal observations add considerable challenges to the model formulation. We address the problems from two perspectives. From statistical perspective, our proposed model generalizes the usual binary tensor model while preserving palindromic invariance~\cite{mccullagh1980regression} for ordinal observations. From algorithm perspective, our alternating optimization compares favorably to the approximate (non-convex) algorithm developed in the context of binary tensors~\cite{ghadermarzy2018learning}. We numerically compare the two approaches in Section~\ref{sec:experiment}.
 
 
 \section{Preliminaries}
@@ -167,6 +167,7 @@ Let $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\
 
 We use lower-case letters ($a, b, c, \ldots$) for scalars/vectors, upper-case boldface letters ($\mA, \mB, \mC, \ldots$) for matrices, and calligraphy letters ($\tA,\tB,\tC,\ldots$) for tensors of order three or greater. For ease of notation, we allow the basic arithmetic operators (e.g., $\leq, +, -$) to be applied to pairs of tensors in an element-wise manner. We use the shorthand $[n]$ to denote the $n$-set $\{1,\ldots,n\}$ for $n \in N_{+}$.
 
+\vspace{-.2cm}
 \section{Model formulation and motivation}
 \subsection{Observation model}
 Let $\tY$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional data tensor. Suppose the entries of $\tY$ are ordinal-valued, and the observation space consists of $L$ ordered levels, denoted by $[L]:=\{1,\ldots,L\}$. We propose a cumulative link model for the ordinal tensor $\tY=\entry{y_\omega}\in[L]^{d_1\times \cdots\times d_K}$. Specifically, assume the entries $y_\omega$ are (conditionally) independently distributed with cumulative probabilities:
@@ -232,7 +233,7 @@ The parameter tensor of our interest satisfies two constraints. The first is tha
 \begin{equation}\label{eq:Tucker}
 \Theta=\tC\times_1\mM_1\times_1 \cdots \times_K \mM_K,
 \end{equation}
-where $\tC\in\mathbb{R}^{r_1\times \cdots \times r_K}$ is a core tensor, $\mM_k\in\mathbb{R}^{d_k\times r_k}$ are factor matrices with orthogonal columns, and $\times_k$ denotes the tensor-by-matrix multiplication~\cite{kolda2009tensor}. The Tucker low-rankness is popularly imposed in tensor data analysis, and is shown to provide a reasonable tradeoff between model complexity and model flexibility. Note that, unlike matrices, there are various notations of tensor low-rankness, such as CP rank~\cite{hitchcock1927expression} and train rank~\cite{oseledets2011tensor}. Some notation of low-rankness may lead to mathematically ill-defined optimization; for example, the best low CP-rank tensor approximation may not exist~\cite{de2008tensor}. We choose Tucker representation for well definedness of optimization and easy interpretation.
+where $\tC\in\mathbb{R}^{r_1\times \cdots \times r_K}$ is a core tensor, $\mM_k\in\mathbb{R}^{d_k\times r_k}$ are factor matrices with orthogonal columns, and $\times_k$ denotes the tensor-by-matrix multiplication~\cite{kolda2009tensor}. The Tucker low-rankness is popularly imposed in tensor data analysis, and is shown to provide a reasonable tradeoff between model complexity and model flexibility. Note that, unlike matrices, there are various notations of tensor low-rankness, such as CP rank~\cite{hitchcock1927expression} and train rank~\cite{oseledets2011tensor}. Some notation of low-rankness may lead to mathematically ill-posed optimization; for example, the best low CP-rank tensor approximation may not exist~\cite{de2008tensor}. We choose Tucker representation for well-posedness of optimization and easy interpretation.
 
 The second constraint is that the entries of $\Theta$ are uniformly bounded in magnitude by a constant $\alpha \in \mathbb{R}_{+}$. In view of~\eqref{eq:latent}, we refer to $\alpha$ as the signal level. The entry-wise bound assumption is a technical condition that avoids the degeneracy in probability estimation with ordinal observations.
 
@@ -339,12 +340,11 @@ Assume the same set-up as in Theorem~\ref{thm:rate}. Suppose that we observe a s
 \PiFnormSize{}{\Theta-\hat \Theta}^2 \to 0,\quad \text{ as }\quad {|\Omega|\over \sum_k d_k} \ \to \infty.
 \]
 \end{thm}
-Theorem~\ref{thm:completion} shows that our estimator achieves consistent recovery using as few as $\tO(Kd)$ {\color{red}($\tO(kd^{1+\epsilon})$?)} noisy, quantized observations from an order-$K$ $(d,\ldots,d)$-dimensional tensor. Note that $\tO(Kd)$ matches the degree of freedom for an order-$K$ tensor of fixed rank $\mr$, suggesting the optimality of our sample requirement. This sample complexity substantially improves over earlier result $\tO(d^{\lceil K/2\rceil})$ based on square matrixization~\cite{mu2014square}, or $\tO(d^{N/2})$ based on tensor nuclear-norm regularization~\cite{yuan2016tensor}. Existing methods that achieve $\tO(Kd)$ sample complexity require either a deterministic cross sampling design~\cite{zhang2019cross} or univariate measurements~\cite{ghadermarzy2018learning}. Our method extends the conclusions to multi-level measurements under a broader class of sampling schemes.
+Theorem~\ref{thm:completion} shows that our estimator achieves consistent recovery using as few as $\tilde{\tO}(Kd)$ noisy, quantized observations from an order-$K$ $(d,\ldots,d)$-dimensional tensor. Note that $\tilde \tO(Kd)$ roughly matches the degree of freedom for an order-$K$ tensor of fixed rank $\mr$, suggesting the optimality of our sample requirement. This sample complexity substantially improves over earlier result $\tO(d^{\lceil K/2\rceil})$ based on square matricization~\cite{mu2014square}, or $\tO(d^{N/2})$ based on tensor nuclear-norm regularization~\cite{yuan2016tensor}. Existing methods that achieve $\tilde \tO(Kd)$ sample complexity require either a deterministic cross sampling design~\cite{zhang2019cross} or univariate measurements~\cite{ghadermarzy2018learning}. Our method extends the conclusions to multi-level measurements under a broader class of sampling schemes.
 
+\vspace{-.2cm}
 \section{Numerical Implementation}\label{sec:algorithm}
 We describe the algorithm to seek the optimizer of~\eqref{eq:objective}. In practice, the cut-off points $\mb$ are often unknown, so we choose to maximize $\logl$ jointly over $(\Theta,\mb)\in\tP\times \tB$. The objective $\logl$ is concave in $(\Theta,\mb)$ whenever $f'$ is log-concave (See the Supplement). However, the feasible set $\tP$ is non-convex, which makes the optimization~\eqref{eq:objective} a non-convex problem. We employ the alternating optimization approach by utilizing the Tucker representation of $\Theta$. Specifically, based on~\eqref{eq:Tucker} and~\eqref{eq:objective}, the objective function consists of $K+2$ blocks of variables, one for the cut-off points $\mb$, one for the core tensor $\tC$, and $K$ for the factor matrices $\mM_k$'s. The optimization is a simple convex problem if any $K+1$ out of the $K+2$ blocks are fixed. We update one block at a time while holding others fixed, and alternate the optimization throughout the iteration. The convergence is guaranteed whenever $\logl$ is bounded from above, since the alternating procedure monotonically increases the objective. The Algorithm~\ref{alg} gives the full description.
-
-
 
 \begin{algorithm}[t]
         \caption{Ordinal tensor decomposition}\label{alg}
@@ -352,7 +352,7 @@ We describe the algorithm to seek the optimizer of~\eqref{eq:objective}. In prac
             \STATE{\bfseries Input:}  \text{ Ordinal data tensor }
             $\mathcal{Y}\in [L]^{d_1\times\cdots\times d_K}$, rank $\mr\in \mathbb{N}_{+}^{K}$, entry-wise bound $\alpha\in \mathbb{R_+}$.
             \STATE{\bfseries Output:} $(\hat\Theta,\hat{\mb}) =  \argmax_{(\Theta,\mb)\in \mathcal{P}\times\mathcal{B}}  \mathcal{L}_{\mathcal{Y},\Omega}(\Theta,\mb).$
-            \STATE Initialize core tensor $\mathcal{C}^{(0)}$, factor matrices $ \{\mM_k^{(0)}\}$, and cut-off points $\mb^{(0)}$.
+            \STATE Random initialization of core tensor $\mathcal{C}^{(0)}$, factor matrices $ \{\mM_k^{(0)}\}$, and cut-off points $\mb^{(0)}$.
             \FOR{$t = 1,2,\cdots,$}
             \FOR{$k = 1,2,\cdots,K$}
             \STATE{Update $\mM^{(t+1)}_k$ while fixing other blocks:}
@@ -367,16 +367,13 @@ We describe the algorithm to seek the optimizer of~\eqref{eq:objective}. In prac
                    $\Theta^{(t+1)} \gets \mathcal{C}^{(t+1)}\times_1\mM_1^{(t+1)}\cdots\times_K\mM_K^{(t+1)}.$
             \STATE {Update $\mb^{(t+1)}$ while fixing $\Theta^{(t+1)}$:}
               \newline
-              $\mb^{(t+1)} \gets \argmax_{\mb\in \mathbb{R}^{L-1}}\mathcal{L}_{\mathcal{Y},\Omega}\big(\Theta^{(t+1)},\mb\big).$
+              $\mb^{(t+1)} \gets \argmax_{\mb\in \tB}\mathcal{L}_{\mathcal{Y},\Omega}\big(\Theta^{(t+1)},\mb\big).$
             \ENDFOR
             \STATE \textbf{return}
             $(\hat \Theta,\hat \mb)$
         \end{algorithmic}
  \end{algorithm}
-
-We comment on two implementation details before concluding this section. First, the problem~\eqref{eq:estimator} is non-convex, so Algorithm 1 usually has no theoretical guarantee on global optimality. Nevertheless, as shown in Section~\ref{sec:denosing}, the desired rate holds not only for the global optimizer, but also for the local optimizer with $\logl(\hat \Theta)\geq \logl(\trueT)$. In practice, we find the convergence point $\hat \Theta$ is often satisfactory, in that the corresponding objective $\logl(\hat \Theta)$ is close to and actually slightly larger than the objective evaluated at the true parameter $\logl(\trueT)$. Figure~\ref{fig:stability} shows the trajectory of the objective function that is output in the default setting of Algorithm 1, with the input tensor generated from probit model~\eqref{eq:model} with $d_1=d_2=d_3=d$ and $r_1=r_2=r_3=r$. The dashed line is the objective value at the true parameter $\logl(\trueT)$. It is observed that the algorithm generally converges quickly to a desirable value in reasonable number of steps. The actual running time per iteration is shown in the plot legend.
-
-
+We comment on two implementation details before concluding this section. First, the problem~\eqref{eq:estimator} is non-convex, so Algorithm 1 usually has no theoretical guarantee on global optimality. Nevertheless, as shown in Section~\ref{sec:denosing}, the desired rate holds not only for the global optimizer, but also for the local optimizer with $\logl(\hat \Theta)\geq \logl(\trueT)$. In practice, we find the convergence point $\hat \Theta$ upon random initialization is often satisfactory, in that the corresponding objective $\logl(\hat \Theta)$ is close to and actually slightly larger than the objective evaluated at the true parameter $\logl(\trueT)$. Figure~\ref{fig:stability} shows the trajectory of the objective function that is output in the default setting of Algorithm 1, with the input tensor generated from probit model~\eqref{eq:model} with $d_1=d_2=d_3=d$ and $r_1=r_2=r_3=r$. The dashed line is the objective value at the true parameter $\logl(\trueT)$. It is observed that the algorithm generally converges quickly to a desirable value in reasonable number of steps. The actual running time per iteration is shown in the plot legend.
 
 \begin{figure}[H]
 \centering
@@ -384,7 +381,7 @@ We comment on two implementation details before concluding this section. First, 
 \includegraphics[width=8cm]{algorithm.pdf}\label{fig:stability}
 \vspace{-.3cm}
 \caption{Trajectory of objective function with various $d$ and $r$.}
-\vspace{-.7cm}
+\vspace{-.6cm}
 \end{figure}
 
 
@@ -396,13 +393,13 @@ Second, the algorithm takes the rank $\mr$ as an input. In practice, the rank $\
 \end{align}
 where $\hat \Theta(\mr), \hat\mb(\mr)$ are the estimates given the rank $\mr$, and $p_e(\mr)\stackrel{\text{def}}{=}\sum_k (d_k-r_k)r_k+\prod_k r_k$ is the effective number of parameters in the model. We select $\hat \mr$ that minimizes BIC through a grid search. The choice of BIC is intended to balance between the goodness-of-fit for the data and the degrees of freedom in the population model.
 
-
+\vspace{-.2cm}
 \section{Experiments}\label{sec:experiment}
 In this section, we evaluate the empirical performance of our method. We investigate both the complete and the incomplete settings, and compare the recovery accuracy with other tensor-based methods. Unless otherwise stated, the ordinal data tensors are generated from model~\eqref{eq:model} using standard probit link $f$. We consider the setting with $K=3$, $d_1=d_2=d_3=d$, and $r_1=r_2=r_3=r$. The parameter tensors are simulated based on~\eqref{eq:Tucker}, where the core tensor entries are i.i.d.\ drawn from $N(0,1)$, and the factors $\mM_k$ are uniformly sampled (with respect to Haar measure) from matrices with orthonormal columns. We set the cut-off points $b_\ell=f^{-1}(\ell/L)$ for $\ell\in[L]$, such that $f(b_\ell)$ are evenly spaced from 0 to 1. In each simulation study, we report the summary statistics across $n_{\text{sim}}$ = 30 replications.
 
-
+\vspace{-.1cm}
 \subsection{Finite-sample performance}\label{sec:simulation}
-
+\vspace{-.1cm}
 The first experiment examines the performance under complete observations. We assess the empirical relationship between the MSE and various aspects of model complexity, such as dimension $d$, rank $r$, and signal level $\alpha=\mnormSize{}{\Theta}$. Figure~\ref{fig:finite}a plots the estimation error versus the tensor dimension $d$ for three different ranks $r\in\{3,5,8\}$. The decay in the error appears to behave on the order of $d^{-2}$, which is consistent with our theoretical results~\eqref{eq:rate}. It is seen that a higher rank leads to a larger error, as reflected by the upward shift of the curve as $r$ increases. Indeed, a higher rank implies the higher number of parameters to estimate, thus increasing the difficulty of the estimation. Figure~\ref{fig:finite}b shows the estimation error versus the signal level under $d=20$. Interestingly, a larger estimation error is observed when the signal is either too small or too large. The non-monotonic behavior may seem surprising, but this is an intrinsic feature in the estimation with ordinal data. In view of the latent-variable interpretation (see Section~\ref{sec:latent}), estimation from ordinal observation can be interpreted as an inverse problem of quantization. Therefore, the estimation error diverges in the absence of noise $\tE$, because it is impossible to distinguish two different signal tensors, e.g., $\Theta_1=\ma_1\otimes \ma_2\otimes \ma_3$ and $\Theta_2=\text{sign}(\ma_1)\otimes \text{sign}(\ma_2)\otimes \text{sign}(\ma_3)$, from the quantized observations. This phenomenon~\cite{davenport2014,sur2019modern} is clearly contrary to the classical continuous-valued tensor problem.
 
 The second experiment investigates the incomplete observations. We consider $L$-level tensors with $d=20$, $\alpha=10$ and choose a subset of tensor entries via uniform sampling. Figure~\ref{fig:finite}c shows the estimation error of $\hat \Theta$ versus the fraction of observation $\rho=|\Omega|/d^K$. As expected, the error reduces with increased $\rho$ or decreased $r$. Figure~\ref{fig:finite}d evaluates the impact of ordinal levels $L$ to estimation accuracy, under the setting $\rho=0.5$. An improved performance is observed as $L$ grows, especially from binary observations ($L=2$) to multi-level ordinal observations ($L\geq 3$). The result showcases the benefit of multi-level observations compared to binary observations.
@@ -415,8 +412,9 @@ The second experiment investigates the incomplete observations. We consider $L$-
 \vspace{-.2cm}
 \end{figure}
 
-
+\vspace{-.1cm}
 \subsection{Comparison with alternative methods}
+\vspace{-.1cm}
 Next, we compare our ordinal tensor method ({\bf Ordinal-T}) with three popular low-rank methods:
 
 \begin{itemize}[itemsep=-.5pt,topsep=-.5pt,leftmargin=*,partopsep=-.5pt]
@@ -427,8 +425,8 @@ Next, we compare our ordinal tensor method ({\bf Ordinal-T}) with three popular 
 
 We apply each of the above methods to $L$-level ordinal tensors $\tY$ generated from model~\eqref{eq:model}. The {\bf Continuous-T} is applied directly to $\tY$ by treating the $L$ levels as continuous observations. The {\bf Ordinal-M} is applied to the matrix $\tY_{(1)}$ obtained via 1-mode unfolding. The {\bf 1bit-T} is applied to $\tY$ in two ways. The first approach ({\bf 1bit-sign-T}) follows from~\citet{ghadermarzy2018learning} that transforms
 $\tY$ to a binary tensor, by taking the entrywise sign of the mean-adjusted tensor, $\tY- |\Omega|^{-1}\sum_\omega y_\omega$. The second approach ({\bf 1bit-category-T}) transforms the order-3 ordinal tensor $\tY$ to an order-4 binary tensor $\tY^{\sharp}=\entry{y^{\sharp}_{ijkl}}$ via dummy variable encoding; i.e., $y^{\sharp}_{ijk\ell}=\mathds{1}_{\{y_{ijk}=\ell\}}$ for all $\ell\in[L-1]$.
-We evaluate the methods by their capabilities in predicting the highest probability label for each entry, i.e.,\ $y_\omega^{\text{mode}}=\arg\max_\ell\mathbb{P}(y_\omega=\ell)$. Two performance metrics are considered: mean absolute deviation, $\text{MAD}=d^{-K}\sum_\omega |y_\omega^{\text{mode}}-\hat y_\omega^{\text{mode}}|$, and misclassification rate, $\text{MCR}=d^{-K}\sum_\omega\mathds{1}_{y_\omega^{\text{mode}}\neq\text{round}(\hat y_\omega^{\text{mode}})}$,
-where $\text{round}(\cdot)$ denotes the nearest integer of the  prediction (possibly continuous-valued returned by {\bf Continuous-T}). Note that MAD penalizes the large deviation more heavily than MCR does.
+We evaluate the methods by their capabilities in predicting the most likely label for each entry, i.e.,\ $y_\omega^{\text{mode}}=\arg\max_\ell\mathbb{P}(y_\omega=\ell)$. Two performance metrics are considered: mean absolute deviation, $\text{MAD}=d^{-K}\sum_\omega |y_\omega^{\text{mode}}-\hat y_\omega^{\text{mode}}|$, and misclassification rate, $\text{MCR}=d^{-K}\sum_\omega\mathds{1}_{\{y_\omega^{\text{mode}}\neq\text{round}(\hat y_\omega^{\text{mode}})\}}$,
+where $\text{round}(\cdot)$ denotes the nearest integer of the prediction (possibly continuous-valued returned by {\bf Continuous-T}). Note that MAD penalizes the large deviation more heavily than MCR.
 
 
 Figure~\ref{fig:compare} compares the prediction accuracy under the setting $\alpha=10$, $d=20$, and $r=5$. The problem size we considered is comparable to~\citet{ghadermarzy2018learning}. We find that our method outperforms the others in both MAD and MCR. In particular, methods built on multi-level observations ({\bf Ordinal-T}, {\bf Ordinal-M}, {\bf 1bit-category-T}) exhibit stable MCR over $\rho$ and $L$, whereas the others two methods ({\bf Continuous-T}, {\bf 1bit-sign-T}) generally fail except for $L=2$ (Figures~\ref{fig:compare}a-b). This observation highlights the necessity of modeling multi-level probabilities in classification task. Interestingly, although both {\bf 1bit-category-T} and our method {\bf Ordinal-T} behave similarly for binary tensors ($L=2$), the improvement of our method is substantial as $L$ increases (Figures~\ref{fig:compare}a and~\ref{fig:compare}c). One possible reason is that our method incorporates the intrinsic ordering among the $L$ levels via proportional odds assumption~\eqref{eq:logodd}, whereas {\bf 1bit-category-T} ignores the ordinal structure and dependence among the induced binary entries. Figures~\ref{fig:compare}c-d assess the prediction accuracy with sample size. We see a clear advantage of our method ({\bf Ordinal-T}) over the matricization ({\bf Ordinal-M}) in both complete and non-complete observations. When the observation fraction is small, e.g., ${|\Omega|/ d^K}=0.4$, the tensor-based completion shows $\sim$ 30\% reduction in error compared to the matricization.
@@ -437,17 +435,21 @@ Figure~\ref{fig:compare} compares the prediction accuracy under the setting $\al
 \begin{figure}[t]
 \includegraphics[width=8.3cm]{panel2.pdf}
 \vspace{-.4cm}
-\caption{Performance comparison in MCR (a, b) and MAD (c, d). (b, d)   Prediction errors versus the number of ordinal levels $L$ when $\rho=0.8$.  (a, c) Prediction errors versus sample complexity $\rho=|\Omega|/d^K$ when $L=5$. }\label{fig:compare}
-\vspace{-.5cm}
+\caption{Performance comparison in MCR (a, b) and MAD (c, d). (b, d) Prediction errors versus the number of ordinal levels $L$ when $\rho=0.8$. (a, c) Prediction errors versus sample complexity $\rho=|\Omega|/d^K$ when $L=5$. }\label{fig:compare}
+\vspace{-.6cm}
 \end{figure}
 
 
-We also compare the methods by their performance in predicting the median lebel, $y_\omega^{\text{median}}=\min\{\ell\colon\mathbb{P}(y_\omega=\ell)\geq 0.5\}$. Under the latent variable model~\eqref{eq:latent} and Assumption~\ref{ass:link}, the median lebel is the quantized $\Theta$ without noise; i.e.\ $y_\omega^{\text{median}}=\sum_\ell \mathds{1}_{\theta_\omega\in(b_{\ell-1},b_\ell]}$. Similar results demonstrate the outperformance of our method (see the Supplement).
+We also compare the methods by their performance in predicting the median label, $y_\omega^{\text{median}}=\min\{\ell\colon\mathbb{P}(y_\omega=\ell)\geq 0.5\}$. Under the latent variable model~\eqref{eq:latent} and Assumption~\ref{ass:link}, the median label is the quantized $\Theta$ without noise; i.e.\ $y_\omega^{\text{median}}=\sum_\ell \mathds{1}_{\theta_\omega\in(b_{\ell-1},b_\ell]}$. Similar results demonstrate the outperformance of our method (see the Supplement).
 
+\vspace{-.2cm}
 \section{Data Applications}
+\vspace{-.1cm}
 We apply our ordinal tensor method to two real-world datasets. In the first application, we use our model to analyze an ordinal tensor consisting of structural connectivities among 68 brain regions for 136 individuals from Human Connectome Project (HCP)~\citep{geddes2016human}. In the second application, we perform tensor completion to an ordinal dataset with missing values. The data tensor records the ratings on a scale of 1 to 5 from 42 users to 139 songs on 26 contexts~\citep{baltrunas2011incarmusic}.
 
+\vspace{-.1cm}
 \subsection{Human Connectome Project (HCP)}
+\vspace{-.1cm}
 Each entry in the HCP dataset takes value on a nominal scale, \{{\it high, moderate, low}\}, indicating the strength level of fiber connection. We convert the dataset to a 3-level ordinal tensor $\tY\in[3]^{68\times 68\times 136}$ and apply the ordinal tensor method with a logistic link function. The BIC suggests $\mr = (23,23,8)$ with $\logl(\hat{\Theta},\hat{\mb}) = -216,646$. Based on the estimated Tucker factors $\{\hat \mM_k\}$, we perform a clustering analysis via K-mean on the brain nodes (see detailed procedure in the Supplement). We find that the 68 brain nodes are grouped into eight clusters, and the clustering capture the spatial separation of brain nodes very well (see the Supplement). In particular, the top two clusters represent the left and right hemispheres; the smaller clusters represent local regions driving by similar nodes. For example, the cluster IV consists of brain nodes {\it postcentral}, {\it posteriorcingulate}, {\it pericalcarine} and {\it temporalpole}, all of which are located at {\it SupraM}. The identified similarity among brain nodes suggests the applicability of our method.
 
 We compare the goodness-of-fit of various tensor methods on the HPC data. Table~\ref{table:CV} summarizes the prediction error via 5-fold stratified cross-validation averaged over 10 runs. Our method outperforms the others, especially in MAD.
@@ -479,13 +481,14 @@ Continuous-T & 2.39 (0.152)&0.94 (0.027)\\
 \vspace{-.3cm}
 \end{table}
 
-
-
+\vspace{-.1cm}
 \subsection{InCarMusic recommendation system}
+\vspace{-.1cm}
 We apply ordinal tensor completion to a recommendation system {\it InCarMusic}. {\it InCarMusic} is a mobile application that offers music recommendation to passengers of cars based on contexts~\cite{baltrunas2011incarmusic}. Our goal is to perform tensor completion to impute the unobserved entries in the $42\times 139\times 26$ ordinal tensor and thereby we can offer context-specific music recommendation to users. The data tensor consists of 2,884 observed entries. Table~\ref{table:CV} shows the averaged prediction error via 5-fold cross validation. The high missing rate makes the accurate classification challenging. Nevertheless, our method achieves the best performance among the three.
 
-
+\vspace{-.2cm}
 \section{Conclusion}
+\vspace{-.1cm}
 We have developed a low-rank tensor estimation method based on possibly incomplete, ordinal-valued observations. A sharp error bound is established, and we demonstrate the outperformance of our approach compared to other methods. The work unlocked several directions of future research. One interesting question would be the inference problem, i.e.. to assess the uncertainty of the obtained estimates and the imputation. Other directions include the trade-off between (non)convex optimization and statistical/computational efficiency. While convex relaxations are popular approach for matrix-based problem, they are often slow in practice~\cite{chen2019non}. The interplay between computational efficiency and statistical accuracy in general tensor problems warrants future research.
 
 \newpage
