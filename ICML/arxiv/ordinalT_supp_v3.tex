@@ -258,11 +258,11 @@ Define the function
 \begin{align}\label{eq:function}
  \logl(\Theta, \mb)&=\sum_{\omega\in\Omega}\sum_{\ell\in[L]} \left\{\mathds{1}_{\{y_\omega=\ell\}} \log \big[f(\theta_\omega+b_\ell)-  f(\theta_\omega+b_{\ell-1})\big]\right\},
  \end{align}
-where $f(\cdot)$ satisfies Assumption~\eqref{eq:ass}. Then, $\logl(\Theta, \mb)$ is concave in $(\Theta,\mb)$. 
+where $f(\cdot)$ satisfies Assumption~\ref{ass:link}. Then, $\logl(\Theta, \mb)$ is concave in $(\Theta,\mb)$. 
 \end{thm}
 
 \begin{proof}
-Define $d_{\text{total}}=\prod_k d_k$. With a little abuse of notation, we use $(\Theta,\mb)$ to denote a length-$(d_{\text{total}}+L-1)$-vector collecting all parameters together. Let us denote a bivariate function
+Define $d_{\text{total}}=\prod_k d_k$. With a little abuse of notation, we use $(\Theta,\mb)$ to denote the length-$(d_{\text{total}}+L-1)$-vector collecting all parameters together. Let us denote a bivariate function
 \begin{align}
 \lambda: &\mathbb{R}^2\mapsto \mathbb{R}\\
 (u,v)&\mapsto\lambda(u,v) = \log \big[f(u)-  f(v)\big].
@@ -273,13 +273,13 @@ Suppose that the claim holds (which we will prove in the next paragraph). Based 
 \[
 u = \ma_1^T(\Theta,\mb), \quad v = \ma_2^T(\Theta,\mb), \quad \text{ for some}\ \ma_1,\ma_2\in \mathbb{R}^{d_{\text{total}}+L-1}.
 \]
-Then, $\lambda(u,v) = \lambda(\ma_1^T(\Theta,\mb),\ \ma_2^T(\Theta,\mb))$ is concave in $(\Theta,\mb)$ by the definition of concavity. Furthermore, we can conclude that $\logl(\Theta, \mb) $ is concave in $(\Theta,\mb)$ because $\logl(\Theta, \mb)$ is the sum of $\lambda(u,v)$. 
+Then, $\lambda(u,v) = \lambda(\ma_1^T(\Theta,\mb),\ \ma_2^T(\Theta,\mb))$ is concave in $(\Theta,\mb)$ by the definition of concavity. Therefore, we can conclude that $\logl(\Theta, \mb) $ is concave in $(\Theta,\mb)$ because $\logl(\Theta, \mb)$ is the sum of $\lambda(u,v)$. 
 
 Now, we prove the concavity of $\lambda(u,v)$. Note that
 \begin{equation*}
 \lambda(u,v) = \log\big[f(u)-f(v)\big]=\log\big[\int\mathds{1}_{[u,v]}(x)f'(x)dx\big],
 \end{equation*}
-where $\mathds{1}_{[u,v]}$ is an indicator function that equals 1 in the interval $[u,v]$, and 0 elsewhere. Furthermore, $\mathds{1}_{[u,v]}(x)$ is log-concave in $(u,v,x)$ and $f'(x) = \frac{e^x}{(1+e^x)^2}$ is log-concave in $x$. The convexities imply that $\mathds{1}_{(u,v)}(x)f'(x)$
+where $\mathds{1}_{[u,v]}$ is an indicator function that equals 1 in the interval $[u,v]$, and 0 elsewhere. Furthermore, $\mathds{1}_{[u,v]}(x)$ is log-concave in $(u,v,x)$, and by Assumption~\ref{ass:link}, $f'(x)$ is log-concave in $x$. It follows that $\mathds{1}_{(u,v)}(x)f'(x)$
 is a log-concave in $(u,v,x)$. By Lemma~\ref{lem:lossconvexity}, we conclude that $\lambda(u,v)$ is concave in $(u,v)$ where $u>v$. 
 \end{proof}
 
@@ -294,9 +294,7 @@ If $F(x,y)$ is log concave in $(x,y)$, then $G(x)$ is log concave in $x$.
 
 \subsection{Auxiliary lemmas}
 \label{sec:lemma}
-
-
-We begin with various notion of tensor norms that are useful for the proofs of the main theorems.
+This section collects lemmas that are useful for the proofs of the main theorems. 
 
 \begin{defn}[Atomic M-norm~\citep{ghadermarzy2019near}]
 Define $T_{\pm}=\{\tT\in\{\pm 1 \}^{d_1\times \cdots \times d_K}\colon \text{rank}(\tT)=1\}$. The atomic M-norm of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
@@ -616,7 +614,7 @@ where $c_1,c_2>0$ are two constants independent of the tensor dimension and rank
 
 \begin{rmk} It may seem counter-intuitive that the MSE of $\hat \Theta$ shows no dependence of $\hat \mb$ (and vice versa). In fact, from the proof of Theorem~\ref{thm:ratejoint}, the uniform constants $U_{\alpha,\beta,\Delta}, L_{\alpha,\beta,\Delta}$ can be replaced by
 \[
-U_{\alpha,\hat \mb}=\max_{|\theta|\leq \alpha}\max_{\ell\in[L-1]}{|\dot{g}_\ell(\theta)\over g_\ell(\theta)|},\quad \text{and}\quad L_{\alpha,\hat \mb}=\min_{|\theta|\leq \alpha}\min_{\ell\in[L-1]} {\dot{g}^2_\ell(\theta)-\ddot{g}_\ell(\theta)g_\ell(\theta)\over g^2_\ell(\theta)}.
+U_{\alpha,\hat \mb}=\max_{|\theta|\leq \alpha}\max_{\ell\in[L-1]}{|\dot{g}_\ell(\theta)|\over g_\ell(\theta)},\quad \text{and}\quad L_{\alpha,\hat \mb}=\min_{|\theta|\leq \alpha}\min_{\ell\in[L-1]} {\dot{g}^2_\ell(\theta)-\ddot{g}_\ell(\theta)g_\ell(\theta)\over g^2_\ell(\theta)}.
 \]
 Therefore, the accuracy of $\hat \Theta$ depends on the accuracy of $\hat \mb$ implicitly through $U_{\alpha, \hat \mb}$ and $ L_{\alpha,\hat \mb}$. 
 
@@ -705,7 +703,7 @@ In the main paper, we compare our method ({\bf Ordinal-T}) with other four metho
   \begin{center}
     \includegraphics[width=.8\textwidth]{panel3.pdf}
   \end{center}
-  \caption{Performance comparison in predicting the median label. (a,c) Prediction errors versus sample complexity $\rho=|\Omega|/d^k$ when $L=5$. (b,d) Prediction errors versus the number of ordinal levels $L$, when $\rho=0.8.$}
+  \caption{Performance comparison for predicting the median label. (a,c) Prediction errors versus sample complexity $\rho=|\Omega|/d^k$ when $L=5$. (b,d) Prediction errors versus the number of ordinal levels $L$, when $\rho=0.8.$}
 \end{figure}
 
 \section{Additional results on HCP analysis}
@@ -714,10 +712,10 @@ We perform clustering analyses based on the Tucker representation of the estimat
 \begin{equation}
 X = U\Sigma V^T,
 \end{equation}
-where $\Sigma$ is a diagonal matrix and $ U,V$ are factor matrices with orthogonal columns. Second, we take each column of $V$ as a principal axis and $U\Sigma$ as principal components. A subsequent multivariate clustering method (such as $K$-means) is then applied to the $m$ rows of $U\Sigma$. 
+where $\Sigma$ is a diagonal matrix and $ U,V$ are factor matrices with orthogonal columns. Second, we take each column of $V$ as a principal axis and each row in $U\Sigma$ as principal component. A subsequent multivariate clustering method (such as $K$-means) is then applied to the $m$ rows of $U\Sigma$. 
 
 
-We apply a similar clustering procedure to the estimated parameter tensor $\hat\Theta$. Based on Tucker decomposition, we have
+We apply a similar clustering procedure to the estimated parameter tensor $\hat\Theta$. Based on Tucker representation of $\hat \Theta$, we have
 \begin{equation}\label{eq:Tuckerest}
 \hat \Theta = \hat \tC\times_1\hat \mM_1\times_2\cdots\times_K\hat \mM_K,
 \end{equation}
@@ -725,11 +723,11 @@ where $\hat \tC\in\mathbb{R}^{r_1\times \cdots \times r_K}$ is the estimated cor
 \begin{equation}
 \hat \Theta_{(k)} = \hat \mM_k\hat \tC_{(k)}\left(\hat \mM_K\otimes\cdots\otimes\hat \mM_1\right),
 \end{equation}
-where $\hat \Theta_{(k)} , \hat \tC_{(k)}$ denote the mode-$k$ unfolding of $\hat \Theta$ and $\hat \tC$, respectively. Then, the mode-$k$ clustering can be performed as follows. First, we take $\left(\hat \mM_K\otimes\cdots\otimes\hat \mM_1\right)$ as principal axes and $\hat \mM_k\hat \tC_{(k)}$ as principal components. Then, we perform $K$-means clustering method to the $d_k$ rows of the principal components $\hat \mM_k\hat \tC_{(k)}$. 
+where $\hat \Theta_{(k)} , \hat \tC_{(k)}$ denote the mode-$k$ unfolding of $\hat \Theta$ and $\hat \tC$, respectively. Then, the mode-$k$ clustering can be performed as follows. First, we take colums in $\left(\hat \mM_K\otimes\cdots\otimes\hat \mM_1\right)$ as principal axes and rows in $\hat \mM_k\hat \tC_{(k)}$ as principal components. Then, we perform $K$-means clustering method to the $d_k$ rows of the matrix $\hat \mM_k\hat \tC_{(k)}$. 
 
 \subsection{Clustering results on HCP}
-We perform clustering analysis to the 68 brain nodes using the the produce described in Section~\ref{sec:clustering}. Recall that our ordinal tensor method outputs the estimated parameter tensor $\hat\Theta\in\mathbb{R}^{68\times 68\times136}$ with rank $(23,23,8)$. 
-The number of clusters in the $K$-means is chosen based on the elbow method (see figure~\ref{figure:elbow}). Table~\ref{table:clustering} shows the eight clusters of brain nodes. 
+We perform clustering analysis on the 68 brain nodes using the the produce described in Section~\ref{sec:clustering}. Recall that our ordinal tensor method outputs the estimated parameter tensor $\hat\Theta\in\mathbb{R}^{68\times 68\times136}$ with rank $(23,23,8)$. 
+We apply $K$-means to the mode-1 principal component matrix of size $68\times 184$ ($184=23\times8$). The elbow method suggests eight clusters among the 68 nodes (see Figure~\ref{figure:elbow}). Table~\ref{table:clustering} shows the eight clusters and their compositions. 
 \begin{figure}[H]
   \label{figure:elbow}
   \begin{center}
