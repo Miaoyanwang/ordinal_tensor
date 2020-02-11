@@ -204,9 +204,9 @@ holds for any $ \varepsilon \geq 0$ when $\gamma\in[0,1]$ is chosen to be suffic
 \inf_{\hat \Theta}\sup_{\trueT\in \tX}\mathbb{P}\left(\FnormSize{}{\hat \Theta- \trueT}\geq  {\gamma\over 8} \min\left\{ \alpha\sqrt{d_{\text{total}}}, C^{-1/2}\sqrt{ R_{\max}d_{\max}}\right\} \right)\geq {1\over 2}\left(1-2\varepsilon-\sqrt{16 \varepsilon \over R_{\max}d_{\max}}\right).
 \end{equation}
 Note that $\text{Loss}(\hat \Theta, \trueT)=\FnormSize{}{\hat \Theta- \trueT}^2/d_{\text{total}}$ and $\tX\subset \tP$. By taking $\varepsilon=1/8$ and $\gamma=1/2$, we conclude from~\eqref{eq:final} that
-\begin{equation*}\label{eq:prob}
+\begin{equation}\label{eq:prob}
 \inf_{\hat \Theta}\sup_{\trueT\in \tP}\mathbb{P}\left(\text{Loss}(\hat \Theta, \trueT)\geq {1 \over 256}\min\left \{ \alpha^2,  {C^{-1}R_{\max}d_{\max}\over d_{\text{total}}}\right \}\right)\geq {1\over 2}\left({3\over 4}- {2\over R_{\max}d_{\max}} \right)\geq {1\over 8}.
-\end{equation*}
+\end{equation}
 This completes the proof.
 \end{proof}
 
@@ -276,9 +276,9 @@ u = \ma_1^T(\Theta,\mb), \quad v = \ma_2^T(\Theta,\mb), \quad \text{ for some}\ 
 Then, $\lambda(u,v) = \lambda(\ma_1^T(\Theta,\mb),\ \ma_2^T(\Theta,\mb))$ is concave in $(\Theta,\mb)$ by the definition of concavity. Therefore, we can conclude that $\logl(\Theta, \mb) $ is concave in $(\Theta,\mb)$ because $\logl(\Theta, \mb)$ is the sum of $\lambda(u,v)$. 
 
 Now, we prove the concavity of $\lambda(u,v)$. Note that
-\begin{equation*}
+\begin{equation}
 \lambda(u,v) = \log\big[f(u)-f(v)\big]=\log\big[\int\mathds{1}_{[u,v]}(x)f'(x)dx\big],
-\end{equation*}
+\end{equation}
 where $\mathds{1}_{[u,v]}$ is an indicator function that equals 1 in the interval $[u,v]$, and 0 elsewhere. Furthermore, $\mathds{1}_{[u,v]}(x)$ is log-concave in $(u,v,x)$, and by Assumption~\ref{ass:link}, $f'(x)$ is log-concave in $x$. It follows that $\mathds{1}_{(u,v)}(x)f'(x)$
 is a log-concave in $(u,v,x)$. By Lemma~\ref{lem:lossconvexity}, we conclude that $\lambda(u,v)$ is concave in $(u,v)$ where $u>v$. 
 \end{proof}
