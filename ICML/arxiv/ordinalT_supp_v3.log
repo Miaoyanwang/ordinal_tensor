@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  11 FEB 2020 10:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  11 FEB 2020 10:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -731,10 +731,10 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 775.
  ) 
 Here is how much of TeX's memory you used:
- 9192 strings out of 493014
- 130210 string characters out of 6133351
+ 9193 strings out of 493014
+ 130222 string characters out of 6133351
  250093 words of memory out of 5000000
- 12426 multiletter control sequences out of 15000+600000
+ 12427 multiletter control sequences out of 15000+600000
  19143 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  40i,20n,32p,1320b,445s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -780,7 +780,7 @@ ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive
 2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texl
 ive/2016/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb></usr/local/texliv
 e/2016/texmf-dist/fonts/type1/urw/symbol/usyr.pfb>
-Output written on ordinalT_supp_v3.pdf (18 pages, 1089406 bytes).
+Output written on ordinalT_supp_v3.pdf (18 pages, 1089263 bytes).
 PDF statistics:
  514 PDF objects out of 1000 (max. 8388607)
  439 compressed objects within 5 object streams
