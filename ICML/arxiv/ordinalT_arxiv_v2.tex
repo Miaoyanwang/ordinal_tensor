@@ -527,9 +527,9 @@ holds for any $ \varepsilon \geq 0$ when $\gamma\in[0,1]$ is chosen to be suffic
 \inf_{\hat \Theta}\sup_{\trueT\in \tX}\mathbb{P}\left(\FnormSize{}{\hat \Theta- \trueT}\geq  {\gamma\over 8} \min\left\{ \alpha\sqrt{d_{\text{total}}}, C^{-1/2}\sqrt{ R_{\max}d_{\max}}\right\} \right)\geq {1\over 2}\left(1-2\varepsilon-\sqrt{16 \varepsilon \over R_{\max}d_{\max}\log2}\right).
 \end{equation}
 Note that $\text{Loss}(\hat \Theta, \trueT)=\FnormSize{}{\hat \Theta- \trueT}^2/d_{\text{total}}$ and $\tX\subset \tP$. By taking $\varepsilon=1/10$ and $\gamma=1/11$, we conclude from~\eqref{eq:final} that
-\begin{equation*}\label{eq:prob}
+\begin{equation}\label{eq:prob}
 \inf_{\hat \Theta}\sup_{\trueT\in \tP}\mathbb{P}\left(\text{Loss}(\hat \Theta, \trueT)\geq c\min\left \{ \alpha^2,  {C^{-1}R_{\max}d_{\max}\over d_{\text{total}}}\right \}\right)\geq {1\over 2}\left({4\over 5}- \sqrt{1.6\over R_{\max}d_{\max}\log2} \right)\geq {1\over 8},
-\end{equation*}
+\end{equation}
 where $c = {1 \over 88^2}$ and the last inequality comes from the condition for $d_{\text{max}}$.
 This completes the proof.
 \end{proof}
@@ -1069,7 +1069,7 @@ where $\hat \Theta_{(k)} , \hat \tC_{(k)}$ denote the mode-$k$ unfolding of $\ha
 \subsection{Clustering results of HCP analysis}
 We perform a clustering analysis on the 68 brain nodes using the produce described above. Recall that our ordinal tensor method outputs the estimated parameter tensor $\hat\Theta\in\mathbb{R}^{68\times 68\times136}$ with rank $(23,23,8)$. We apply $K$-means to the mode-1 principal component matrix of size $68\times 184$ ($184=23\times8$). The elbow method suggests eight clusters among the 68 nodes (see Figure~\ref{figure:elbow}). 
 
-Table~\ref{table:clustering} shows the eight clusters and their compositions. We find that most brain nodes fall into cluster I and the cluster II, which can be represented as the left and right hemispheres, respectively (Figure~\ref{figure:brain image}). Clusters III-VIII captures brain regions with same annotations in the dataset. For example, clusters III/IV represents the supramarginal gyrus region on the left/right hemisphere, respectively. This region is known to be involved in visual word recognition and reading~\citep{stoeckel2009supramarginal}. The results demonstrate that our clustering successfully groups similar brain regions together without knowledge of external annotation.
+Table~\ref{table:clustering} shows the eight clusters and their compositions. We find that most brain nodes fall into cluster I and the cluster II, which can be represented as the left and right hemispheres, respectively (Figure~\ref{figure:brain image}). Clusters III-VIII captures brain regions with same annotations. For example, clusters III/IV represents the supramarginal gyrus region on the left/right hemisphere, respectively. This region is known to be involved in visual word recognition and reading~\citep{stoeckel2009supramarginal}. The results demonstrate that our clustering successfully groups similar brain regions together without knowledge of external annotation.
 
 
 \begin{figure}[H]
@@ -1084,7 +1084,7 @@ Table~\ref{table:clustering} shows the eight clusters and their compositions. We
   \centering
  \includegraphics[width = 0.45\textwidth]{braincluster.pdf}
  \includegraphics[width = 0.45\textwidth]{braincluster3.pdf}
-  \caption{Top two clusters of brain nodes. (a) Nodes in yellow are from cluster I (left hemisphere), and nodes in green are from cluster II (right hemisphere). (b) Predicted connectivity within cluster I and cluster II. Edges are colored based on predicted strength level averaged across individuals.}  \label{figure:brain image}
+  \caption{Top two clusters of brain nodes. (a) Nodes in yellow are from cluster I (left hemisphere), and nodes in green are from cluster II (right hemisphere). (b) Predicted connectivity within cluster I/II. Edges are colored based on predicted strength level averaged across individuals.}  \label{figure:brain image}
 \end{figure}
 
 
