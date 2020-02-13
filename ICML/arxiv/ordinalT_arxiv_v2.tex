@@ -406,7 +406,7 @@ We apply our ordinal tensor method to two real-world datasets. In the first appl
 
 {\bf Human Connectome Project (HCP).} Each entry in the HCP dataset takes value on a nominal scale, \{{\it high, moderate, low}\}, indicating the strength level of fiber connection. We convert the dataset to a 3-level ordinal tensor $\tY\in[3]^{68\times 68\times 136}$ and apply the ordinal tensor method with a logistic link function. The BIC suggests $\mr = (23,23,8)$ with $\logl(\hat{\Theta},\hat{\mb}) = -216,646$. Based on the estimated Tucker factors $\{\hat \mM_k\}$, we perform a clustering analysis via K-mean on the brain nodes (see Appendix~\ref{sec:clustering} for detailed procedure). The 68 brain nodes are grouped into eight clusters. We find that the clustering capture the spatial separation between brain regions (Supplementary Figure~\ref{figure:brain image}). In particular, the top two clusters represent the left and right hemispheres; the smaller clusters represent local regions driving by similar nodes (Supplementary Table~\ref{table:clustering}). For example, the cluster III/IV consists of nodes in the supramarginal gyrus region in the left/right hemisphere. This region is known to be involved in visual word recognition and reading~\citep{stoeckel2009supramarginal}. The spatial separation between clusters suggests the applicability of our clustering method even without knowledge of external annotations. 
 
-We also compare the goodness-of-fit of various tensor methods on the HPC data. We perform 5-fold cross-validation while preserving the label proportions in train/test sets. Table~\ref{table:CV} summarizes the prediction error averaged over 10 runs. Our method outperforms the others, especially in MAD.
+We also compare the goodness-of-fit of various tensor methods on the HPC data. We perform 5-fold cross-validation while preserving the same label proportions in train/test sets. Table~\ref{table:CV} summarizes the prediction error averaged over 10 runs. Our method outperforms the others, especially in MAD.
 
 {\bf InCarMusic recommendation system.} We apply ordinal tensor completion to a recommendation system InCarMusic. InCarMusic is a mobile application that offers music recommendation to passengers of cars based on contexts~\citep{baltrunas2011incarmusic}. Our goal is to perform tensor completion to impute the unobserved entries in the $42\times 139\times 26$ ordinal tensor and thereby we can offer context-specific music recommendation to users. The data tensor consists of 2,884 observed entries. Table~\ref{table:CV} shows the averaged prediction error via 5-fold cross validation. The high missing rate makes the accurate classification challenging. Nevertheless, our method achieves the best performance among the three.
 
@@ -865,7 +865,7 @@ Then, there exists a universal constant $c>0$, such that, with probability at le
 holds uniformly for all $\Theta\in\mathbb{B}_M(\beta)$.
 \end{lem}
 
-\section{Conclusions}
+\section{Conclusion}
 We have developed a low-rank tensor estimation method based on possibly incomplete, ordinal-valued observations. A sharp error bound is established, and we demonstrate the outperformance of our approach compared to other methods. The work unlocks several directions of future research. One interesting question would be the inference problem, i.e.. to assess the uncertainty of the obtained estimates and the imputation. Other directions include the trade-off between (non)convex optimization and statistical/computational efficiency. While convex relaxations are popular approach for matrix/tensor problem, they are often slow in practice~\citep{ge2017optimization,chen2019non}. The interplay between computational efficiency and statistical accuracy in general tensor problems warrants future research.
 
 \section*{Acknowledgments}
@@ -957,7 +957,7 @@ Consider an ordinal tensor $\tY\in[L]^{d_1\times \cdots \times d_K}$ generated f
 \]
 and
 \[
-\text{MSE}(\hat\mb, \trueb) \leq  \min\left\{ 4\beta^2,\ {c_2 C_{\alpha,\beta,\Delta} \over D_{\alpha,\beta,\Delta}}{\max_{\ell}(n_\ell+n_{\ell+1})\over \min_{\ell}(n_{\ell}+n_{\ell+1})}  \sqrt{1\over L-1}\right\},
+\mathrm{MSE}(\hat\mb, \trueb) \leq  \min\left\{ 4\beta^2,\ {c_2 C_{\alpha,\beta,\Delta} \over D_{\alpha,\beta,\Delta}}{\max_{\ell}(n_\ell+n_{\ell+1})\over \min_{\ell}(n_{\ell}+n_{\ell+1})}  \sqrt{1\over L-1}\right\},
 \]
 where $c_1,c_2>0$ are two constants independent of the tensor dimension and rank, and $U_{\alpha,\beta,\Delta}$, $L_{\alpha,\beta,\Delta}$, $C_{\alpha,\beta,\Delta}$, $D_{\alpha,\beta,\Delta}>0$ are constants defined in~\eqref{eq:UL} and~\eqref{eq:CD}.
 \end{thm}
@@ -987,7 +987,7 @@ Next we bound $\text{MSE}(\hat \mb,\trueb)$. It follows from the expression of $
 {\partial \flogl\over \partial b_\ell}&=\sum_{\omega\in\Omega}\left[\mathds{1}_{\{y_{\omega}=\ell\}}
 \frac{\dot{f}(b_\ell-\theta_\omega)}{g_\ell(\theta_\omega)}-\mathds{1}_{\{y_{\omega}=\ell+1\}}
 \frac{\dot{f}(b_\ell-\theta_\omega)}{g_{\ell+1}(\theta_\omega)}\right],\notag\\
-{\partial^2 \flogl\over \partial b_\ell^2}&=\sum_{\omega\in\Omega}\left[\mathds{1}_{\{y_\omega=\ell\}}\frac{\ddot{f}(b_\ell-\theta_\omega)g_\ell(\theta_\omega)-\dot{f}(b_\ell-\theta_\omega)^2}{g^2_\ell(\theta_\omega)}-\mathds{1}_{\{y_\omega=\ell+1\}}\frac{\ddot{f}(b_\ell-\theta_\omega)g_{\ell+1}(\theta_\omega)+\dot{f}(b_\ell-\theta_\omega)^2}{g^2_{\ell+1}(\theta_\omega)}\right],\notag\\
+{\partial^2 \flogl\over \partial b^2_\ell}&=\sum_{\omega\in\Omega}\left[\mathds{1}_{\{y_\omega=\ell\}}\frac{\ddot{f}(b_\ell-\theta_\omega)g_\ell(\theta_\omega)-\dot{f}^2(b_\ell-\theta_\omega)}{g^2_\ell(\theta_\omega)}-\mathds{1}_{\{y_\omega=\ell+1\}}\frac{\ddot{f}(b_\ell-\theta_\omega)g_{\ell+1}(\theta_\omega)+\dot{f}^2(b_\ell-\theta_\omega)}{g^2_{\ell+1}(\theta_\omega)}\right],\notag\\
 &\quad  \text{ for all } \ell \in [L-1],\notag \\
 {\partial^2 \flogl\over \partial b_\ell \partial b_{\ell+1}}&=\sum_{\omega\in\Omega}\mathds{1}_{\{y_\omega=\ell+1\}}\frac{\dot{f}(b_\ell-\theta_\omega)\dot{f}(b_{\ell+1}-\theta_\omega)}{g^2_{\ell+1}(\theta_\omega)}\quad \text{and}\quad
 \ {\partial^2 \flogl\over \partial b_\ell \partial b_\ell'} = 0 \text{ if } |\ell-\ell'|>1.
