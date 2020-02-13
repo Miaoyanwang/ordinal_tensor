@@ -739,9 +739,8 @@ where $\hat \tC\in\mathbb{R}^{r_1\times \cdots \times r_K}$ is the estimated cor
 \end{equation}
 where $\hat \Theta_{(k)} , \hat \tC_{(k)}$ denote the mode-$k$ unfolding of $\hat \Theta$ and $\hat \tC$, respectively. Then, the mode-$k$ clustering can be performed as follows. First, we take $\left(\hat \mM_K\otimes\cdots\otimes\hat \mM_1\right)$ as principal axes and $\hat \mM_k\hat \tC_{(k)}$ as principal components. Then, we perform $K$-means clustering method to the $d_k$ rows of the principal components $\hat \mM_k\hat \tC_{(k)}$.
 
-\subsection{Clustering results on HCP}
-We perform clustering analysis to the 68 brain nodes using the the produce described in Section~\ref{sec:clustering}. Recall that our ordinal tensor method outputs the estimated parameter tensor $\hat\Theta\in\mathbb{R}^{68\times 68\times136}$ with rank $(23,23,8)$.
-The number of clusters in the $K$-means is chosen based on the elbow method (see figure~\ref{figure:elbow}). Table~\ref{table:clustering} shows the eight clusters of brain nodes.
+
+We perform clustering analysis on the 68 brain nodes using the produce described above. Oordinal tensor method outputs the estimated parameter tensor $\hat\Theta\in\mathbb{R}^{68\times 68\times136}$ with rank $(23,23,8)$. We apply $K$-means to the mode-1 principal component matrix of size $68\times 184$ ($184=23\times8$). The elbow method suggests eight clusters among the 68 nodes (see Figure~\ref{figure:elbow}). 
 \begin{figure}[H]
   \label{figure:elbow}
   \begin{center}

@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  13 FEB 2020 00:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  12 FEB 2020 22:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**ordinalT_supp_v3.tex
-(./ordinalT_supp_v3.tex
+**icml_arxiv_0212.tex
+(./icml_arxiv_0212.tex
 LaTeX2e <2016/03/31>
 Babel <3.9r> and hyphenation patterns for 83 language(s) loaded.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/article.cls
@@ -215,9 +215,6 @@ LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
 \l_MT_above_shortintertext_sep=\dimen128
 \l_MT_below_shortintertext_sep=\dimen129
 )
-(/usr/local/texlive/2016/texmf-dist/tex/latex/multirow/multirow.sty
-\bigstrutjot=\dimen130
-)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip53
@@ -227,6 +224,9 @@ LaTeX Info: Redefining \cite on input line 694.
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/dsfont.sty
 Package: dsfont 1995/08/01 v0.1 Double stroke roman fonts
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen130
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2016/05/05 v6.83n Hypertext links for LaTeX
@@ -342,65 +342,70 @@ Package: enumerate 2015/07/23 v3.00 enumerate extensions (DPC)
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 24.
 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
-Package: algpseudocode 
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ifthen.sty
-Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
-)
-(/usr/local/texlive/2016/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
-Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
-
-Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count118
-\c@ALG@rem=\count119
-\c@ALG@nested=\count120
-\ALG@tlm=\skip56
-\ALG@thistlm=\skip57
-\c@ALG@Lnr=\count121
-\c@ALG@blocknr=\count122
-\c@ALG@storecount=\count123
-\c@ALG@tmpcounter=\count124
-\ALG@tmplength=\skip58
-)
-Document Style - pseudocode environments for use with the `algorithmicx' style
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/algorithms/algorithm.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
 nment
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count125
+\c@float@type=\count118
 \float@exts=\toks32
 \float@box=\box30
 \@float@everytoks=\toks33
 \@floatcapt=\box31
 )
-\@float@every@algorithm=\toks34
-\c@algorithm=\count126
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\c@thm=\count127
-\c@lem=\count128
-\c@prop=\count129
-\c@pro=\count130
-\c@assumption=\count131
-\c@defn=\count132
-\c@cor=\count133
-\c@example=\count134
-\c@rmk=\count135
+\@float@every@algorithm=\toks34
+\c@algorithm=\count119
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+\c@ALC@unique=\count120
+\c@ALC@line=\count121
+\c@ALC@rem=\count122
+\c@ALC@depth=\count123
+\ALC@tlm=\skip56
+\algorithmicindent=\skip57
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/array.sty
+Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen135
+\extrarowheight=\dimen136
+\NC@list=\toks35
+\extratabsurround=\skip58
+\backup@length=\skip59
+)
+\rotheadsize=\dimen137
+\c@nlinenum=\count124
+\TeXr@lab=\toks36
+)
+\c@thm=\count125
+\c@lem=\count126
+\c@prop=\count127
+\c@pro=\count128
+\c@assumption=\count129
+\c@defn=\count130
+\c@cor=\count131
+\c@example=\count132
+\c@rmk=\count133
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/wrapfig/wrapfig.sty
-\wrapoverhang=\dimen135
-\WF@size=\dimen136
-\c@WF@wrappedlines=\count136
+\wrapoverhang=\dimen138
+\WF@size=\dimen139
+\c@WF@wrappedlines=\count134
 \WF@box=\box32
-\WF@everypar=\toks35
+\WF@everypar=\toks37
 Package: wrapfig 2003/01/31  v 3.6
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/tools/xr.sty
 Package: xr 1994/05/28 v5.02 eXternal References (DPC)
 )
-Package xr Info: IMPORTING LABELS FROM ordinalTv3.aux on input line 82.
+Package xr Info: IMPORTING LABELS FROM ordinalTv3.aux on input line 76.
  (./macros.tex
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
 Package: stmaryrd 1994/03/03 St Mary's Road symbol package
@@ -408,40 +413,139 @@ Package: stmaryrd 1994/03/03 St Mary's Road symbol package
 LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
 (Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
 ))
-(./ordinalT_supp_v3.aux
+(./icml_arxiv_0212.aux
+
+LaTeX Warning: Label `tab:compare' multiply defined.
+
+
+LaTeX Warning: Label `eq:model' multiply defined.
+
+
+LaTeX Warning: Label `eq:logodd' multiply defined.
+
+
+LaTeX Warning: Label `sec:latent' multiply defined.
+
+
+LaTeX Warning: Label `eq:quantization' multiply defined.
+
+
+LaTeX Warning: Label `eq:latent' multiply defined.
+
+
+LaTeX Warning: Label `ass:link' multiply defined.
+
+
+LaTeX Warning: Label `sec:denoising' multiply defined.
+
+
+LaTeX Warning: Label `eq:space' multiply defined.
+
+
+LaTeX Warning: Label `eq:Tucker' multiply defined.
+
+
+LaTeX Warning: Label `sec:theory' multiply defined.
+
+
+LaTeX Warning: Label `eq:objective' multiply defined.
+
+
+LaTeX Warning: Label `eq:estimator' multiply defined.
+
+
+LaTeX Warning: Label `eq:regular' multiply defined.
+
+
+LaTeX Warning: Label `sec:denosing' multiply defined.
+
+
+LaTeX Warning: Label `thm:rate' multiply defined.
+
+
+LaTeX Warning: Label `eq:rate' multiply defined.
+
+
+LaTeX Warning: Label `cor:prediction' multiply defined.
+
+
+LaTeX Warning: Label `eq:KLrate' multiply defined.
+
+
+LaTeX Warning: Label `eq:ours' multiply defined.
+
+
+LaTeX Warning: Label `thm:minimax' multiply defined.
+
+
+LaTeX Warning: Label `eq:lower' multiply defined.
+
+
+LaTeX Warning: Label `eq:weighted' multiply defined.
+
+
+LaTeX Warning: Label `thm:completion' multiply defined.
+
+
+LaTeX Warning: Label `alg' multiply defined.
+
+
+LaTeX Warning: Label `sec:algorithm' multiply defined.
+
+
+LaTeX Warning: Label `fig:stability' multiply defined.
+
+
+LaTeX Warning: Label `eq:BIC' multiply defined.
+
+
+LaTeX Warning: Label `sec:experiment' multiply defined.
+
+
+LaTeX Warning: Label `sec:simulation' multiply defined.
+
+
+LaTeX Warning: Label `fig:finite' multiply defined.
+
+
+LaTeX Warning: Label `fig:compare' multiply defined.
+
+
+LaTeX Warning: Label `table:CV' multiply defined.
+
 
 LaTeX Warning: Label `eq:property' multiply defined.
 
 )
-\openout1 = `ordinalT_supp_v3.aux'.
+\openout1 = `icml_arxiv_0212.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 102.
-LaTeX Font Info:    ... okay on input line 102.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 95.
+LaTeX Font Info:    ... okay on input line 95.
  (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count137
-\scratchdimen=\dimen137
+\scratchcounter=\count135
+\scratchdimen=\dimen140
 \scratchbox=\box33
-\nofMPsegments=\count138
-\nofMParguments=\count139
-\everyMPshowfont=\toks36
-\MPscratchCnt=\count140
-\MPscratchDim=\dimen138
-\MPnumerator=\count141
-\makeMPintoPDFobject=\count142
-\everyMPtoPDFconversion=\toks37
+\nofMPsegments=\count136
+\nofMParguments=\count137
+\everyMPshowfont=\toks38
+\MPscratchCnt=\count138
+\MPscratchDim=\dimen141
+\MPnumerator=\count139
+\makeMPintoPDFobject=\count140
+\everyMPtoPDFconversion=\toks39
 )
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -506,11 +610,11 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\Gin@req@height=\dimen139
-\Gin@req@width=\dimen140
+\Gin@req@height=\dimen142
+\Gin@req@width=\dimen143
 )
 \AtBeginShipoutBox=\box34
-Package hyperref Info: Link coloring ON on input line 102.
+Package hyperref Info: Link coloring ON on input line 95.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -518,55 +622,217 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count143
+\c@section@level=\count141
 )
-LaTeX Info: Redefining \ref on input line 102.
-LaTeX Info: Redefining \pageref on input line 102.
-LaTeX Info: Redefining \nameref on input line 102.
-\@outlinefile=\write5
-\openout5 = `ordinalT_supp_v3.out'.
+LaTeX Info: Redefining \ref on input line 95.
+LaTeX Info: Redefining \pageref on input line 95.
+LaTeX Info: Redefining \nameref on input line 95.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 114.
+(./icml_arxiv_0212.out) (./icml_arxiv_0212.out)
+\@outlinefile=\write5
+\openout5 = `icml_arxiv_0212.out'.
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 97.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 114.
+LaTeX Font Info:    Try loading font information for U+msb on input line 97.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+stmry on input line 114.
-
+LaTeX Font Info:    Try loading font information for U+stmry on input line 97.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/stmaryrd/Ustmry.fd)
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 106.
+
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 106.
+ [1
+
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<compare.pdf, id=171, 513.11702pt x 86.724pt>
+File: compare.pdf Graphic file (type pdf)
+ <use compare.pdf>
+Package pdftex.def Info: compare.pdf used on input line 111.
+(pdftex.def)             Requested size: 455.24408pt x 76.9459pt.
+ [2pdfTeX warning (ext4): destination with the same identifier (name{table.1}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.124 
+       <./compare.pdf>]
+Overfull \hbox (3.894pt too wide) in paragraph at lines 125--126
+[]\OT1/cmr/m/n/10.95 We use lower-case let-ters ($\OML/cmm/m/it/10.95 a; b; c; 
+[]$\OT1/cmr/m/n/10.95 ) for scalars/vectors, upper-case bold-face let-ters ($\O
+ML/cmm/b/it/10.95 A\OML/cmm/m/it/10.95 ; \OML/cmm/b/it/10.95 B\OML/cmm/m/it/10.
+95 ; \OML/cmm/b/it/10.95 C\OML/cmm/m/it/10.95 ; []$\OT1/cmr/m/n/10.95 )
+ []
+
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 120.
+(amsmath)                 on input line 135.
 
-LaTeX Font Info:    Try loading font information for U+dsrom on input line 120.
+[3]
 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
+LaTeX Font Warning: Command \small invalid in math mode on input line 182.
+
+LaTeX Font Info:    Calculating math sizes for size <> on input line 183.
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <0.7> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/b/it' in size <0.5> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/b/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `U/stmry/m/n' in size <> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `U/stmry/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 183.
+
+
+LaTeX Font Warning: Font shape `U/stmry/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 183.
+
+[4]
+LaTeX Font Info:    Try loading font information for U+dsrom on input line 208.
+
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/doublestroke/Udsrom.fd
 File: Udsrom.fd 1995/08/01 v0.1 Double stroke roman font definitions
-) [1
+)
+[5] [6] [7]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 304.
+ [8] <algorithm.pdf, id=405, 414.64517pt x 192.14687pt>
+File: algorithm.pdf Graphic file (type pdf)
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (0.63145pt too wide) in paragraph at lines 164--165
-[]\OT1/cmr/m/n/10.95 Combining [][], [][] and [][], we have that, for all $^^B 
-\OMS/cmsy/m/n/10.95 2 P$\OT1/cmr/m/n/10.95 , with prob-a-bil-ity at least $1 \O
-MS/cmsy/m/n/10.95 ^^@ []\OT1/cmr/m/n/10.95 (\OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/i
-t/10.95 C[] [][] d[]\OT1/cmr/m/n/10.95 )$, 
+<use algorithm.pdf>
+Package pdftex.def Info: algorithm.pdf used on input line 335.
+(pdftex.def)             Requested size: 328.82707pt x 152.38367pt.
+ [9pdfTeX warning (ext4): destination with the same identifier (name{figure.1})
+ has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.345 \end{align}
+                  <./algorithm.pdf>]
+<panel.pdf, id=479, 570.12602pt x 576.37991pt>
+File: panel.pdf Graphic file (type pdf)
+ <use panel.pdf>
+Package pdftex.def Info: panel.pdf used on input line 358.
+(pdftex.def)             Requested size: 281.85587pt x 284.96153pt.
+ [10] [11pdfTeX warning (ext4): destination with the same identifier (name{figu
+re.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.376 
+       <./panel.pdf>] <panel2.pdf, id=559, 567.52333pt x 574.46695pt>
+File: panel2.pdf Graphic file (type pdf)
+
+<use panel2.pdf>
+Package pdftex.def Info: panel2.pdf used on input line 383.
+(pdftex.def)             Requested size: 281.85587pt x 285.3131pt.
+ [12pdfTeX warning (ext4): destination with the same identifier (name{figure.3}
+) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.389 
+       <./panel2.pdf>]
+Overfull \hbox (26.63884pt too wide) in paragraph at lines 399--411
+[][] 
  []
 
-[2]
-Overfull \hbox (6.46706pt too wide) detected at line 205
+[13pdfTeX warning (ext4): destination with the same identifier (name{table.2}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.420 
+      ] [14] [15]
+Overfull \hbox (29.73575pt too wide) detected at line 516
 [] [] \U/msb/m/n/10.95 P [] \OMS/cmsy/m/n/10.95 ^^U [] [] \OML/cmm/m/it/10.95 :
 
  []
 
 
-Overfull \hbox (15.24304pt too wide) detected at line 222
+Overfull \hbox (15.24304pt too wide) detected at line 534
 \OMS/cmsy/m/n/10.95 L[]\OT1/cmr/m/n/10.95 (^^B) = \OMS/cmsy/m/n/10.95 L[]\OT1/c
 mr/m/n/10.95 (^^B[]) + \OMS/cmsy/m/n/10.95 h[]\OT1/cmr/m/n/10.95 (\OMS/cmsy/m/n
 /10.95 r[]L[]\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ;  []\OT1/cmr/m/n/10.95 (^
@@ -576,8 +842,8 @@ MS/cmsy/m/n/10.95 r[]L[]\OT1/cmr/m/n/10.95 ([]) [](^^B \OMS/cmsy/m/n/10.95 ^^@
 \OT1/cmr/m/n/10.95 ^^B[])\OML/cmm/m/it/10.95 ;
  []
 
-[3] [4]
-Overfull \hbox (27.39241pt too wide) in paragraph at lines 300--301
+[16] [17]
+Overfull \hbox (27.39241pt too wide) in paragraph at lines 614--615
 [][]\OT1/cmr/bx/n/10.95 Definition 1 \OT1/cmr/m/n/10.95 (Atomic M-norm [[][]Gha
 -der-marzy et al.[][], [][]2019[][]])\OT1/cmr/bx/n/10.95 . []\OT1/cmr/m/n/10.95
  De-fine $\OML/cmm/m/it/10.95 T[] \OT1/cmr/m/n/10.95 = \OMS/cmsy/m/n/10.95 fT 2
@@ -586,13 +852,13 @@ MS/cmsy/m/n/10.95 T\OT1/cmr/m/n/10.95 ) =
  []
 
 
-Overfull \hbox (3.45584pt too wide) detected at line 321
+Overfull \hbox (3.45584pt too wide) detected at line 635
 \OMS/cmsy/m/n/10.95 k\OT1/cmr/m/n/10.95 ^^B\OMS/cmsy/m/n/10.95 k[] \OT1/cmr/m/n
 /10.95 = [] [] \OML/cmm/m/it/10.95 ;
  []
 
-[5] [6] [7] [8]
-Overfull \hbox (7.40112pt too wide) in paragraph at lines 508--509
+[18] [19] [20] [21]
+Overfull \hbox (7.40112pt too wide) in paragraph at lines 828--829
 [][]\OT1/cmr/bx/n/10.95 Lemma 11 \OT1/cmr/m/n/10.95 (The-o-rem 2.5 in [][]Tsy-b
 akov[][] [[][]2009[][]])\OT1/cmr/bx/n/10.95 . []\OT1/cmr/m/it/10.95 As-sume tha
 t a set $\OMS/cmsy/m/n/10.95 X$ \OT1/cmr/m/it/10.95 con-tains el-e-ment $\OT1/c
@@ -600,15 +866,10 @@ mr/m/n/10.95 ^^B[]\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 ^^B[]\OML/cmm/m/it/1
 0.95 ; [] ; \OT1/cmr/m/n/10.95 ^^B[]$
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 510.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 510.
- [9]
-Overfull \hbox (5.14359pt too wide) detected at line 547
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 830.
+[22]
+Overfull \hbox (5.14359pt too wide) detected at line 867
 \OMS/cmsy/m/n/10.95 P \OT1/cmr/m/n/10.95 = \OMS/cmsy/m/n/10.95 f\OT1/cmr/m/n/10
 .95 ^^B \OMS/cmsy/m/n/10.95 2 \U/msb/m/n/10.95 R[] [] [] []\OT1/cmr/m/n/10.95 (
 \OMS/cmsy/m/n/10.95 P\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^T \OML/cmm/b/it
@@ -622,21 +883,21 @@ mm/m/it/10.95 b[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^U \OT1/cmr/m/n/10.9
 5 ^^A\OMS/cmsy/m/n/10.95 g\OML/cmm/m/it/10.95 :
  []
 
-[10]
-Overfull \hbox (6.39906pt too wide) in paragraph at lines 604--605
-[][]\OT1/cmr/bx/n/10.95 Theorem 2.1 \OT1/cmr/m/n/10.95 (Sta-tis-ti-cal con-ver-
+[23]
+Overfull \hbox (9.62321pt too wide) in paragraph at lines 924--925
+[][]\OT1/cmr/bx/n/10.95 Theorem A.1 \OT1/cmr/m/n/10.95 (Sta-tis-ti-cal con-ver-
 gence with un-known $\OML/cmm/b/it/10.95 b$\OT1/cmr/m/n/10.95 )\OT1/cmr/bx/n/10
 .95 . []\OT1/cmr/m/it/10.95 Con-sider an or-di-nal ten-sor $\OMS/cmsy/m/n/10.95
  Y 2 \OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 L\OT1/cmr/m/n/10.95 ][]$
  []
 
-
-Overfull \hbox (23.19672pt too wide) in paragraph at lines 644--644
+[24]
+Overfull \hbox (23.19672pt too wide) in paragraph at lines 964--964
 [] 
  []
 
-[11]
-Overfull \hbox (2.2701pt too wide) detected at line 658
+
+Overfull \hbox (2.2701pt too wide) detected at line 978
 \OT1/cmr/m/n/10.95 (\OML/cmm/b/it/10.95 b[] \OMS/cmsy/m/n/10.95 ^^@ []\OT1/cmr/
 m/n/10.95 )[]\OMS/cmsy/m/n/10.95 r[]L[]\OT1/cmr/m/n/10.95 (\OML/cmm/b/it/10.95 
 b[]\OT1/cmr/m/n/10.95 ) \OMS/cmsy/m/n/10.95 ^^T k\OML/cmm/b/it/10.95 b[] \OMS/c
@@ -647,225 +908,121 @@ n/10.95 ^^@ []k[][]\OML/cmm/m/it/10.95 C[] []\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/
 cmm/m/it/10.95 ;
  []
 
-[12] <panel3.pdf, id=257, 567.52333pt x 574.46695pt>
+[25] [26] <panel3.pdf, id=875, 567.52333pt x 574.46695pt>
 File: panel3.pdf Graphic file (type pdf)
  <use panel3.pdf>
-Package pdftex.def Info: panel3.pdf used on input line 704.
-(pdftex.def)             Requested size: 375.80544pt x 380.4116pt.
- [13]
-[14pdfTeX warning (ext4): destination with the same identifier (name{figure.1})
+Package pdftex.def Info: panel3.pdf used on input line 1023.
+(pdftex.def)             Requested size: 281.85587pt x 285.3131pt.
+
+[27pdfTeX warning (ext4): destination with the same identifier (name{figure.4})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.721 \end{equation}
-                     <./panel3.pdf>]
+l.1031 
+        <./panel3.pdf>] <elbowm.pdf, id=978, 394.47375pt x 347.2975pt>
+File: elbowm.pdf Graphic file (type pdf)
 
-LaTeX Warning: File `elbowmethod.png' not found on input line 734.
+<use elbowm.pdf>
+Package pdftex.def Info: elbowm.pdf used on input line 1061.
+(pdftex.def)             Requested size: 230.18253pt x 202.65154pt.
+ [28] <braincluster.pdf, id=990, 794.97pt x 614.295pt>
+File: braincluster.pdf Graphic file (type pdf)
 
+<use braincluster.pdf>
+Package pdftex.def Info: braincluster.pdf used on input line 1117.
+(pdftex.def)             Requested size: 211.38832pt x 163.34042pt.
+ <braincluster2.pdf, id=991, 794.97pt x 614.295pt>
+File: braincluster2.pdf Graphic file (type pdf)
 
-./ordinalT_supp_v3.tex:734: Package pdftex.def Error: File `elbowmethod.png' no
-t found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.734 ...cs[width=0.48\textwidth]{elbowmethod.png}
-                                                  
-? 
-[15pdfTeX warning (ext4): destination with the same identifier (name{figure.2})
- has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.742 
-      ]
-Overfull \hbox (27.49748pt too wide) in paragraph at lines 749--759
- [] 
- []
-
-
-LaTeX Warning: File `brain1.jpg' not found on input line 764.
-
-
-./ordinalT_supp_v3.tex:764: Package pdftex.def Error: File `brain1.jpg' not fou
-nd.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.764 ...phics[width = 0.45\textwidth]{brain1.jpg}
-                                                  
-? 
-
-LaTeX Warning: File `brain2.jpg' not found on input line 765.
-
-
-./ordinalT_supp_v3.tex:765: Package pdftex.def Error: File `brain2.jpg' not fou
-nd.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.765 ...phics[width = 0.45\textwidth]{brain2.jpg}
-                                                  
-? 
-
-LaTeX Warning: File `brain3.jpg' not found on input line 766.
-
-
-./ordinalT_supp_v3.tex:766: Package pdftex.def Error: File `brain3.jpg' not fou
-nd.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.766 ...phics[width = 0.45\textwidth]{brain3.jpg}
-                                                  
-? 
-
-LaTeX Warning: File `brain4.jpg' not found on input line 767.
-
-
-./ordinalT_supp_v3.tex:767: Package pdftex.def Error: File `brain4.jpg' not fou
-nd.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.767 ...phics[width = 0.45\textwidth]{brain4.jpg}
-                                                  
-? 
-[16pdfTeX warning (ext4): destination with the same identifier (name{table.1}) 
-has been already used, duplicate ignored
+<use braincluster2.pdf>
+Package pdftex.def Info: braincluster2.pdf used on input line 1118.
+(pdftex.def)             Requested size: 211.38832pt x 163.34042pt.
+ [29pdfTeX warning (ext4): destination with the same identifier (name{figure.5}
+) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.771 
-      ]
-No file ordinalT_supp_v3.bbl.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 775.
-[17pdfTeX warning (ext4): destination with the same identifier (name{figure.3})
- has been already used, duplicate ignored
+l.1122 
+       pdfTeX warning (ext4): destination with the same identifier (name{table.
+3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.775 \end{document}
-                    ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 775.
- (./ordinalT_supp_v3.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 775.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 775.
+l.1122 
+        <./elbowm.pdf>] (./icml_arxiv_0212.bbl [30pdfTeX warning (ext4): destin
+ation with the same identifier (name{figure.6}) has been already used, duplicat
+e ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.67 ...item[De~Silva and Lim(2008)]{de2008tensor}
+                                                   <./braincluster.pdf, page is
+ rotated 90 degrees> <./braincluster2.pdf, page is rotated 90 degrees>]
+[31])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1126.
+ [32]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1126.
+ (./icml_arxiv_0212.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1126.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1126.
+
+Package rerunfilecheck Info: File `icml_arxiv_0212.out' has not changed.
+(rerunfilecheck)             Checksum: B6B4D4DB326003DE53F23082619C40F0;1999.
 
 
-Package rerunfilecheck Warning: File `ordinalT_supp_v3.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 4.5pt have occurred.
 
-Package rerunfilecheck Info: Checksums for `ordinalT_supp_v3.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  F3057F2A804B5D22F1BF735E2489AF57;756.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 775.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1126.
  ) 
 Here is how much of TeX's memory you used:
- 9128 strings out of 493014
- 128903 string characters out of 6133351
- 250093 words of memory out of 5000000
- 12369 multiletter control sequences out of 15000+600000
- 19311 words of font info for 75 fonts, out of 8000000 for 9000
+ 9333 strings out of 493014
+ 131663 string characters out of 6133351
+ 244320 words of memory out of 5000000
+ 12466 multiletter control sequences out of 15000+600000
+ 26913 words of font info for 106 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,20n,32p,1320b,414s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{cite.reed1994nature} has been referenced but does
- not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.carlson2012physiology} has been referenced but
- does not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.kolda2009tensor} has been referenced but does 
-not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{equation.3.4} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.tsybakov2009introduction} has been referenced 
-but does not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{equation.3.1} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.tomioka2014spectral} has been referenced but d
-oes not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.nguyen2015tensor} has been referenced but does
- not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.jiang2017tensor} has been referenced but does 
-not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.wang2017operator} has been referenced but does
- not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.friedland2018nuclear} has been referenced but 
-does not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.lim2005singular} has been referenced but does 
-not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.ghadermarzy2019near} has been referenced but d
-oes not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{cite.brascamp2002extensions} has been referenced bu
-t does not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{thm.4.3} has been referenced but does not exist, re
-placed by a fixed one
-
-pdfTeX warning (dest): name{thm.4.2} has been referenced but does not exist, re
-placed by a fixed one
-
-pdfTeX warning (dest): name{cor.1} has been referenced but does not exist, repl
-aced by a fixed one
-
-pdfTeX warning (dest): name{thm.4.1} has been referenced but does not exist, re
-placed by a fixed one
-
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
-/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></us
-r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></us
-r/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></u
+ 40i,20n,32p,1714b,627s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></
+usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
+sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb>
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></u
 sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
-ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/l
-ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/lo
-cal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local
-/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/
-texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/te
-xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/20
-16/texmf-dist/fonts/type1/public/doublestroke/dsrom10.pfb></usr/local/texlive/2
-016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texli
-ve/2016/texmf-dist/fonts/type1/public/stmaryrd/stmary10.pfb></usr/local/texlive
-/2016/texmf-dist/fonts/type1/urw/symbol/usyr.pfb>
-Output written on ordinalT_supp_v3.pdf (17 pages, 411272 bytes).
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/l
+ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr
+/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
+ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
+al/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local
+/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/
+2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/201
+6/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2016/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2016/texmf-di
+st/fonts/type1/public/doublestroke/dsrom10.pfb></usr/local/texlive/2016/texmf-d
+ist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/stmaryrd/stmary10.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2016/texmf-dist/fonts
+/type1/urw/zapfding/uzdr.pfb>
+Output written on icml_arxiv_0212.pdf (32 pages, 2197364 bytes).
 PDF statistics:
- 499 PDF objects out of 1000 (max. 8388607)
- 422 compressed objects within 5 object streams
- 115 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1170 PDF objects out of 1200 (max. 8388607)
+ 1006 compressed objects within 11 object streams
+ 210 named destinations out of 1000 (max. 500000)
+ 265 words of extra memory for PDF output out of 10000 (max. 10000000)
 
