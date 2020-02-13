@@ -169,6 +169,7 @@ corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alpha=TRUE,type="ordinal"){
 
 ### main function ##
 fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
+    
   if(is.logical(alpha)) alpha_minus=alpha_minus2=TRUE
   else{
         alpha_minus=alpha-epsilon
@@ -186,6 +187,9 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
   cost=NULL
   omg = omega
   k=length(unique(as.factor(c(ttnsr))))-is.element(NA,ttnsr) ## for NA not being included in length
+  d=dim(ttnsr)
+  ttnsr=array(as.numeric(as.factor(ttnsr)),dim=d) ## code labels from 1 to K 
+  
     while ((error > 10^-4)&(iter<10) ) {
       iter = iter +1
       #update omega
@@ -278,7 +282,7 @@ theta_to_p=function(theta,omega){
         p[,i] = as.numeric(logistic(theta + omega[i]))
     }
     p =  cbind(p,rep(1,length(theta)))-cbind(rep(0,length(theta)),p)
-    p[p<epsilon]=epsilon
+    p[p<epsilon]=epsilon ## regularize
     return(p)
 }
 
@@ -383,6 +387,8 @@ fit_ordinal_matrix = function(ttnsr,A_1,A_2,omega=TRUE,alpha = TRUE){
     cost=NULL
     omg = omega
     k=length(unique(as.factor(c(ttnsr))))-is.element(NA,ttnsr) 
+    d=dim(ttnsr)
+    ttnsr=array(as.numeric(as.factor(ttnsr)),dim=d) ## code labels from 1 to K 
       
     while ((error > 10^-4)&(iter<10) ) {
         iter = iter +1
