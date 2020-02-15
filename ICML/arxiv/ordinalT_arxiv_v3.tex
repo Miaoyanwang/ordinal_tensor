@@ -1,0 +1,1220 @@
+\documentclass[11pt]{article}
+
+\usepackage{fancybox}
+\usepackage{color}
+\usepackage{url}
+\usepackage[margin=1in]{geometry}
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+\usepackage{comment}
+\usepackage{amsmath,amssymb,amsthm,bm,mathtools}
+\usepackage{natbib}
+\usepackage{dsfont,multirow,hyperref,setspace,enumerate}
+\hypersetup{colorlinks,linkcolor={blue},citecolor={blue},urlcolor={red}}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{makecell}
+
+\setlength\parindent{0pt}
+\usepackage[parfill]{parskip}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{pro}{Property}
+\newtheorem{assumption}{Assumption}
+\newtheorem{cor}{Corollary}[section]
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{rmk}{Remark}
+
+
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\usepackage{dsfont}
+\usepackage{wrapfig}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+ \mathop{%
+    \mathchoice
+    {\underbrace{\displaystyle#1}}%
+    {\underbrace{\textstyle#1}}%
+    {\underbrace{\scriptstyle#1}}%
+    {\underbrace{\scriptscriptstyle#1}}%
+  }\limits
+}
+\begingroup
+    \makeatletter
+    \@for\theoremstyle:=definition,remark,plain\do{%
+        \expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+            \addtolength\thm@preskip\parskip
+            }%
+        }
+\endgroup
+
+
+
+\input macros.tex
+\allowdisplaybreaks
+
+
+
+\title{Tensor denoising and completion based on ordinal observations}
+\date{}
+\author{%
+Chanwoo Lee \\
+University of Wisconsin -- Madison\\
+\texttt{chanwoo.lee@wisc.edu} \\
+\and
+Miaoyan Wang \\
+University of Wisconsin -- Madison\\
+\texttt{miaoyan.wang@wisc.edu} \\
+}
+
+
+\begin{document}
+\maketitle
+\begin{abstract}
+Higher-order tensors arise frequently in applications such as neuroimaging, recommendation system, social network analysis, and psychological studies. We consider the problem of low-rank tensor estimation from possibly incomplete, ordinal-valued observations. Two related problems are studied, one on tensor denoising and another on tensor completion. We propose a multi-linear cumulative link model, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. Our mean squared error bound enjoys a faster convergence rate than previous results, and we show that the proposed estimator is minimax optimal under the class of low-rank models. Furthermore, the procedure developed serves as an efficient completion method which guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional low-rank tensor using only $\tilde \tO(Kd)$ noisy, quantized observations. We demonstrate the outperformance of our approach over previous methods on the tasks of clustering and collaborative filtering.
+\\[0.5cm]
+\textbf{Keywords:} Higher-order tensors, ordinal observation, tensor decomposition, tensor completion
+\end{abstract}
+
+\section{Introduction}
+Multidimensional arrays, a.k.a.\ tensors, arise in a variety of applications including recommendation systems~\citep{baltrunas2011incarmusic}, social networks~\citep{nickel2011three}, genomics~\citep{hore2016tensor}, and neuroimaging~\citep{zhou2013tensor}. There is a growing need to develop general methods that can handle two main problems for analyzing these noisy, high-dimensional datasets. The first problem is tensor denoising which aims to recover a signal tensor from its noisy entries~\citep{hong2018generalized,zeng2019multiway}. The second problem is tensor completion which examines the minimum number of entries needed for a consistent recovery~\citep{ghadermarzy2018learning,ghadermarzy2019near}. Low-rankness is often imposed to the signal tensor, thereby efficiently reducing the intrinsic dimension in both problems.
+
+A number of low-rank tensor estimation methods have been proposed~\citep{anandkumar2014tensor,wang2017tensor}, revitalizing classical methods such as CANDECOMP/PARAFAC (CP) decomposition~\citep{hitchcock1927expression} and Tucker decomposition~\citep{tucker1966some}. These tensor methods treat the entries as continuous-valued. In many cases, however, we encounter datasets of which the entries are qualitative. For example, the Netflix problem records the ratings of users on movies over time. Each entry is a rating on a nominal scale \{{\it very like, like, neutral, dislike, very dislike}\}. Another example is in the signal processing, where the digits are frequently rounded or truncated so that only integer values are available. The qualitative observations take values in a limited set of categories, making the learning problem harder compared to  continuous observations.
+
+ Ordinal entries are categorical variables with an ordering among the categories; for example, {\it very like} $\prec$ {\it like} $\prec$ {\it neutral} $\prec \cdots$. The analyses of tensors with the ordinal entries are mainly complicated by two key properties needed for a reasonable model. First, the model should be invariant under a reversal of categories, say, from the Netflix example, {\it very like} $\succ$ {\it like} $\succ$ {\it neutral} $\succ \cdots$, but not under arbitrary label permutations. Second, the parameter interpretations should be consistent under merging or splitting of contiguous categories. The classical continuous tensor model~\citep{kolda2009tensor, ghadermarzy2019near} fails in the first aspect, whereas the binary tensor model~\citep{ghadermarzy2018learning} lacks the second property. An appropriate model for ordinal tensors has yet to be studied.
+
+{\bf Our contribution.} This paper presents an efficient low-rank estimation method and theory for tensors with ordinal-valued entries. Our main contributions are summarized in Table~\ref{tab:compare}. We propose a cumulative link model for higher-order tensors, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. The mean squared error bound is established, and we show that the obtained bound has minimax optimal rate in high dimensions under the low-rank model. Our estimator enjoys a faster convergence rate $\tO(d^{-(K-1)/2})$ than $\tO(d^{-K})$ in~\citet{ghadermarzy2018learning}, which is a substantial improvement for higher-order tensors. Furthermore, our proposal serves as an efficient completion algorithm that guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional low-rank tensor using only $\tilde \tO(Kd)$ noisy, quantized observations.
+
+
+\begin{table}[ht]
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{l|ccc}
+&\cite{bhaskar2016probabilistic}&\cite{ghadermarzy2018learning} &This paper\\
+\hline
+Higher-order tensors ($K\geq 3$) & \xmark&\cmark& \cmark\\
+\hline
+Multi-level categories ($L\geq 3$)& \cmark& \xmark&\cmark\\
+ \hline
+ Error rate for tensor denoising&$d^{-1}$ for $K=2$& $d^{-(K-1)/2}$&$d^{-(K-1)}$\\
+\hline
+Optimality guarantee under low-rank models& unknown & \xmark & \cmark\\
+\hline
+Sample complexity for tensor completion&$d^K$& $Kd$&$Kd$\\
+\hline
+\end{tabular}
+}
+\caption{Comparison with previous work when tensor rank $r=O(1)$. For ease of presentation, we summarize the error rate and sample complexity (neglecting log factors) when the tensor dimensions are equal in all modes. $K$: tensor order; $L$: number of ordinal levels; $d$: dimension at each mode. }~\label{tab:compare}
+\end{table}
+
+
+{\bf Related work.} Our work is related to, but clearly distinctive from, several lines of existing literature. Matrix completion from quantized samples was firstly introduced for binary observations~\citep{cai2013max,davenport2014,bhaskar20151} and then extended to ordinal observations~\citep{bhaskar2016probabilistic}. As we show in Section~\ref{sec:theory}, applying existing matrix methods to an ordinal tensor results in a suboptimal estimator with a slower convergence rate. Therefore, a full exploitation of the tensor structure is necessary; this is the focus of the current paper.
+
+Our work is also connected to non-Gaussian tensor decomposition. Existing work focuses exclusively on univariate observations such as binary- or continuous-valued entries~\citep{wang2018learning,hong2018generalized,ghadermarzy2018learning}. As we mentioned earlier, the ordinal observations add considerable challenges to the model formulation. We address the problems from two perspectives. From statistical perspective, our proposed model generalizes the usual binary tensor model while preserving palindromic invariance~\citep{mccullagh1980regression} for ordinal observations. From algorithm perspective, our alternating optimization compares favorably to the approximate (non-convex) algorithm developed in the context of binary tensors~\citep{ghadermarzy2018learning}. We numerically compare the two approaches in Section~\ref{sec:experiment}.
+
+
+\section{Preliminaries}
+Let $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional tensor. We use $y_\omega$ to denote the tensor entry indexed by $\omega$, where $\omega\in[d_1]\times\cdots\times[d_K]$.  The Frobenius norm of $\tY$ is defined as $\FnormSize{}{\tY}=\sum_\omega y^2_\omega$ and the infinity norm of $\tY$ is defined as $\mnormSize{}{\tY}=\max_{\omega}|y_\omega|$. We use $\tY_{(k)}$ to denote the unfolded matrix of size $d_k$-by-$\prod_{i\neq k}d_k$, obtained by reshaping the tensor along the mode-$k$. The Tucker rank of $\tY$ is defined as a length-$K$ vector $\mr = (r_1,\ldots,r_K)$, where $r_k$ is the rank of matrix $\tY_{(k)}$ for all $k \in[K]$. We say that an event $A$ occurs ``with very high probability'' if $\mathbb{P}(A)$ tends to 1 faster than any polynomial of tensor dimension $d_{\min}=\min\{d_1,\ldots,d_K\} \to\infty$. For any two functions $f, g$ depending on $(d_1,\ldots,d_K)$, we write $f=\tO(g)$ to indicate that $f\leq Cg$, where $C>0$ is a constant independent of tensor dimension. We write $f=\tilde\tO(g)$ to indicate that $f\leq C(\log d_{\min})^\beta g$ for some $\beta>0$.
+
+We use lower-case letters ($a, b, c, \ldots$) for scalars/vectors, upper-case boldface letters ($\mA, \mB, \mC, \ldots$) for matrices, and calligraphy letters ($\tA,\tB,\tC,\ldots$) for tensors of order three or greater. For ease of notation, we allow the basic arithmetic operators (e.g., $\leq, +, -$) to be applied to pairs of tensors in an element-wise manner. We use the shorthand $[n]$ to denote the $n$-set $\{1,\ldots,n\}$ for $n \in N_{+}$.
+
+\section{Model formulation and motivation}
+\subsection{Observation model}
+Let $\tY$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional data tensor. Suppose the entries of $\tY$ are ordinal-valued, and the observation space consists of $L$ ordered levels, denoted by $[L]:=\{1,\ldots,L\}$. We propose a cumulative link model for the ordinal tensor $\tY=\entry{y_\omega}\in[L]^{d_1\times \cdots\times d_K}$. Specifically, assume the entries $y_\omega$ are (conditionally) independently distributed with cumulative probabilities:
+\begin{equation}\label{eq:model}
+\mathbb{P}(y_\omega\leq \ell)=f(b_\ell-\theta_\omega),\ \text{for all}\ \ell\in[L-1],
+\end{equation}
+where $\mb=(b_1,\ldots,b_{L-1})$ is a set of unknown scalars satisfying $b_1<\cdots <b_{L-1}$, $\Theta=\entry{\theta_\omega}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is a continuous-valued parameter tensor satisfying certain low-dimensional structure (to be specified later), and $f(\cdot):\mathbb{R}\mapsto[0,1]$ is a known, strictly increasing function. We refer to $\mb$ as the cut-off points and $f$ the link function.
+
+The formulation~\eqref{eq:model} imposes an additive model to the transformed probability of cumulative categories. This modeling choice is to respect the ordering structure among the categories. For example, if we choose the inverse link $f^{-1}(x)=\log {x\over 1-x}$ to be the log odds, then the model~\eqref{eq:model} implies linear spacing between the proportional odds:
+\begin{equation}\label{eq:logodd}
+\log {\mathbb{P}(y_{\omega}\leq \ell) \over \mathbb{P}(y_\omega >  \ell) } - \log {\mathbb{P}(y_{\omega}\leq {\ell-1}) \over \mathbb{P}(y_\omega >  {\ell-1}) } = b_\ell-b_{\ell-1},
+\end{equation}
+for all tensor entries $y_\omega$. When there are only two categories in the observation space (e.g. binary tensors), the cumulative model~\eqref{eq:model} is equivalent to the usual multinomial link model. In general, however, when the number of categories $L\geq 3$, the proportional odds assumption~\eqref{eq:logodd} is more parsimonious, in that, the ordered categories can be envisaged as contiguous intervals on the continuous scale, where the points of division are exactly $b_1<\cdots <b_{L-1}$. This interpretation will be made more explicit in the next section.
+
+\subsection{Latent-variable interpretation}\label{sec:latent}
+The ordinal tensor model~\eqref{eq:model} with certain types of link $f$ has the equivalent representation as an $L$-level quantization model on $\tY=\entry{y_\omega}$:
+\begin{align}\label{eq:quantization}
+y_\omega&=
+\begin{cases}
+1,& \text{if $y^*_\omega\in(-\infty, b_1]$},\\
+2,& \text{if $y^*_\omega\in(b_1, b_2]$},\\
+\vdots  &\vdots\\
+L,& \text{if $y^*_\omega\in(b_{L-1}, \infty)$},\\
+\end{cases}
+\end{align}
+for all $\omega\in[d_1]\times \cdots \times [d_k]$. Here, $\tY^*=\entry{y^*_\omega}$ is a latent continuous-valued tensor following an additive noise model:
+\begin{align}\label{eq:latent}
+\KeepStyleUnderBrace{\tY^*}_{\text{latent continuous-valued tensor}}=\KeepStyleUnderBrace{\Theta}_{\text{signal tensor}}+\KeepStyleUnderBrace{\tE}_{\text{i.i.d.\ noise}},
+\end{align}
+where $\tE=\entry{\varepsilon_\omega}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is a noise tensor with i.i.d.\ entries according to distribution $\mathbb{P}(\varepsilon)$. From the viewpoint of~\eqref{eq:latent}, the parameter tensor $\Theta$ can be interpreted as the latent signal tensor prior to contamination and quantization.
+
+The equivalence between the latent-variable model~\eqref{eq:quantization} and the cumulative link model~\eqref{eq:model} is established if the link $f$ is chosen to be the cumulative distribution function of noise $\varepsilon$, i.e., $f(\theta)=\mathbb{P}(\varepsilon\leq \theta)$. We describe two common choices of link $f$, or equivalently, the distribution of $\varepsilon$.
+
+\begin{example}[Logistic model] The logistic model is characterized by~\eqref{eq:model} with $f(\theta)=(1+e^{-\theta/\sigma})^{-1}$, where $\sigma>0$ is the scale parameter. Equivalently, the noise $\varepsilon_\omega$ in~\eqref{eq:quantization} follows i.i.d.\ logistic distribution with scale parameter $\sigma$.
+\end{example}
+
+\begin{example}[Probit model] The probit model is characterized by~\eqref{eq:model} with
+$f(\theta)=\mathbb{P}(z\leq \theta/\sigma)$, where $z\sim N(0,1)$. Equivalently, the noise $\varepsilon_\omega$ in~\eqref{eq:quantization} follows i.i.d.\ $N(0,\sigma^2)$.
+\end{example}
+
+Other link functions are also possible, such as Laplace, Cauchy, inverse log-log, etc~\citep{mccullagh1980regression}. All the models share the property that the ordered categories can be thought of as contiguous interval on some continuous scale. We should point out that, although the latent-variable interpretation is incisive, our estimation procedure does not refer to the existence of $\tY^*$. Therefore, our model~\eqref{eq:model} is general and still valid in the absence of quantization process. More generally, we make the following assumptions about the link $f(\cdot): \mathbb{R}\mapsto[0,1]$.
+
+\begin{assumption}\label{ass:link}
+The link function is assumed to satisfy:
+\begin{enumerate}
+\item $f(\theta)$ is strictly increasing and twice-differentiable in $\theta$.
+\item $f'(\theta)$ is strictly log-concave and symmetric with respect to $\theta=0$.
+\end{enumerate}
+\end{assumption}
+
+\subsection{Problem 1: Tensor denoising}~\label{sec:denoising}
+The first question we aim to address is tensor denoising:
+
+{\bf (P1)} Given the quantization process induced by $f$ and the cut-off points $\mb$, how accurately can we estimate the latent signal tensor $\Theta$ from the ordinal observation $\tY$?
+
+Clearly, the problem (P1) cannot be solved uniformly for all possible $\Theta$. We focus on a class of ``low-rank'' and ``flat'' signal tensors, which is a plausible assumption in practical applications~\citep{zhou2013tensor,bhaskar20151}. Specifically, we consider the parameter space:
+\begin{equation}\label{eq:space}
+ \tP=\left\{\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K} \colon \text{rank}(\Theta)\leq \mr,\ \mnormSize{}{\Theta}\leq \alpha\right\}.
+\end{equation}
+where $\mr=(r_1,\ldots,r_K)$ denotes the Tucker rank of $\Theta$.
+
+The parameter tensor of our interest satisfies two constraints. The first is that $\Theta$ is a low-rank tensor, with $r_k=\tO(1)$ for all $k\in[K]$. Equivalently, $\Theta$ admits the Tucker decomposition:
+\begin{equation}\label{eq:Tucker}
+\Theta=\tC\times_1\mM_1\times_1 \cdots \times_K \mM_K,
+\end{equation}
+where $\tC\in\mathbb{R}^{r_1\times \cdots \times r_K}$ is a core tensor, $\mM_k\in\mathbb{R}^{d_k\times r_k}$ are factor matrices with orthogonal columns, and $\times_k$ denotes the tensor-by-matrix multiplication~\citep{kolda2009tensor}. The Tucker low-rankness is popularly imposed in tensor data analysis, and is shown to provide a reasonable tradeoff between model complexity and model flexibility. Note that, unlike matrices, there are various notations of tensor low-rankness, such as CP rank~\citep{hitchcock1927expression} and train rank~\citep{oseledets2011tensor}. Some notation of low-rankness may lead to mathematically ill-posed optimization; for example, the best low CP-rank tensor approximation may not exist~\citep{de2008tensor}. We choose Tucker representation for well-posedness of optimization and easy interpretation.
+
+The second constraint is that the entries of $\Theta$ are uniformly bounded in magnitude by a constant $\alpha \in \mathbb{R}_{+}$. In view of~\eqref{eq:latent}, we refer to $\alpha$ as the signal level. The entry-wise bound assumption is a technical condition that avoids the degeneracy in probability estimation with ordinal observations.
+
+\subsection{Problem 2: Tensor completion}
+Motivated by applications in collaborative filtering, we also consider a more general setup when only a subset of tensor entries $y_\omega$ are observed. Let $\Omega\subset[d_1]\times \cdots\times[d_K]$ denote the set of observed indices. The second question we aim to address is stated as follows:
+
+
+{\bf (P2)} Given an incomplete set of ordinal observations $\{y_{\omega}\}_{\omega\in\Omega}$, how many sampled entries do we need to consistently recover $\Theta$ based on the model~\eqref{eq:model}?
+
+The answer to (P2) depends on the choice of $\Omega$. We consider a general model on $\Omega$ that allows both uniform and non-uniform sampling. Specifically, let $\Pi=\{\pi_{i_1,\ldots,i_K}\}$ denote a predefine probability distribution over the index set such that $\sum_{\omega\in[d_1]\times \cdots \times [d_K]} \pi_\omega =1$. We assume that each index in $\Omega$ is drawn with replacement using distribution $\Pi$. This sampling model relaxes the uniform sampling in literature and is arguably a better fit in applications.
+
+We consider the same parameter space~\eqref{eq:space} for the completion problem. In addition to the reasons mentioned in Section~\ref{sec:denoising}, the entrywise bound assumption also serves as the incoherence requirement for completion. In classical matrix completion, the incoherence is often imposed on the singular vectors. This assumption is recently relaxed for ``flat'' matrices with bounded magnitude~\citep{negahban2011estimation,cai2013max,bhaskar20151}. We adopt the same assumption for higher-order tensors.
+
+\section{Rank-constrained M-estimator}\label{sec:theory}
+We present a general treatment to both problems mentioned above. With a little abuse of notation, we use $\Omega$ to denote either the full index set $\Omega=[d_1]\times \cdots \times [d_K]$ (for the tensor denoising) or a random subset induced from the sampling distribution $\Pi$ (for the tensor completion). Define $b_0=-\infty$, $b_L=\infty$, $f(-\infty)=0$ and $f(\infty)=1$. The log-likelihood associated with the observed entries is
+\begin{align}\label{eq:objective}
+\logl(\Theta, \mb)&=\sum_{\omega\in\Omega}\sum_{\ell\in[L]} \Big\{\mathds{1}_{\{y_\omega=\ell\}} \log \big[f(b_\ell-\theta_\omega)-  f(b_{\ell-1}-\theta_\omega)\big]\Big\}.
+\end{align}
+We propose a rank-constrained maximum likelihood estimator (a.k.a.\ M-estimator) for $\Theta$:
+\begin{align}\label{eq:estimator}
+\hat \Theta&=\argmax_{\Theta\in \tP}\logl(\Theta, \mb),\ \text{where}\notag \\
+\tP&=\left\{\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K} \colon \text{rank}(\Theta)\leq \mr,\ \mnormSize{}{\Theta}\leq \alpha\right\}.
+ \end{align}
+In practice, the cut-off points $\mb$ are unknown and should be jointly estimated with $\Theta$. For technical convenience, we assume in this section that the cut-off points $\mb$ are known. The adaptation of unknown $\mb$ is addressed in Section~\ref{sec:algorithm} and Appendix~\ref{sec:extention}.
+
+We define a few key quantities that will be used in our theory. Let $g_\ell(\theta)=f(b_\ell-\theta)-f(b_{\ell-1}-\theta)$ for all $\ell\in[L]$, and
+\begin{equation}\label{eq:regular}
+A_\alpha = \min_{\ell\in[L], |\theta|\leq \alpha} g_\ell(\theta),\quad  U_\alpha=\max_{\ell\in[L], |\theta|\leq \alpha } {|\dot{g}_\ell(\theta)|\over g_\ell(\theta)},\quad \text{and}\quad
+ L_\alpha = \min_{\ell\in[L], |\theta|\leq \alpha }\left[{\dot{g}_\ell^2 (\theta)\over g_\ell^2(\theta)} -{\ddot{g}_\ell(\theta)\over g_\ell(\theta)}\right],
+\end{equation}
+where $\dot{g}(\theta)=dg(\theta)/d\theta$, and $\alpha$ is the entrywise bound of $\Theta$. In view of equation~\eqref{eq:latent}, these quantities characterize the geometry including flatness and convexity of the latent noise distribution. Under the Assumption~\ref{ass:link}, all these quantities are strictly positive and independent of tensor dimension.
+
+\subsection{Estimation error for tensor denoising}\label{sec:denosing}
+For the tensor denoising problem, we assume that the full set of tensor entries are observed. We assess the estimation accuracy using the mean squared error (MSE):
+\[
+\mathrm{MSE}(\hat \Theta, \trueT)={1\over \prod_k d_k}\FnormSize{}{\Theta-\trueT}^2.
+\]
+The next theorem establishes the upper bound for the MSE of the proposed $\hat \Theta$ in~\eqref{eq:estimator}.
+
+\begin{thm}[Statistical convergence] \label{thm:rate}
+Consider an ordinal tensor $\tY\in[L]^{d_1\times\dots\times d_K}$ generated from model~\eqref{eq:model}, with the link function $f$ and the true coefficient tensor $\trueT\in\tP$. Define $r_{\max}=\max_k r_k$. Then, with very high probability, the estimator in~\eqref{eq:estimator} satisfies
+\begin{equation}\label{eq:rate}
+\mathrm{MSE}(\hat \Theta, \trueT) \leq \min\left( 4\alpha^2,\ {c_2  U^2_\alpha r_{\max}^{K-1}  \over  L^2_\alpha } {\sum_kd_k\over  \prod_k d_k} \right),
+\end{equation}
+where $c_1, c_2>0$ are two constants that depend only on $K$.\\
+\end{thm}
+
+Theorem~\ref{thm:rate} establishes the statistical convergence for the estimator~\eqref{eq:estimator}. In fact, the proof of this theorem (see Section~\ref{sec:proofMSE}) shows that the same statistical rate holds, not only for the global optimizer~\eqref{eq:estimator}, but also for any local optimizer $\check \Theta$ in the level set $\{\check\Theta\in\tP: \logl(\check\Theta)\geq \logl(\trueT)\}$. This suggests that the local optimality itself is not necessarily a severe concern in our context, as long as the convergent objective is large enough. In Section~\ref{sec:algorithm}, we perform empirical studies to assess the algorithmic stability.
+
+A similar conclusion is obtained for the prediction error, measured in Kullback-Leibler (KL) divergence, between the categorical distributions in the observation space.
+
+\begin{cor}[Prediction error]~\label{cor:prediction}
+Assume the same set-up as in Theorem~\ref{thm:rate}. Let $\mathbb{P}_{\tY}$ and $\hat{\mathbb{P}}_{\tY}$ denote the distributions generating the $L$-level ordinal tensor $\tY$, given the true parameter $\Theta$ and its estimator $\hat \Theta$, respectively. Assume $L\geq 2$. Then, with very high probability,
+\begin{equation}\label{eq:KLrate}
+\mathrm{KL}(\mathbb{P}_{\tY} || \hat{\mathbb{P}}_{\tY}) \leq  {c_2 U^2_\alpha r_{\max}^{K-1}  \over L^2_\alpha } {(4L-6)\dot{f}^2(0)  \over A_\alpha} {\sum_kd_k\over  \prod_k d_k},
+\end{equation}
+where $c_1, c_2>0$ are the same constants as in Theorem~\ref{thm:rate}.
+\end{cor}
+
+To gain insight into these bounds, we consider a special setting with equal dimension in all modes, i.e., $d_1=\cdots=d_K=d$. In such a case, our bound \eqref{eq:rate} reduces to
+\begin{equation}\label{eq:ours}
+\text{MSE}(\hat \Theta, \trueT) \asymp d^{-(K-1)}, \quad \text{as}\ d\to \infty.
+\end{equation}
+Hence, our estimator achieves consistency with polynomial convergence rate. We compare the bound with existing literature. In the special case $L=2$, \citet{ghadermarzy2018learning} proposed a max-norm constrained estimator $\tilde{\Theta}$ with $\text{MSE}(\tilde{\Theta}, \trueT) \asymp  d^{-(K-1)/2}$. In contrast, our estimator converges at a rate of $d^{-(K-1)}$, which is substantially faster than theirs. This provides a positive answer to the open question posed in~\citet{ghadermarzy2018learning} whether the square root in the bound is removable. The improvement stems from utilizing the exact low-rankness of $\Theta$, whereas the surrogate rank measure employed in~\citet{ghadermarzy2018learning} is scale-sensitive.
+
+Our bound also generalizes the previous results on ordinal matrices. The convergence rate for rank-constrained matrix estimation was $\tO(1/\sqrt{d})$~\citep{bhaskar2016probabilistic}, which fits into our special case when $K=2$. Furthermore, our results~\eqref{eq:rate} and~\eqref{eq:KLrate} reveal that the convergence becomes favorable as the order of data tensor increases. Intuitively, the sample size for tensor data analysis is the number of entries, $\prod_k d_k$, and the number of free parameters is roughly on the order of $\sum_{k}d_k$, assuming $r_{\max}=\tO(1)$. A higher tensor order implies higher effective sample size per parameter, and thus exhibits a faster convergence rate in high dimensions.
+
+
+We next show the statistical optimality of our estimator $\hat \Theta$. The result is based on the information theory, and applies to all estimators in $\tP$, including but not limited to $\hat \Theta$ in~\eqref{eq:estimator}.
+
+\begin{thm}[Minimax lower bound]\label{thm:minimax}
+Assume the same set-up as in Theorem~\ref{thm:rate}, and $d_{\max}=\max_k d_k \geq 8$. Let $\inf_{\hat \Theta}$ denote the infimum over all estimators $\hat \Theta\in\tP$ based on the ordinal tensor observation $\tY\in[L]^{d_1\times \cdots \times d_K}$. Then, under the model~\eqref{eq:model},
+\begin{align}\label{eq:lower}
+\inf_{\hat \Theta }\sup_{\trueT\in\tP} \mathbb{P}\Big\{&\mathrm{MSE}(\hat \Theta, \trueT)  \geq c \min\left( \alpha^2, \ { Cr_{\max}d_{\max} \over \prod_k d_k} \right) \Big\} \geq {1\over 8},
+\end{align}
+where $C=C(\alpha, L, f,\mb)>0$ and $c>0$ are constants independent of tensor dimension and the rank.\\
+\end{thm}
+
+We see that the lower bound matches the upper bound in~\eqref{eq:rate} on the polynomial order of tensor dimension. Therefore, our estimator~\eqref{eq:estimator} is order-optimal.
+
+\subsection{Sample complexity for tensor completion}
+We now consider the tensor completion problem, when only a subset of entries $\Omega$ are observed. We consider a general sampling procedure induced by $\Pi$. The recovery accuracy is assessed by the weighted squared error:
+\begin{align}\label{eq:weighted}
+\PiFnormSize{}{\Theta-\hat \Theta}^2&\stackrel{\text{def}}{=}
+{1\over |\Omega|}\mathbb{E}_{\Omega\sim \Pi}\FnormSize{}{\Theta-\hat \Theta}^2\notag \\
+&=\sum_{\omega\in[d_1]\times \cdots \times [d_K]} \pi_{\omega}(\Theta_{\omega}-\hat \Theta_{\omega})^2.
+\end{align}
+
+Note that the recovery error depends on the distribution $\Pi$. In particular, tensor entries with higher sampling probabilities have more influence on the recovery accuracy, compared to the ones with lower sampling probabilities.
+
+\begin{rmk} If we assume each entry is sampled with strictly positive probability; i.e.\ there exits a constant $\mu> 0$ s.t.
+\[
+\ \pi_\omega\geq {1\over \mu \prod_k d_k},\quad \text{for all}\ \omega\in[d_1]\times\cdots \times [d_K],
+\]
+then the error in~\eqref{eq:weighted} provides an upper bound for MSE:
+\[
+\PiFnormSize{}{\Theta-\hat \Theta}^2 \geq {\FnormSize{}{\Theta-\hat \Theta}^2\over \mu \prod_kd_k}={1\over \mu}\text{MSE}(\hat \Theta, \trueT).
+\]
+The equality is attained under uniform sampling with $\mu=1$.
+\end{rmk}
+
+
+\begin{thm}~\label{thm:completion}
+Assume the same set-up as in Theorem~\ref{thm:rate}. Suppose that we observe a subset of tensor entries $\{y_\omega\}_{\omega\in\Omega}$, where $\Omega$ is chosen at random with replacement according to a probability distribution $\Pi$. Let $\hat \Theta$ be the solution to~\eqref{eq:estimator}, and assume $r_{\max}=\tO(1)$. Then, with very high probability,
+\[
+\PiFnormSize{}{\Theta-\hat \Theta}^2 \to 0,\quad \text{ as }\quad {|\Omega|\over \sum_k d_k} \ \to \infty.
+\]
+\end{thm}
+
+Theorem~\ref{thm:completion} shows that our estimator achieves consistent recovery using as few as $\tilde{\tO}(Kd)$ noisy, quantized observations from an order-$K$ $(d,\ldots,d)$-dimensional tensor. Note that $\tilde \tO(Kd)$ roughly matches the degree of freedom for an order-$K$ tensor of fixed rank $\mr$, suggesting the optimality of our sample requirement. This sample complexity substantially improves over earlier result $\tO(d^{\lceil K/2\rceil})$ based on square matricization~\citep{mu2014square}, or $\tO(d^{N/2})$ based on tensor nuclear-norm regularization~\citep{yuan2016tensor}. Existing methods that achieve $\tilde \tO(Kd)$ sample complexity require either a deterministic cross sampling design~\citep{zhang2019cross} or univariate measurements~\citep{ghadermarzy2018learning}. Our method extends the conclusions to multi-level measurements under a broader class of sampling schemes.
+
+\section{Numerical Implementation}\label{sec:algorithm}
+
+We describe the algorithm to seek the optimizer of~\eqref{eq:objective}. In practice, the cut-off points $\mb$ are often unknown, so we choose to maximize $\logl$ jointly over $(\Theta,\mb)\in\tP\times \tB$. The objective $\logl$ is concave in $(\Theta,\mb)$ whenever $f'$ is log-concave (see Section~\ref{sec:proofconvexity}). However, the feasible set $\tP$ is non-convex, which makes the optimization~\eqref{eq:objective} a non-convex problem. We employ the alternating optimization approach by utilizing the Tucker representation of $\Theta$. Specifically, based on~\eqref{eq:Tucker} and~\eqref{eq:objective}, the objective function consists of $K+2$ blocks of variables, one for the cut-off points $\mb$, one for the core tensor $\tC$, and $K$ for the factor matrices $\mM_k$'s. The optimization is a simple convex problem if any $K+1$ out of the $K+2$ blocks are fixed. We update one block at a time while holding others fixed, and alternate the optimization throughout the iteration. The convergence is guaranteed whenever $\logl$ is bounded from above, since the alternating procedure monotonically increases the objective. The Algorithm~\ref{alg} gives the full description.
+
+\begin{algorithm}[t]
+        \caption{Ordinal tensor decomposition}\label{alg}
+        \begin{algorithmic}[]
+            \STATE{\bfseries Input:}  \text{ Ordinal data tensor }
+            $\mathcal{Y}\in [L]^{d_1\times\cdots\times d_K}$, rank $\mr\in \mathbb{N}_{+}^{K}$, entry-wise bound $\alpha\in \mathbb{R_+}$.
+            \STATE{\bfseries Output:} $(\hat\Theta,\hat{\mb}) =  \argmax_{(\Theta,\mb)\in \mathcal{P}\times\mathcal{B}}  \mathcal{L}_{\mathcal{Y},\Omega}(\Theta,\mb).$
+            \STATE Random initialization of core tensor $\mathcal{C}^{(0)}$, factor matrices $ \{\mM_k^{(0)}\}$, and cut-off points $\mb^{(0)}$.
+            \FOR{$t = 1,2,\cdots,$}
+            \FOR{$k = 1,2,\cdots,K$}
+            \STATE{Update $\mM^{(t+1)}_k$ while fixing other blocks:}
+            \STATE $\mM_k^{(t+1)}\gets\argmax_{\mM_k\in\mathbb{R}^{d_k\times r_K}}\mathcal{L}_{\mathcal{Y},\Omega}(\mM_k)$,
+           s.t. $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha$, where $\Theta^{(t+1)}$ is the parameter tensor based on the current block estimates.
+            \ENDFOR
+            \STATE {Update $\mathcal{C}^{(t+1)}$ while fixing other blocks:}
+              \newline$\mathcal{C}^{(t+1)} \gets \argmax_{\mathcal{C}\in \mathbb{R}^{r_1\times\cdots\times r_K}}\mathcal{L}_{\mathcal{Y},\Omega}(\mathcal{C})$, s.t. $\mnormSize{}{\Theta^{(t+1)}}\leq \alpha.$
+               \STATE {Update $\Theta^{(t+1)}$ based on the current block estimates:}
+                   \newline
+                   $\Theta^{(t+1)} \gets \mathcal{C}^{(t+1)}\times_1\mM_1^{(t+1)}\cdots\times_K\mM_K^{(t+1)}.$
+            \STATE {Update $\mb^{(t+1)}$ while fixing $\Theta^{(t+1)}$:}
+              $\mb^{(t+1)} \gets \argmax_{\mb\in \tB}\mathcal{L}_{\mathcal{Y},\Omega}\big(\Theta^{(t+1)},\mb\big).$
+            \ENDFOR
+            \STATE \textbf{return}
+            $(\hat \Theta,\hat \mb)$
+        \end{algorithmic}
+ \end{algorithm}
+
+We comment on two implementation details before concluding this section. First, the problem~\eqref{eq:estimator} is non-convex, so Algorithm 1 usually has no theoretical guarantee on global optimality. Nevertheless, as shown in Section~\ref{sec:denosing}, the desired rate holds not only for the global optimizer, but also for the local optimizer with $\logl(\hat \Theta)\geq \logl(\trueT)$. In practice, we find the convergence point $\hat \Theta$ upon random initialization is often satisfactory, in that the corresponding objective $\logl(\hat \Theta)$ is close to and actually slightly larger than the objective evaluated at the true parameter $\logl(\trueT)$. Figure~\ref{fig:stability} shows the trajectory of the objective function that is output in the default setting of Algorithm 1, with the input tensor generated from probit model~\eqref{eq:model} with $d_1=d_2=d_3=d$ and $r_1=r_2=r_3=r$. The dashed line is the objective value at the true parameter $\logl(\trueT)$. We find that the algorithm generally converges quickly to a desirable value in reasonable number of steps. The actual running time per iteration is shown in the plot legend.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.7\textwidth]{algorithm.pdf}\label{fig:stability}
+\caption{Trajectory of objective function with various $d$ and $r$.}
+\end{figure}
+
+
+
+Second, the algorithm takes the rank $\mr$ as an input. In practice, the rank $\mr$ is hardly known and needs to be estimated from the data. We suggest to use Bayesian information criterion (BIC) and choose the rank that minimizes BIC; i.e.
+\begin{align}\label{eq:BIC}
+\hat \mr&=\argmin_{\mr\in\mathbb{N}^K_{+}} \text{BIC}(\mr)\\
+&=\argmin_{\mr\in\mathbb{N}^K_{+}}\left\{-2\tL_{\tY}(\hat \Theta(\mr),\hat \mb(\mr))+p_e(\mr)\log \left(\prod_k d_k\right)\right\},
+\end{align}
+where $\hat \Theta(\mr), \hat\mb(\mr)$ are the estimates given the rank $\mr$, and $p_e(\mr)\stackrel{\text{def}}{=}\sum_k (d_k-r_k)r_k+\prod_k r_k$ is the effective number of parameters in the model. We select $\hat \mr$ that minimizes BIC through a grid search. The choice of BIC is intended to balance between the goodness-of-fit for the data and the degrees of freedom in the population model.
+
+\section{Experiments}\label{sec:experiment}
+In this section, we evaluate the empirical performance of our method. We investigate both the complete and the incomplete settings, and compare the recovery accuracy with other tensor-based methods. Unless otherwise stated, the ordinal data tensors are generated from model~\eqref{eq:model} using standard probit link $f$. We consider the setting with $K=3$, $d_1=d_2=d_3=d$, and $r_1=r_2=r_3=r$. The parameter tensors are simulated based on~\eqref{eq:Tucker}, where the core tensor entries are i.i.d.\ drawn from $\tN(0,1)$, and the factors $\mM_k$ are uniformly sampled (with respect to Haar measure) from matrices with orthonormal columns. We set the cut-off points $b_\ell=f^{-1}(\ell/L)$ for $\ell\in[L]$, such that $f(b_\ell)$ are evenly spaced from 0 to 1. In each simulation study, we report the summary statistics across $n_{\text{sim}}$ = 30 replications.
+
+\subsection{Finite-sample performance}\label{sec:simulation}
+The first experiment examines the performance under complete observations. We assess the empirical relationship between the MSE and various aspects of model complexity, such as dimension $d$, rank $r$, and signal level $\alpha=\mnormSize{}{\Theta}$. Figure~\ref{fig:finite}a plots the estimation error versus the tensor dimension $d$ for three different ranks $r\in\{3,5,8\}$. The decay in the error appears to behave on the order of $d^{-2}$, which is consistent with our theoretical results~\eqref{eq:rate}. We find that a higher rank leads to a larger error, as reflected by the upward shift of the curve as $r$ increases. Indeed, a higher rank implies the higher number of parameters to estimate, thus increasing the difficulty of the estimation. Figure~\ref{fig:finite}b shows the estimation error versus the signal level under $d=20$. Interestingly, a larger estimation error is observed when the signal is either too small or too large. The non-monotonic behavior may seem surprising, but this is an intrinsic feature in the estimation with ordinal data. In view of the latent-variable interpretation (see Section~\ref{sec:latent}), estimation from ordinal observation can be interpreted as an inverse problem of quantization. Therefore, the estimation error diverges in the absence of noise $\tE$, because it is impossible to distinguish two different signal tensors, e.g., $\Theta_1=\ma_1\otimes \ma_2\otimes \ma_3$ and $\Theta_2=\text{sign}(\ma_1)\otimes \text{sign}(\ma_2)\otimes \text{sign}(\ma_3)$, from the quantized observations. This phenomenon~\citep{davenport2014,sur2019modern} is clearly contrary to the classical continuous-valued tensor problem.
+
+The second experiment investigates the incomplete observations. We consider $L$-level tensors with $d=20$, $\alpha=10$ and choose a subset of tensor entries via uniform sampling. Figure~\ref{fig:finite}c shows the estimation error of $\hat \Theta$ versus the fraction of observation $\rho=|\Omega|/d^K$. As expected, the error reduces with increased $\rho$ or decreased $r$. Figure~\ref{fig:finite}d evaluates the impact of ordinal levels $L$ to estimation accuracy, under the setting $\rho=0.5$. An improved performance is observed as $L$ grows, especially from binary observations ($L=2$) to multi-level ordinal observations ($L\geq 3$). The result showcases the benefit of multi-level observations compared to binary observations.
+
+\begin{figure}[ht]
+  \centering
+\includegraphics[width=0.6\textwidth]{panel.pdf}
+\caption{Empirical relationship between (relative) MSE versus (a) dimension $d$, (b) signal level $\alpha$, (c) observation fraction $\rho$, and (d) number of ordinal levels $L$. In panels (b)-(d), we plot the relative MSE $=\FnormSize{}{\hat \Theta-\trueT}/\FnormSize{}{\trueT}$ for better visualization.}
+\label{fig:finite}
+\end{figure}
+
+\subsection{Comparison with alternative methods}\label{sec:compare}
+Next, we compare our ordinal tensor method ({\bf Ordinal-T}) with three popular low-rank methods:
+
+\begin{itemize}
+\item Continuous tensor decomposition ({\bf Continuous-T})~\citep{acar2010scalable} is a low-rank approximation method based on classical Tucker model.
+\item One-bit tensor completion ({\bf 1bit-T})~\citep{ghadermarzy2018learning} is a max-norm penalized tensor learning method based on partial binary observations.
+\item Ordinal matrix completion ({\bf Ordinal-M})~\citep{bhaskar2016probabilistic} is a rank-constrained matrix estimation method based on noisy, quantized observations.
+\end{itemize}
+
+We apply each of the above methods to $L$-level ordinal tensors $\tY$ generated from model~\eqref{eq:model}. The {\bf Continuous-T} is applied directly to $\tY$ by treating the $L$ levels as continuous observations. The {\bf Ordinal-M} is applied to the matrix $\tY_{(1)}$ obtained via 1-mode unfolding. The {\bf 1bit-T} is applied to $\tY$ in two ways. The first approach ({\bf 1bit-sign-T}) follows from~\citet{ghadermarzy2018learning} that transforms $\tY$ to a binary tensor, by taking the entrywise sign of the mean-adjusted tensor, $\tY- |\Omega|^{-1}\sum_\omega y_\omega$. The second approach ({\bf 1bit-category-T}) transforms the order-3 ordinal tensor $\tY$ to an order-4 binary tensor $\tY^{\sharp}=\entry{y^{\sharp}_{ijkl}}$ via dummy variable encoding; i.e., $y^{\sharp}_{ijk\ell}=\mathds{1}_{\{y_{ijk}=\ell\}}$ for all $\ell\in[L-1]$.
+
+We evaluate the methods by their capabilities in predicting the most likely label for each entry, i.e.,\ $y_\omega^{\text{mode}}=\arg\max_\ell\mathbb{P}(y_\omega=\ell)$. Two performance metrics are considered: mean absolute deviation, $\text{MAD}(\tY^{\text{mode}}, \hat \tY^{\text{mode}})=d^{-K}\sum_\omega |y_\omega^{\text{mode}}-\hat y_\omega^{\text{mode}}|$, and misclassification rate, $\text{MCR}(\tY^{\text{mode}}, \hat \tY^{\text{mode}})=d^{-K}\sum_\omega\mathds{1}_{\{y_\omega^{\text{mode}}\neq\text{round}(\hat y_\omega^{\text{mode}})\}}$,
+where $\text{round}(\cdot)$ denotes the nearest integer of the prediction (possibly continuous-valued returned by {\bf Continuous-T}). Both metrics are widely used for evaluation of prediction accuracy. Note that MAD penalizes the large deviation more heavily than MCR.
+
+
+Figure~\ref{fig:compare} compares the prediction accuracy under the setting $\alpha=10$, $d=20$, and $r=5$. The problem size we considered is comparable to~\citet{ghadermarzy2018learning}. We find that our method outperforms the others in both MAD and MCR. In particular, methods built on multi-level observations ({\bf Ordinal-T}, {\bf Ordinal-M}, {\bf 1bit-category-T}) exhibit stable MCR over $\rho$ and $L$, whereas the others two methods ({\bf Continuous-T}, {\bf 1bit-sign-T}) generally fail except for $L=2$ (Figures~\ref{fig:compare}a-b). This observation highlights the necessity of modeling multi-level probabilities in classification task. Interestingly, although both {\bf 1bit-category-T} and our method {\bf Ordinal-T} behave similarly for binary tensors ($L=2$), the improvement of our method is substantial as $L$ increases (Figures~\ref{fig:compare}a and~\ref{fig:compare}c). One possible reason is that our method incorporates the intrinsic ordering among the $L$ levels via proportional odds assumption~\eqref{eq:logodd}, whereas {\bf 1bit-category-T} ignores the ordinal structure and dependence among the induced binary entries. Figures~\ref{fig:compare}c-d assess the prediction accuracy with sample size. We see a clear advantage of our method ({\bf Ordinal-T}) over the matricization ({\bf Ordinal-M}) in both complete and non-complete observations. When the observation fraction is small, e.g., ${|\Omega|/ d^K}=0.4$, the tensor-based completion shows $\sim$ 30\% reduction in error compared to the matricization.
+
+\begin{figure}[ht]
+  \centering
+\includegraphics[width=0.6\textwidth]{panel2.pdf}
+\caption{Performance comparison for predicting most likely labels. (a, c) Prediction error versus sample complexity $\rho=|\Omega|/d^K$ when $L=5$. (b, d) Prediction error versus the number of ordinal levels $L$ when $\rho=0.8$. }\label{fig:compare}
+\end{figure}
+
+We also compare the methods by their performance in predicting the median labels, $y_\omega^{\text{median}}=\min\{\ell\colon\mathbb{P}(y_\omega=\ell)\geq 0.5\}$. Under the latent variable model~\eqref{eq:latent} and Assumption~\ref{ass:link}, the median label is the quantized $\theta_\omega$ without noise; i.e.\ $y_\omega^{\text{median}}=\sum_\ell \mathds{1}_{\theta_\omega\in(b_{\ell-1},b_\ell]}$. We utilize the same simulation setting as in the earlier experiment. Figure~\ref{fig:compare2} shows that our method outperforms the others in both MCR and MAD. The improved accuracy comes from the incorporation of multilinear low-rank structure, multi-level observations, and the ordinal structure. Interestingly, for the three multilevel methods ({\bf 1bit-sign-T}, {\bf Ordinal-M}, and {\bf Ordinal-T}), the median estimator tends to yield smaller MAD than the mode estimator, $\text{MAD}(\tY^{\text{median}}, \hat \tY^{\text{median}})\leq \text{MAD}(\tY^{\text{mode}}, \hat \tY^{\text{mode}})$  (Figures~\ref{fig:compare}a-b vs.\ Figures~\ref{fig:compare2}a-b). On the other hand, the mode estimator tends to yield smaller MCR than the median estimator, $\text{MCR}(\tY^{\text{mode}}, \hat \tY^{\text{mode}})\leq\text{MCR}(\tY^{\text{median}}, \hat \tY^{\text{median}})$ (Figures~\ref{fig:compare}c-d vs.\ Figures~\ref{fig:compare2}c-d). This tendency is from the property that the median estimator $\hat y^{(\text{median})}_\omega$ minimizes $g_1(z)=\mathbb{E}_{y_\omega}|y_\omega-z|$, whereas the mode estimator $\hat y^{(\text{mode})}_\omega $ minimizes $g_2(z)=\mathbb{E}_{y_\omega}\mathds{1}_{\{y_\omega=z\}}$. Here the expectation is over the categorical distribution of $y_\omega$ given parameters $\hat \Theta$ and $\hat \mb$.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=.6\textwidth]{panel3.pdf}
+\end{center}
+\caption{Performance comparison for predicting median labels. (a, c) Prediction error versus sample complexity $\rho=|\Omega|/d^K$ when $L=5$. (b, d) Prediction error versus the number of ordinal levels $L$, when $\rho=0.8.$}\label{fig:compare2}
+\end{figure}
+
+
+
+\section{Data Applications}
+We apply our ordinal tensor method to two real-world datasets. In the first application, we use our model to analyze an ordinal tensor consisting of structural connectivities among 68 brain regions for 136 individuals from Human Connectome Project (HCP)~\citep{van2013wu}. In the second application, we perform tensor completion to an ordinal dataset with missing values. The data tensor records the ratings on a scale of 1 to 5 from 42 users to 139 songs on 26 contexts~\citep{baltrunas2011incarmusic}.
+
+
+{\bf Human Connectome Project (HCP).} Each entry in the HCP dataset takes value on a nominal scale, \{{\it high, moderate, low}\}, indicating the strength level of fiber connection. We convert the dataset to a 3-level ordinal tensor $\tY\in[3]^{68\times 68\times 136}$ and apply the ordinal tensor method with a logistic link function. The BIC suggests $\mr = (23,23,8)$ with $\logl(\hat{\Theta},\hat{\mb}) = -216,646$. Based on the estimated Tucker factors $\{\hat \mM_k\}$, we perform a clustering analysis via K-mean on the brain nodes (see Appendix~\ref{sec:clustering} for detailed procedure). The 68 brain nodes are grouped into eight clusters. We find that the clustering capture the spatial separation between brain regions (Supplementary Figure~\ref{figure:brain image}). In particular, the top two clusters represent the left and right hemispheres; the smaller clusters represent local regions driving by similar nodes (Supplementary Table~\ref{table:clustering}). For example, the cluster III/IV consists of nodes in the supramarginal gyrus region in the left/right hemisphere. This region is known to be involved in visual word recognition and reading~\citep{stoeckel2009supramarginal}. The spatial separation between clusters suggests the applicability of our clustering method even without knowledge of external annotations.
+
+We also compare the goodness-of-fit of various tensor methods on the HPC data. We perform 5-fold cross-validation while preserving the same label proportions in train/test sets. Table~\ref{table:CV} summarizes the prediction error averaged over 10 runs. Our method outperforms the others, especially in MAD.
+
+{\bf InCarMusic recommendation system.} We apply ordinal tensor completion to a recommendation system InCarMusic. InCarMusic is a mobile application that offers music recommendation to passengers of cars based on contexts~\citep{baltrunas2011incarmusic}. Our goal is to perform tensor completion to impute the unobserved entries in the $42\times 139\times 26$ ordinal tensor and thereby we can offer context-specific music recommendation to users. The data tensor consists of 2,884 observed entries. Table~\ref{table:CV} shows the averaged prediction error via 5-fold cross validation. The high missing rate makes the accurate classification challenging. Nevertheless, our method achieves the best performance among the three.
+
+
+\begin{table}[ht]
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{c|c|c||c|c|c}
+\Xhline{2\arrayrulewidth}
+\multicolumn{3}{c||}{Human Connectome Project (HCP) dataset} & \multicolumn{3}{c}{InCarMusic dataset}\\
+\Xhline{2\arrayrulewidth}
+Method                    & MAD & MCR & Method                    & MAD & MCR\\
+\hline
+Ordinal-T (ours) & 0.1607 (0.0005)& 0.1606 (0.0005)& Ordinal-T (ours) & 1.37 (0.039) &  0.59 (0.009)\\
+Continuous-T&0.2530 (0.0002)&0.1599 (0.0002)& Continuous-T & 2.39 (0.152)&0.94 (0.027)\\
+1bit-sign-T&0.3566 (0.0010)&0.1563 (0.0010)& 1bit-sign-T&1.39 (0.003)& 0.81 (0.005)\\
+\hline
+\end{tabular}
+}
+\caption{Comparison of prediction error in the HPC and InCarMusic analyses. Standard errors are reported in parentheses.}\label{table:CV}
+\end{table}
+
+
+\section{Proofs}\label{sec:proof}
+Here, we provide proofs of the theoretical results presented in Sections~\ref{sec:theory}.
+
+\subsection{Estimation error for tensor denoising}\label{sec:proofMSE}
+\begin{proof}[Proof of Theorem~\ref{thm:rate}]
+We suppress the subscript $\Omega$ in the proof, because the tensor denoising assumes complete observation $\Omega=[d_1]\times \cdots \times [d_K]$. It follows from the expression of $\flogl(\Theta)$ that
+\begin{align}\label{eq:property}
+{\partial \flogl\over \partial \theta_\omega}&=\sum_{\ell\in[L]}\mathds{1}_{\{y_{\omega}=\ell\}}
+{\dot{g}_\ell(\theta_\omega)\over g_\ell(\theta_\omega)},\notag\\
+{\partial^2 \flogl\over \partial \theta_\omega^2}&=\sum_{\ell\in[L]}\mathds{1}_{\{y_\omega=\ell\}}{\ddot{g}_\ell(\theta_\omega)g_\ell(\theta_\omega)-\dot{g}^2_\ell(\theta_\omega)\over g^2_\ell(\theta_\omega)}\ \text{and}\quad
+{\partial^2 \flogl\over \partial \theta_\omega \theta_\omega'}=0\ \text{if}\ \omega\neq \omega',
+\end{align}
+for all $\omega\in[d_1]\times \cdots \times [d_K]$.
+Define $d_{\text{total}}=\prod_k d_k$. Let $\fplogl\in\mathbb{R}^{d_1\times\cdots\times d_K}$ denote the tensor of gradient with respect to $\Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}$, and $\fpplogl$ the corresponding Hession matrix of size $d_\text{total}$-by-$d_{\text{total}}$. Here, $\Vec(\cdot)$ denotes the operation that turns a tensor into a vector. By~\eqref{eq:property}, $\fpplogl$ is a diagonal matrix. Recall that
+\begin{equation}\label{eq:bound}
+U_\alpha=\max_{\ell\in[L],|\theta|\leq \alpha}{|\dot{g}_\ell(\theta)|\over g_\ell(\theta)}>0 \quad \text{and}\quad
+L_\alpha=\min_{\ell\in[L],|\theta|\leq \alpha} {\dot{g}^2_\ell(\theta)-\ddot{g}_\ell(\theta)g_\ell(\theta)\over g^2_\ell(\theta)}>0.
+\end{equation}
+Therefore, the entries in $\fplogl$ are upper bounded in magnitude by $U_\alpha>0$, and all diagonal entries in $\fpplogl$ are upper bounded by $-L_{\alpha}<0$.
+
+By the second-order Taylor's expansion of $\flogl(\Theta)$ around $\trueT$, we obtain
+\begin{equation}\label{eq:taylor}
+\flogl(\Theta)=\flogl(\trueT)+\langle\Vec(\fplogl),\ \Vec(\Theta-\trueT)\rangle+{1\over 2}\Vec(\Theta-\trueT)^T\fpplogl(\check\Theta)\Vec(\Theta-\trueT),
+\end{equation}
+$\check\Theta=\gamma\trueT+(1-\gamma)\Theta$ for some $\gamma\in[0,1]$, and $\fpplogl(\check\Theta)$ denotes the $\prod_kd_k$-by-$\prod_k d_k$ Hession matrix evaluated at $\check\Theta$.
+
+We first bound the linear term in~\eqref{eq:taylor}. Note that, by Lemma~\ref{lem:inq},
+\begin{equation}\label{eq:linear}
+|\langle\Vec(\fplogl(\trueT), \Vec(\Theta-\trueT)  \rangle|\leq \snormSize{}{\fplogl(\trueT)} \nnormSize{}{\Theta-\trueT},
+\end{equation}
+where $\snormSize{}{\cdot}$ denotes the tensor spectral norm and $\nnormSize{}{\cdot}$ denotes the tensor nuclear norm. Define
+\[
+s_\omega={\partial \tL_\tY\over \partial \theta_\omega}\Big|_{\Theta=\trueT} \;\; \textrm{ for all } \; \omega\in[d_1]\times\cdots\times [d_K].
+\]
+Based on~\eqref{eq:property} and the definition of $U_\alpha$, $\fplogl(\trueT)=\entry{s_{\omega}}$ is a random tensor whose entries are independently distributed satisfying
+\begin{equation}\label{eq:norm}
+\mathbb{E}(s_\omega)=0,\quad |s_\omega|\leq U_\alpha, \quad \text{for all }\omega\in[d_1]\times \cdots \times [d_K].
+\end{equation}
+By lemma~\ref{lem:noisytensor}, with probability at least $1-\exp(-C_1 \sum_kd_k)$, we have
+\begin{equation}\label{eq:normrandom}
+\snormSize{}{\fplogl(\trueT)} \leq C_2 U_\alpha\sqrt{\sum_k d_k},
+\end{equation}
+where $C_1, C_2$ are two positive constants that depend only on $K$. Furthermore, note that $\text{rank}(\Theta)\leq \mr$, $\text{rank}(\trueT)\leq \mr$, so $\text{rank}(\Theta-\trueT)\leq 2\mr$. By lemma~\ref{lem:nuclear}, $\nnormSize{}{\Theta-\trueT}\leq (2r_{\max})^{K-1\over 2}\FnormSize{}{\Theta-\trueT}$. Combining~\eqref{eq:linear}, \eqref{eq:norm} and \eqref{eq:normrandom}, we have that, with probability at least $1-\exp(-C_1 \sum_kd_k)$,
+\begin{equation}\label{eq:linearconclusion}
+|\langle \Vec(\fplogl(\trueT)), \Vec(\Theta-\trueT)  \rangle | \leq C_2 U_\alpha  \sqrt{r_{\max}^{K-1} \sum_k d_k}  \FnormSize{}{\Theta-\trueT}.
+\end{equation}
+
+We next bound the quadratic term in \eqref{eq:taylor}. Note that
+\begin{align}\label{eq:quadratic}
+ \Vec(\Theta-\trueT)^T \fpplogl(\check{\Theta})\Vec(\Theta-\trueT)&=\sum_\omega \left( {\partial^2\tL_{\tY}\over \partial \theta^2_\omega} \Big|_{\Theta=\check\Theta} \right)(\theta_\omega-\theta_{{\text{true}},\omega})^2 \nonumber \\
+&\leq - L_\alpha\sum_{\omega}(\Theta_{\omega}-\Theta_{\text{true},\omega})^2 \nonumber \\
+&=-L_\alpha\FnormSize{}{\Theta-\trueT}^2,
+\end{align}
+where the second line comes from the fact that  $\mnormSize{}{\check\Theta}\leq \alpha$ and the definition of $L_\alpha$.
+
+Combining~\eqref{eq:taylor}, \eqref{eq:linearconclusion} and~\eqref{eq:quadratic}, we have that, for all $\Theta\in\tP$, with probability at least $1-\exp(-C_1 \sum_kd_k)$,
+\[
+\tL_\tY(\Theta)\leq \tL_{\tY}(\trueT)+C_2U_\alpha  \left(r_{\max}^{K-1}\sum_k d_k\right)^{1/2}  \FnormSize{}{\Theta-\trueT}-{L_\alpha\over 2}\FnormSize{}{\Theta-\trueT}^2.
+\]
+In particular, the above inequality also holds for $\hat \Theta\in\tP$. Therefore,
+\[
+\tL_\tY(\hat \Theta)\leq \tL_{\tY}(\trueT)+C_2U_\alpha \left(r_{\max}^{K-1}\sum_k d_k\right)^{1/2}  \FnormSize{}{\hat \Theta-\trueT}-{L_\alpha\over 2} \FnormSize{}{\hat \Theta-\trueT}^2.
+\]
+Since $\hat \Theta=\arg\max_{\Theta\in\tP}\tL_\tY(\Theta)$, $\tL_\tY(\hat \Theta)-\tL_{\tY}(\trueT)\geq 0$, which gives
+\[
+C_2U_\alpha \left(r_{\max}^{K-1}\sum_k d_k\right)^{1/2}  \FnormSize{}{\hat \Theta-\trueT}-{L_\alpha\over 2}\FnormSize{}{\hat \Theta-\trueT}^2\geq 0.
+\]
+Henceforth,
+\[
+{1\over \sqrt{\prod_k d_k}} \FnormSize{}{\hat \Theta-\trueT}\leq {2C_2U_\alpha \sqrt{r_{\max}^{K-1}\sum_k d_k}\over L_\alpha \sqrt{\prod_k d_k}}={2C_2U_\alpha r_{\max}^{(K-1)/2}\over L_\alpha} \sqrt{ \sum_k d_k \over \prod_k d_k}.
+\]
+This completes the proof.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:prediction}]
+The result follows immediately from Theorem~\ref{thm:rate} and Lemma~\ref{lem:KL}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:minimax}]
+
+Let $d_{\text{total}}=\prod_{k\in[K]}d_k$, and $\gamma\in[0,1]$ be a constant to be specified later.  Our strategy is to construct a finite set of tensors $\tX=\{\Theta_i\colon i=1,\ldots \}\subset \tP$ satisfying the properties of (i)-(iv) in Lemma~\ref{lem:construction}. By Lemma~\ref{lem:construction}, such a subset of tensors exist. For any tensor  $\Theta\in\tX$, let $\mathbb{P}_{\Theta}$ denote the distribution of $\tY|\Theta$, where $\tY$ is the ordinal tensor. In particular, $\mathbb{P}_{\mathbf{0}}$ is the distribution of $\tY$ induced by the zero parameter tensor $\mathbf{0}$, i.e., the distribution of $\tY$ conditional on the parameter tensor $\Theta=\mathbf{0}$. Based on the Remark for Lemma~\ref{lem:KL}, we have
+\begin{equation}\label{eq:KLbound1}
+\mathrm{KL}(\mathbb{P}_{\Theta}|| \mathbb{P}_{\mathbf{0}})\leq C \FnormSize{}{\Theta}^2,
+\end{equation}
+where $C={(4L-6) \dot{f}^2(0)\over  A_\alpha}>0$ is a constant independent of the tensor dimension and rank.
+Combining the inequality~\eqref{eq:KLbound1} with property (iii) of $\tX$, we have
+\begin{equation}\label{eq:KLbound}
+\text{KL}(\mathbb{P}_{\Theta}||\mathbb{P}_{\mathbf{0}})\leq \gamma^2 R_{\max} d_{\max}.
+\end{equation}
+From~\eqref{eq:KLbound} and the property (i), we deduce that the condition
+\begin{equation}\label{eq:totalKL}
+{1\over \text{Card}(\tX)-1}\sum_{\Theta \in\tX}\text{KL}(\mathbb{P}_{\Theta}, \mathbb{P}_{\mathbf{0}})\leq \varepsilon \log_2\left\{\text{Card}(\tX)-1 \right\}
+\end{equation}
+holds for any $ \varepsilon \geq 0$ when $\gamma\in[0,1]$ is chosen to be sufficiently small depending on $\varepsilon$, e.g., $\gamma \leq \sqrt{\varepsilon\log2\over8}$. By applying Lemma~\ref{lem:Tsybakov} to~\eqref{eq:totalKL}, and in view of the property (iv), we obtain that
+\begin{equation}\label{eq:final}
+\inf_{\hat \Theta}\sup_{\trueT\in \tX}\mathbb{P}\left(\FnormSize{}{\hat \Theta- \trueT}\geq  {\gamma\over 8} \min\left\{ \alpha\sqrt{d_{\text{total}}}, C^{-1/2}\sqrt{ R_{\max}d_{\max}}\right\} \right)\geq {1\over 2}\left(1-2\varepsilon-\sqrt{16 \varepsilon \over R_{\max}d_{\max}\log2}\right).
+\end{equation}
+Note that $\text{Loss}(\hat \Theta, \trueT)=\FnormSize{}{\hat \Theta- \trueT}^2/d_{\text{total}}$ and $\tX\subset \tP$. By taking $\varepsilon=1/10$ and $\gamma=1/11$, we conclude from~\eqref{eq:final} that
+\begin{equation}\label{eq:prob}
+\inf_{\hat \Theta}\sup_{\trueT\in \tP}\mathbb{P}\left(\text{Loss}(\hat \Theta, \trueT)\geq c\min\left \{ \alpha^2,  {C^{-1}R_{\max}d_{\max}\over d_{\text{total}}}\right \}\right)\geq {1\over 2}\left({4\over 5}- \sqrt{1.6\over R_{\max}d_{\max}\log2} \right)\geq {1\over 8},
+\end{equation}
+where $c = {1 \over 88^2}$ and the last inequality comes from the condition for $d_{\text{max}}$.
+This completes the proof.
+\end{proof}
+
+\subsection{Sample complexity for tensor completion}
+
+\begin{proof}[Proof of Theorem~\ref{thm:completion}]
+
+For notational convenience, we use $\MFnormSize{}{\Theta}=\sum_{\omega\in\Omega}\Theta^2_\omega$ to denote the sum of squared entries over the observed set $\Omega$, for a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$.
+
+Following a similar argument as in the proof of Theorem~\ref{thm:rate}, we have
+\begin{equation}\label{eq:Taylor2}
+\logl(\Theta)=\logl(\trueT)+\langle\Vec(\plogl),\ \Vec(\Theta-\trueT)\rangle+{1\over 2}\Vec(\Theta-\trueT)^T\pplogl(\check\Theta)\Vec(\Theta-\trueT),
+\end{equation}
+where
+\begin{enumerate}
+\item $\plogl$ is a $d_1\times\cdots\times d_K$ tensor with $|\Omega|$ nonzero entries, and each entry is upper bounded by $U_\alpha>0$.
+\item $\pplogl$ is a diagonal matrix of size $d_{\text{total}}$-by-$d_{\text{total}}$ with $|\Omega|$ nonzero entries, and each entry is upper bounded by $-L_{\alpha}<0$.
+\end{enumerate}
+
+Similar to~\eqref{eq:linear} and~\eqref{eq:quadratic}, we have
+\begin{equation}\label{eq:linear2}
+|\langle\Vec(\plogl),\ \Vec(\Theta-\trueT)\rangle|\leq C_2U_\alpha \sqrt{r_{\max}^{K-1}\sum_k d_k}\MFnormSize{}{\Theta-\trueT}
+\end{equation}
+and
+\begin{equation}\label{eq:quadratic2}
+\Vec(\Theta-\trueT)^T\fpplogl(\check\Theta)\Vec(\Theta-\trueT)\leq -L_\alpha \MFnormSize{}{\Theta-\trueT}^2.
+\end{equation}
+
+Combining~\eqref{eq:Taylor2}-\eqref{eq:quadratic2} with the fact that $\logl(\hat \Theta)\geq \logl(\trueT)$, we have
+\begin{equation}\label{eq:sample}
+\MFnormSize{}{\hat \Theta-\trueT}\leq {2C_2U_\alpha  r_{\max}^{(K-1)/2} \over L_\alpha} \sqrt{\sum_kd_k}.
+\end{equation}
+Lastly, we invoke the result regarding the closeness of $\Theta$ to its sampled version $\Theta_{\Omega}$, under the entrywise bound condition. Note that $\mnormSize{}{\hat\Theta-\trueT}\leq 2\alpha$ and $\text{rank}(\hat \Theta-\trueT)\leq 2\mr$. By Lemma~\ref{lem:Mnormbound}, $\anormSize{}{\hat \Theta-\trueT}\leq 2^{(3K-1)/2} \alpha \left({\prod r_k \over r_{\max}}\right)^{3/2}$. Therefore, the condition in Lemma~\ref{lem:convexity} holds with $\beta=2^{(3K-1)/2}\alpha \left({\prod r_k \over r_{\max}}\right)^{3/2}$.
+Applying Lemma~\ref{lem:convexity} to~\eqref{eq:sample} gives
+\begin{align}
+ \PiFnormSize{}{\hat \Theta-\trueT}^2&\leq {1\over m}\MFnormSize{}{\hat \Theta-\trueT}^2+c\beta\sqrt{\sum_k d_k\over |\Omega|}\\
+ &\leq {C_2  r^{K-1}_{\max}} {\sum_k d_k \over |\Omega|}+C_1 \alpha r_{\max}^{3(K-1)/2}\sqrt{\sum_kd_k\over |\Omega|},
+\end{align}
+with probability at least $1-\exp(-{\sum_kd_k\over \sum_k \log d_k})$ over the sampled set $\Omega$. Here $C_1, C_2>0$ are two constants independent of the tensor dimension and rank. Therefore,
+\[
+ \PiFnormSize{}{\hat \Theta-\trueT}^2\to 0,\quad \text{as}\quad {|\Omega|\over \sum_kd_k}\to \infty,
+\]
+provided that $r_{\max}=O(1)$.
+\end{proof}
+
+\subsection{Convexity of the log-likelihood function}\label{sec:proofconvexity}
+\begin{thm}\label{thm:convexity}
+Define the function
+\begin{align}\label{eq:function}
+ \logl(\Theta, \mb)&=\sum_{\omega\in\Omega}\sum_{\ell\in[L]} \left\{\mathds{1}_{\{y_\omega=\ell\}} \log \big[f(b_\ell-\theta_\omega)-  f(b_{\ell-1}-\theta_\omega)\big]\right\},
+ \end{align}
+where $f(\cdot)$ satisfies Assumption~\ref{ass:link}. Then, $\logl(\Theta, \mb)$ is concave in $(\Theta,\mb)$.
+\end{thm}
+
+\begin{proof}
+Define $d_{\text{total}}=\prod_k d_k$. By abuse of notation, we use $(\Theta,\mb)$ to denote the length-$(d_{\text{total}}+L-1)$-vector collecting all parameters together. Let us denote a bivariate function
+\begin{align}
+\lambda: &\mathbb{R}^2\mapsto \mathbb{R}\\
+(u,v)&\mapsto\lambda(u,v) = \log \big[f(u)-  f(v)\big].
+\end{align}
+It suffices to show that $\lambda(u,v)$ is concave in $(u,v)$ where $u>v$.
+
+Suppose that the claim holds (which we will prove in the next paragraph). Based on~\eqref{eq:function}, $u,v$ are both linear functions of $(\Theta,\mb)$:
+\[
+u = \ma_1^T(\Theta,\mb), \quad v = \ma_2^T(\Theta,\mb), \quad \text{ for some}\ \ma_1,\ma_2\in \mathbb{R}^{d_{\text{total}}+L-1}.
+\]
+Then, $\lambda(u,v) = \lambda(\ma_1^T(\Theta,\mb),\ \ma_2^T(\Theta,\mb))$ is concave in $(\Theta,\mb)$ by the definition of concavity. Therefore, we can conclude that $\logl(\Theta, \mb) $ is concave in $(\Theta,\mb)$ because $\logl(\Theta, \mb)$ is the sum of $\lambda(u,v)$.
+
+Now, we prove the concavity of $\lambda(u,v)$. Note that
+\begin{equation}
+\lambda(u,v) = \log\big[f(u)-f(v)\big]=\log\big[\int\mathds{1}_{[u,v]}(x)f'(x)dx\big],
+\end{equation}
+where $\mathds{1}_{[u,v]}$ is an indicator function that equals 1 in the interval $[u,v]$, and 0 elsewhere. Furthermore, $\mathds{1}_{[u,v]}(x)$ is log-concave in $(u,v,x)$, and by Assumption~\ref{ass:link}, $f'(x)$ is log-concave in $x$. It follows that $\mathds{1}_{[u,v]}(x)f'(x)$
+is a log-concave in $(u,v,x)$. By Lemma~\ref{lem:lossconvexity}, we conclude that $\lambda(u,v)$ is concave in $(u,v)$ where $u>v$.
+\end{proof}
+
+
+\begin{lem}[Corollary 3.5 in~\cite{brascamp2002extensions}]\label{lem:lossconvexity}
+Let $F(x,y):\mathbb{R}^{m+n}\rightarrow \mathbb{R}$ be an integrable function where $x\in \mathbb{R}^{m},y\in \mathbb{R}^n$. Let
+\[
+G(x) = \int_{\mathbb{R}^n}F(x,y)dy.
+\]
+If $F(x,y)$ is log concave in $(x,y)$, then $G(x)$ is log concave in $x$.
+\end{lem}
+
+
+\subsection{Auxiliary lemmas}
+\label{sec:lemma}
+
+
+This section collects lemmas that are useful for the proofs of the main theorems.
+
+\begin{defn}[Atomic M-norm~\citep{ghadermarzy2019near}]
+Define $T_{\pm}=\{\tT\in\{\pm 1 \}^{d_1\times \cdots \times d_K}\colon$ $\text{rank}(\tT)=1\}$. The atomic M-norm of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
+\begin{align}
+\anormSize{}{\Theta}&=\inf\{t>0: \Theta\in t\text{conv}(T_{\pm})\}\\
+&=\inf\left\{\sum_{\tX\in T_{\pm}}c_x\colon \Theta=\sum_{\tX\in T_{\pm}} c_x\tX, \ c_x>0\right\}.
+\end{align}
+\end{defn}
+
+\begin{defn}[Spectral norm~\citep{lim2005singular}]
+The spectral norm of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
+\[
+\snormSize{}{\Theta}=\sup\left\{\langle \Theta, \mx_1\otimes \cdots \otimes \mx_K\rangle \colon \vnormSize{}{\mx_k}=1,\ \mx_k\in\mathbb{R}^{d_k},\ \text{for all}\ k\in[K]\right\}.
+\]
+\end{defn}
+
+\begin{defn}[Nuclear norm~\citep{friedland2018nuclear}]
+The nuclear norm of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
+\[
+\nnormSize{}{\Theta}=\inf
+\left\{
+\sum_{i\in[r]}|\lambda_i|\colon \Theta=\sum_{i=1}^r \lambda_i\mx^{(i)}_1\otimes \cdots \otimes \mx^{(i)}_K,\ \vnormSize{}{\mx^{(i)}_k}=1,\ \mx^{(i)}_k\in\mathbb{R}^{d_k},\ \text{for all} k\in[K],\ i\in[r]
+\right\},
+\]
+where the infimum is taken over all $r\in\mathbb{N}$ and $\vnormSize{}{\mx^{(i)}_k}=1$ for all $i\in[r]$ and $k\in[K]$.
+\end{defn}
+
+
+
+\begin{lem}[M-norm and infinity norm~\citep{ghadermarzy2019near}]\label{lem:Mnormbound}
+Let $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ be an order-$K$, rank-$(r_1,\ldots,r_K)$ tensor. Then
+\[
+\mnormSize{}{\Theta}\leq \anormSize{}{\Theta}\leq \left(\prod_k r_k \over r_{\max}\right)^{3\over 2} \mnormSize{}{\Theta}.
+\]
+\end{lem}
+
+
+\begin{lem}[Nuclear norm and F-norm] \label{lem:nuclear}
+Let $\tA\in\mathbb{R}^{d_1\times\cdots\times d_K}$ be an order-$K$ tensor with Tucker $\text{rank}(\tA)=(r_1,\ldots,r_K)$. Then
+\[
+\nnormSize{}{\tA} \leq \sqrt{\prod_k r_k\over \max_k r_k} \FnormSize{}{\tA},
+\]
+where $\nnormSize{}{\cdot}$ denotes the nuclear norm of the tensor.
+\end{lem}
+
+\begin{proof}
+Without loss of generality, suppose $r_1=\min_k r_k$. Let $\tA_{(k)}$ denote the mode-$k$ matricization of $\tA$ for all $k\in[K]$. By \citet[Corollary 4.11]{wang2017operator}, and the invariance relationship between a tensor and its Tucker core~\citep[Section 6]{jiang2017tensor}, we have
+\begin{equation}\label{eq:norminequality}
+\nnormSize{}{\tA} \leq \sqrt{\prod_{k\geq 2} r_k \over \max_{k\geq 2} r_k} \nnormSize{}{\tA_{(1)}},
+\end{equation}
+where $\tA_{(1)}$ is a $d_1$-by-$\prod_{k\geq 2}d_k$ matrix with matrix rank $r_1$. Furthermore, the relationship between the matrix norms implies that $\nnormSize{}{\tA_{(1)}}\leq \sqrt{r_1}\FnormSize{}{\tA_{(1)}}=\sqrt{r_1}\FnormSize{}{\tA}$. Combining this fact with the inequality~\eqref{eq:norminequality} yields the final claim.
+\end{proof}
+
+
+
+\begin{lem} \label{lem:inq}
+Let $\tA, \; \tB$ be two order-$K$ tensors of the same dimension. Then
+\[
+|\langle \tA,\tB\rangle| \leq \snormSize{}{\tA}   \nnormSize{}{\tB}.
+\]
+\end{lem}
+
+\begin{proof}
+By~\citet[Proposition 3.1]{friedland2018nuclear}, there exists a nuclear norm decomposition of $\tB$, such that
+\[
+\tB=\sum_{r} \lambda_r \ma^{(1)}_r\otimes \cdots\otimes \ma^{(K)}_r,\quad \ma_r^{(k)}\in\mathbf{S}^{d_k-1}(\mathbb{R}),\quad \text{for all }k\in[K],
+\]
+and $\nnormSize{}{\tB}=\sum_{r}|\lambda_r|$. Henceforth we have
+\begin{align*}
+|\langle \tA,\tB\rangle|&=| \langle \tA, \sum_{r} \lambda_r \ma^{(1)}_r\otimes \cdots\otimes \ma^{(K)}_r \rangle|\leq \sum_r |\lambda_r| |\langle \tA, \ma^{(1)}_r \otimes \cdots\otimes \ma^{(K)}_r \rangle|\\
+&\leq \sum_{r}|\lambda_r| \snormSize{}{\tA}= \snormSize{}{\tA}\nnormSize{}{\tB},
+\end{align*}
+which completes the proof.
+\end{proof}
+
+
+The following lemma provides the bound on the spectral norm of random tensors. The result was firstly presented in~\cite{nguyen2015tensor}, and we adopt the version from~\cite{tomioka2014spectral}.
+\begin{lem}[Spectral norm of random tensors~\citep{tomioka2014spectral}]\label{lem:tensor}
+Suppose that $\tS=\entry{s_{\omega}}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ tensor whose entries are independent random variables that satisfy
+\[
+\mathbb{E}(s_{\omega})=0,\quad \text{and} \quad\mathbb{E}(e^{ts_{\omega}})\leq e^{t^2L^2/2}.
+\]
+Then the spectral norm $\snormSize{}{\tS}$ satisfies that,
+\[
+\snormSize{}{\tS}\leq \sqrt{{8L^2} \log (12K) \sum_k d_k +\log (2/\delta)},
+\]
+with probability at least $1-\delta$.
+\end{lem}
+
+
+
+\begin{lem} \label{lem:noisytensor}
+Suppose that $\tS=\entry{s_{\omega}}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is an order-$K$ tensor whose entries are independent random variables that satisfy
+\[
+\mathbb{E}(s_{\omega})=0,\quad \text{and}\quad |s_{\omega}|\leq U.
+\]
+Then we have
+\[
+\mathbb{P}\left(\snormSize{}{\tS}\geq C_2 U\sqrt{\sum_k d_k} \right)\leq \exp\left(-C_1  \log K \sum_k d_k\right)
+\]
+where $C_1>0$ is an absolute constant, and $C_2>0$ is a constant that depends only on $K$.
+\end{lem}
+
+\begin{proof}  Note that the random variable $U^{-1}s_{\omega}$ is zero-mean and supported on $[-1,1]$. Therefore, $U^{-1}s_{\omega}$ is sub-Gaussian with parameter ${1-(-1)\over 2}=1$, i.e.
+\[
+\mathbb{E}(U^{-1}s_{\omega})=0,\quad \text{and}\quad \mathbb{E}(e^{tU^{-1}s_{\omega}})\leq e^{t^2/2}.
+\]
+It follows from Lemma~\ref{lem:tensor} that, with probability at least $1-\delta$,
+\[
+\snormSize{}{U^{-1}\tS}\leq \sqrt{\left(c_0\log K+c_1\right) \sum_k d_k +\log (2/\delta)},
+\]
+where $c_0, c_1>0$ are two absolute constants. Taking $\delta=\exp (-C_1\log K \sum_k d_k)$ yields the final claim, where $C_2=c_0\log K+c_1+1>0$ is another constant.
+\end{proof}
+
+
+\begin{lem}\label{lem:KLentry} Let $X,\; Y$ be two discrete random variables taking values on $L$ possible categories, with category probabilities $\{p_\ell\}_{\ell\in[L]}$ and $\{q_\ell\}_{\ell\in[L]}$, respectively.  Suppose $p_\ell$, $q_\ell>0$ for all $i\in[L]$. Then, the Kullback-Leibler (KL) divergence satisfies that
+\[
+\mathrm{KL}(X||Y)\stackrel{\text{def}}{=}-\sum_{\ell\in[L]}\mathbb{P}_X(\ell)\log\left\{{\mathbb{P}_Y(\ell)\over \mathbb{P}_X(\ell)}\right\} \leq \sum_{\ell \in [L]}{(p_\ell-q_\ell)^2 \over q_\ell}.
+\]
+\end{lem}
+\begin{proof} Using the fact $\log x\leq x-1$ for $x>0$, we have that
+\begin{align}\label{eq:KL}
+\text{KL}(X||Y)&=\sum_{\ell\in[L]}p_\ell\log{p_\ell\over q_\ell}\\
+&\leq \sum_{\ell\in[L]} {p_\ell\over q_\ell}(p_\ell-q_\ell)\\
+&=\sum_{\ell\in[L]} \left({p_\ell\over q_\ell }- 1\right)(p_\ell-q_\ell)+ \sum_{\ell\in[L]} (p_\ell-q_\ell).
+\end{align}
+Note that $\sum_{\ell\in[L]}(p_\ell-q_\ell)=0$. Therefore,
+\[
+\text{KL}(X||Y)\leq \sum_{\ell\in[L]}\left( {p_\ell\over q_\ell}-1\right)\left(p_\ell-q_\ell\right)=\sum_{\ell\in[L]}{(p_\ell-q_\ell)^2\over q_\ell}.
+\]
+\end{proof}
+
+\begin{lem}[KL divergence and F-norm]~\label{lem:KL}
+Let $\tY\in[L]^{d_1\times \cdots \times d_K}$ be an ordinal tensor generated from the model~\eqref{eq:model} with the link function $f$ and parameter tensor $\Theta$. Let $\mathbb{P}_{\Theta}$ denote the joint categorical distribution of $\tY|\Theta$ induced by the parameter tensor $\Theta$, where $\mnormSize{}{\Theta}\leq \alpha$. Define
+\begin{equation}\label{eq:ass}
+A_\alpha=\min_{\ell\in[L], |\theta|\leq \alpha}\left[f(b_\ell-\theta)-f(b_{\ell-1}-\theta)\right].
+\end{equation}
+Then, for any two tensors $\Theta,\; \Theta^*$ in the parameter spaces, we have
+\[
+\mathrm{KL}(\mathbb{P}_{\Theta}|| \mathbb{P}_{\Theta^*})\leq {2(2L-3)\over A_\alpha} \dot{f}^2(0)\FnormSize{}{\Theta-\Theta^*}^2.
+\]
+\end{lem}
+\begin{proof} Suppose that the distribution over the ordinal tensor $\tY=\entry{y_\omega}$ is induced by $\Theta=\entry{\theta_\omega}$. Then, based on the generative model~\eqref{eq:model},
+\[
+\mathbb{P}(y_\omega=\ell | \theta_\omega)=f(b_{\ell}-\theta_\omega)-f(b_{\ell-1}-\theta_\omega),
+\]
+for all $\ell\in[L]$ and $\omega\in[d_1]\times \cdots \times [d_K]$. For notational convenience, we suppress the subscribe in $\theta_\omega$ and simply write $\theta$ (and respectively, $\theta^*$). Based on Lemma~\ref{lem:KLentry} and Taylor expansion,
+\begin{align}
+\text{KL}(\theta|| \theta^*) & \leq \sum_{\ell\in[L]} {\left[f(b_{\ell}-\theta)-f(b_{\ell-1}-\theta)-f(b_{\ell}-\theta^*)+f(b_{\ell-1}-\theta^*)\right]^2\over f(b_{\ell}-\theta^*)-f(b_{\ell-1}-\theta^*)}\\
+ &\leq \sum_{\ell=2}^{L-1} {\left[\dot{f}(b_\ell-\eta_\ell)-\dot{f}(b_{\ell-1}-\eta_{\ell-1})\right]^2 \over f(b_\ell-\theta^*)-f(b_{\ell-1}-\theta^*)} \left(\theta-\theta^*\right)^2+{\dot{f}^2(b_1-\eta_1) \over f(b_1-\theta^*)} (\theta-\theta^*)^2\\
+ &\quad \quad\quad \quad  +{\dot{f}^2(b_{L-1}-\eta_{L-1})\over 1-f(b_{L-1}-\theta^*)}(\theta-\theta^*)^2,
+\end{align}
+where $\eta_\ell$ and $\eta_{\ell-1}$ fall between $\theta$ and $\theta^*$. Therefore,
+\begin{equation}\label{eq:entrywise}
+\text{KL}(\theta|| \theta^*) \leq \left({4(L-2)\over A_\alpha}+ {2\over A_\alpha}\right)\dot{f}^2(0)(\theta-\theta^*)^2={2(2L-3)\over A_\alpha} \dot{f}^2(0)(\theta-\theta^*)^2,
+\end{equation}
+where we have used Taylor expansion, the bound~\eqref{eq:ass}, and the fact that $\dot{f}(\cdot)$ peaks at zero for an unimodal and symmetric function. Now summing~\eqref{eq:entrywise} over the index set $\omega\in[d_1]\times \cdots \times [d_K]$ gives
+\[
+\text{KL}(\mathbb{P}_{\Theta}|| \mathbb{P}_{\Theta^*}) =\sum_{\omega\in[d_1]\times \cdots \times[d_K]} \text{KL}(\theta_\omega || \theta^*_\omega) \leq {2(2L-3)\over A_\alpha} \dot{f}^2(0)\FnormSize{}{\Theta-\Theta^*}^2.
+\]
+\end{proof}
+
+\begin{rmk} In particular, let $\mathbb{P}_{\bf{0}}$ denote the distribution of $\tY|\bf{0}$ induced by the zero parameter tensor. Then we have
+\[
+\text{KL}(\mathbb{P}_{\Theta}||\mathbb{P}_{\bf{0}})\leq {2(2L-3)\over A_\alpha}  \dot{f}^2(0)\FnormSize{}{\Theta}^2.
+\]
+\end{rmk}
+
+
+\begin{lem}\label{lem:construction}
+Assume the same setup as in Theorem~\ref{thm:minimax}. Without loss of generality, suppose $d_1=\max_kd_k$. Define $R=\max_k r_k$ and $d_{\text{total}}=\prod_{k\in[K]} d_k$. For any constant $0\leq \gamma \leq 1$, there exist a finite set of tensors $\tX=\{\Theta_i: i=1,\ldots\}\subset \tP$ satisfying the following four properties:
+\begin{enumerate}[(i)]
+\item $\text{Card}(\tX)\geq 2^{Rd_1/8}+1$, where $\text{Card}$ denotes the cardinality;
+\item $\tX$ contains the zero tensor $\mathbf{0}\in\mathbb{R}^{d_1\times \cdots\times d_K}$;
+\item $\mnormSize{}{\Theta}\leq \gamma \min\left\{ \alpha ,\ C^{-1/2}\sqrt{Rd_1\over d_{\text{total}}} \right\} $ for any element $\Theta\in\tX$;
+\item $\FnormSize{}{\Theta_i-\Theta_j}\geq {\gamma\over 4} \min\left\{ \alpha\sqrt{d_{\text{total}}},\ C^{-1/2}\sqrt{Rd_1}\right\}$ for any two distinct elements $\Theta_i,\; \Theta_j\in\tX$,
+\end{enumerate}
+Here $C=C(\alpha,L,f,\mb)={(4L-6)\dot{f}^2(0)\over A_\alpha }>0$ is a constant independent of the tensor dimension and rank.
+\end{lem}
+
+\begin{proof}
+Given a constant $0\leq \gamma \leq 1$, we define a set of matrices:
+\[
+\tC=\left\{\mM=(m_{ij})\in\mathbb{R}^{d_1\times R}: a_{ij}\in \left\{ 0,\gamma \min\left\{ \alpha , C^{-1/2}\sqrt{Rd_1\over d_{\text{total}}} \right\}\right\} ,\  \forall (i,j)\in[d_1]\times[R]\right\}.
+\]
+We then consider the associated set of block tensors:
+\begin{align}
+\tB=\tB(\tC)=\{\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}\colon& \Theta=\mA\otimes \mathbf{1}_{d_3}\otimes \cdots \otimes \mathbf{1}_{d_K}, \\
+&\ \text{where}\ \mA=(\mM|\cdots|\mM|\mO) \in\mathbb{R}^{d_1\times d_2},\ \mM\in\tC\},
+\end{align}
+where $\mathbf{1}_d$ denotes a length-$d$ vector with all entries 1, $\mO$ denotes the $d_1\times (d_2-R\lfloor d_2/R \rfloor)$ zero matrix, and $\lfloor d_2/ R \rfloor$ is the integer part of $d_2/R$. In other words, the subtensor $\Theta(\mI, \mI,i_3, \ldots,i_K)\in\mathbb{R}^{d_1\times d_2}$ are the same for all fixed $(i_3,\ldots,i_K)\in[d_3]\times \cdots \times [d_K]$, and furthermore, each subtensor $\Theta(\mI,\mI, i_3,\ldots,i_K)$ itself is filled by copying the matrix $\mM\in\mathbb{R}^{d_1\times R}$ as many times as would fit.
+
+By construction, any element of $\tB$, as well as the difference of any two elements of $\tB$, has Tucker rank at most $\max_k r_k\leq R$, and the entries of any tensor in $\tB$ take values in $[0,\alpha]$. Thus, $\tB\subset\tP$. By Lemma~\ref{lem:VGbound}, there exists a subset $\tX\subset \tB$ with cardinality $\text{Card}(\tX)\geq 2^{Rd_1/8}+1$ containing the zero $d_1\times \cdots \times d_K$ tensor, such that, for any two distinct elements $\Theta_i$ and $\Theta_j$ in $\tX$,
+\[
+\FnormSize{}{\Theta_i-\Theta_j}^2 \geq {Rd_1\over 8} \gamma^2\min\left\{ \alpha^2, {C^{-1}Rd_1 \over d_{\text{total}}}\right\} \lfloor {d_2\over R} \rfloor \prod_{k\geq 3}d_k\geq {\gamma^2\min\left\{ \alpha^2 d_{\text{total}}, C^{-1}Rd_1\right\}  \over 16}.
+\]
+In addition, each entry of $\Theta\in\tX$ is bounded by $\gamma \min\left\{ \alpha , C^{-1/2}\sqrt{Rd_1\over d_{\text{total}}}\right\} $. Therefore the Properties (i) to (iv) are satisfied.
+\end{proof}
+
+
+
+\begin{lem}[Varshamov-Gilbert bound]\label{lem:VGbound}
+Let $\Omega=\{(w_1,\ldots,w_m)\colon w_i\in\{0,1\}\}$. Suppose $m>8$. Then there exists a subset $\{w^{(0)},\ldots,w^{(M)}\}$ of $\Omega$ such that $w^{(0)}=(0,\ldots,0)$ and
+\[
+\zeronormSize{}{w^{(j)}-w^{(k)}}\geq {m\over 8},\quad \text{for} \ 0\leq j<k\leq M,
+\]
+where $\zeronormSize{}{\cdot}$ denotes the Hamming distance, and $M\geq 2^{m/8}$.
+\end{lem}
+
+
+\begin{defn}[Absolute continuity]
+We use $\lambda\ll\mu$ to denote absolutely continuity of a measure $\lambda$ with respect to another measure $\mu$; that is, $\lambda(E)=0$ whenever $\mu(E)=0$.
+\end{defn}
+
+
+\begin{lem}[Theorem 2.5 in~\cite{tsybakov2008introduction}]\label{lem:Tsybakov}
+Assume that a set $\tX$ contains element $\Theta_0, \Theta_1, \ldots,\Theta_M$ ($M\geq 2$) such that
+\begin{itemize}
+\item $d(\Theta_j,\ \Theta_k)\geq 2s>0$, $\forall 0\leq j\leq k\leq M$;
+\item $\mathbb{P}_j\ll\mathbb{P}_0$, $\forall j=1,\ldots,M$, and
+\[
+{1\over M}\sum_{j=1}^M \mathrm{KL}(\mathbb{P}_j||\mathbb{P}_0)\leq \alpha \log M
+\]
+where $d\colon \tX\times \tX\mapsto [0,+\infty]$ is a semi-distance function, $0<\alpha<{1/8}$ and $P_j=P_{\Theta_j}$, $j=0,1\ldots,M$.
+\end{itemize}
+Then
+\[
+\inf_{\hat \Theta}\sup_{\Theta\in\tX} \mathbb{P}_{\Theta}(d(\hat \Theta, \Theta)\geq s)\geq {\sqrt{M}\over 1+\sqrt{M}}\left(1-2\alpha-\sqrt{2\alpha\over \log M} \right)>0.
+\]
+\end{lem}
+
+\begin{lem}[Lemma 28 in~\cite{ghadermarzy2019near}]\label{lem:convexity}
+Define $\mathbb{B}_{M}(\beta)=\{\Theta\in \mathbb{R}^{d_1\times \cdots \times d_K}\colon \anormSize{}{\Theta}\leq \beta \}$.  Let $\Omega\subset[d_1]\times\cdots \times [d_K]$ be a random set with $m=|\Omega|$, and assume that each entry in $\Omega$ is drawn with replacement from $[d_1]\times\cdots\times[d_K]$ using probability $\Pi$. Define
+\[
+\PiFnormSize{}{\Theta}^2={1\over m}\mathbb{E}_{\Omega\in\Pi}\MFnormSize{}{\Theta}^2.
+\]
+Then, there exists a universal constant $c>0$, such that, with probability at least $1-\exp\left(-{\sum_kd_k \over \sum_k \log d_k} \right)$ over the sampled set $\Omega$,
+\[
+{1\over m}\MFnormSize{}{\Theta}^2 \geq \PiFnormSize{}{\Theta}^2-c\beta\sqrt{\sum_k d_k\over m}
+\]
+holds uniformly for all $\Theta\in\mathbb{B}_M(\beta)$.
+\end{lem}
+
+\section{Conclusion}
+We have developed a low-rank tensor estimation method based on possibly incomplete, ordinal-valued observations. A sharp error bound is established, and we demonstrate the outperformance of our approach compared to other methods. The work unlocks several directions of future research. One interesting question would be the inference problem, i.e.. to assess the uncertainty of the obtained estimates and the imputation. Other directions include the trade-off between (non)convex optimization and statistical/computational efficiency. While convex relaxations are popular approach for matrix/tensor problem, they are often slow in practice~\citep{ge2017optimization,chen2019non}. The interplay between computational efficiency and statistical accuracy in general tensor problems warrants future research.
+
+\section*{Acknowledgments}
+This research is supported in part by NSF grant DMS-1915978 and the University of Wisconsin-Madison, Office of the Vice Chancellor for Research and Graduate Education with funding from the Wisconsin Alumni Research Foundation.
+\newpage
+
+
+
+\appendix
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\figurename}{Supplemental Figure}
+\renewcommand{\tablename}{Supplemental Table}
+
+\section*{Appendix}
+\section{Extension of Theorem~\ref{thm:rate} to unknown cut-off points}\label{sec:extention}
+
+
+
+When the cut-off points $\mb$ is unknown, we estimate $(\hat \Theta,\hat \mb)$ by
+\begin{equation}\label{eq:joint}
+(\hat \Theta,\hat \mb)=\argmax_{(\Theta,\mb)\in\tP\times \tB}\logl(\Theta,\mb),
+\end{equation}
+where
+\[
+\tP=\{\Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}\colon \text{rank}(\tP)\leq \mr,\ \mnormSize{}{\Theta}\leq \alpha\}, \quad \tB=\{\mb\in\mathbb{R}^{L-1}\colon \mnormSize{}{\mb}\leq \beta,\ \min_{\ell}(b_\ell-b_{\ell-1}) \geq \Delta\}.
+\]
+The estimation accuracy is assessed using the mean squared error (MSE):
+\[
+\text{MSE}\left((\hat \Theta,\hat \mb),(\Theta,\mb)\right)={1\over \prod_k d_k+L-1}\FnormSize{}{(\hat \Theta,\hat \mb)-(\Theta,\mb)}^2
+\]
+We introduce several quantities that will be used in our theory:
+\begin{enumerate}
+\item We make the convention that $b_0=-\infty$, $b_L=\infty$, $f(-\infty)=0$, $f(\infty)=1$, and $\dot{f}(-\infty)=\ddot{f}(-\infty)=\dot{f}(\infty)=\ddot{f}(\infty)=0$.
+
+\item The difference function $g_\ell(\theta)$ is defined as $g_\ell(\theta)=f(b_\ell-\theta)-f(b_{\ell-1}-\theta)$ for all $\theta\in\mathbb{R}$ and $\ell\in[L]$.
+
+\item Define $n_\ell=\sum_{\omega\in\Omega}\mathds{1}_{\{y_\omega=\ell\}}$, i.e., the number of tensor entries taking value on $\ell\in[L]$.
+
+\item With a little abuse of notation, we re-define the constants in~\eqref{eq:bound} as
+\begin{equation}\label{eq:UL}
+U_{\alpha,\beta,\Delta}=\max_{ \substack{|\theta|\leq \alpha,\\ \mb \in\tB}}\max_{\ell\in[L-1]}{|\dot{g}_\ell(\theta)|\over g_\ell(\theta)}, \quad \text{and}\quad
+L_{\alpha,\beta,\Delta}=\min_{ \substack{|\theta|\leq \alpha,\\ \mb \in\tB}}\min_{\ell\in[L-1]} {\dot{g}^2_\ell(\theta)-\ddot{g}_\ell(\theta)g_\ell(\theta)\over g^2_\ell(\theta)}.
+\end{equation}
+\item We define three additional constants:
+\begin{align}\label{eq:CD}
+C_{\alpha,\beta,\Delta} &= \max_{ \substack{|\theta|\leq \alpha,\\ \mb \in\tB}}  \max_{\ell\in[L-1]}\max\left\{\frac{\dot{f}(b_\ell-\theta)}{g_\ell(\theta)},\ \frac{\dot{f}(b_\ell-\theta)}{g_{\ell+1}(\theta)}\right\},\notag \\
+D_{\alpha,\beta,\Delta} &=\min_{ \substack{|\theta|\leq \alpha,\\ \mb \in\tB}} \min_{\ell\in[L-1]}\min\left\{  {\partial \over \partial \theta}\left({\dot{f}(b_{\ell}-\theta)\over g_\ell(\theta)}\right),\ -{\partial \over \partial \theta}\left({\dot{f}(b_{\ell}-\theta)\over g_{\ell+1}(\theta)}\right)\right\}\notag \\
+&=  \min_{ \substack{|\theta|\leq \alpha,\\ \mb \in\tB}}\min_{\ell\in[L-1]}\min \left\{-\frac{\ddot{f}(b_\ell-\theta)g_\ell(\theta)-\dot{f}(b_\ell-\theta)\dot{g}_\ell(\theta)}{g^2_\ell(\theta)},\ \right. \notag \\
+&\hspace{1.5in} \left. \frac{\ddot{f}(b_\ell-\theta)g_{\ell+1}(\theta)-\dot{f}(b_\ell-\theta)\dot{g}_{\ell+1}(\theta)}{g^2_{\ell+1}(\theta)}\right\}\\
+\tilde{D}_{\alpha,\beta,\Delta} &=\max_{ \substack{|\theta|\leq \alpha,\\ \mb \in\tB}} \max_{\ell\in[L-1]}\max\left\{  {\partial \over \partial \theta}\left({\dot{f}(b_{\ell}-\theta)\over g_\ell(\theta)}\right),\ -{\partial \over \partial \theta}\left({\dot{f}(b_{\ell}-\theta)\over g_{\ell+1}(\theta)}\right)\right\}\notag.
+\end{align}
+\end{enumerate}
+We make the following assumptions about the link function.
+\begin{assumption}\label{ass:joint}
+The link function $f\colon \mathbb{R}\mapsto [0,1]$ satisfies the following properties:
+\begin{enumerate}
+\item $f(\theta)$ is twice-differentiable and strictly increasing in $\theta$.
+\item $\dot{f}(\theta)$ is strictly log-concave and symmetric with respect to $\theta=0$.
+\item The function ${\dot{f}(b_\ell-\theta)\over g_\ell(\theta)}$ is strictly increasing with respect to $\theta$ for all $\mb\in\tB$.
+\item The function ${\dot{f}(b_\ell-\theta)\over g_{\ell+1}(\theta)}$ is strictly decreasing with respect to $\theta$ for all $\mb\in\tB$.
+\end{enumerate}
+\end{assumption}
+
+\begin{rmk}
+The condition $\Delta=\min_{\ell}(b_{\ell}-b_{\ell-1})>0$ on the feasible set $\tB$ guarantees the strict positiveness of $g_{\ell}(\theta)=f(b_{\ell}-\theta)-f(b_{\ell-1}-\theta)$. Therefore, the denominators in the above quantities $U_{\alpha,\beta,\Delta}, L_{\alpha,\beta,\Delta}, C_{\alpha,\beta,\Delta}, D_{\alpha,\beta,\Delta},\tilde{D}_{\alpha,\beta,\Delta}$ are well-defined. Furthermore, by Theorem~\ref{thm:convexity}, $g_\ell(\theta)$ is strictly log-concave in $\theta$ for all $\mb\in\tB$. Based on Assumption~\ref{ass:joint} and closeness of the feasible set, we have $U_{\alpha,\beta,\Delta}>0$, $L_{\alpha,\beta,\Delta}>0$, $C_{\alpha,\beta,\Delta}>0$, $D_{\alpha,\beta,\Delta}>0$, $\tilde{D}_{\alpha,\beta,\Delta}>0$.
+\end{rmk}
+\begin{rmk}
+In particular, for logistic link $f(x) = \frac{1}{1+e^{-x}}$ , we have
+\begin{align}
+C_{\alpha,\beta,\Delta}&=\max_{\substack{|\theta|\leq \alpha,\\ \mb\in\tB}}\max_{\ell\in[L-1]}\max
+\left\{
+{ 1\over e^{b_{\ell}-b_{\ell-1}}-1} { 1+e^{-(b_{\ell-1}-\theta)} \over 1+e^{-(b_{\ell}-\theta)}},\
+{ 1\over 1-e^{-(b_{\ell+1}-b_{\ell})}} { 1+e^{-(b_{\ell+1}-\theta)} \over 1+e^{-(b_{\ell}-\theta)}}
+\right\}>0,
+\\
+D_{\alpha,\beta,\Delta}&=\min_{\substack{|\theta|\leq \alpha,\\ \mb\in\tB}}\min_{\ell\in[L-1]} {e^{-(b_\ell-\theta)}\over (1+e^{-(b_\ell-\theta)})^2}>0.
+\end{align}
+\end{rmk}
+
+
+\begin{thm}[Statistical convergence with unknown $\mb$]\label{thm:ratejoint}
+Consider an ordinal tensor $\tY\in[L]^{d_1\times \cdots \times d_K}$ generated from model~\eqref{eq:model} with the link function $f$ and parameters $(\trueT, \trueb)\in\tP\times \tB$. Suppose the link function $f$ satisfies Assumption~\ref{ass:joint}. Define $r_{\max}=\max_k r_k$. Then with very high probability, the estimator in~\eqref{eq:joint} satisfies
+\begin{align}
+\mathrm{MSE}\left((\hat \Theta,\hat \mb),(\trueT,\trueb)\right) & \leq {c_1U_{\alpha,\beta,\Delta}^2 \over L_{\alpha,\beta,\Delta}^2} r_{\max}^{(K-1)} { \sum_k d_k \over \prod_k d_k}+{C_2 \over D_{\alpha,\beta,\Delta}^2}{(\sum_k d_k)^2\over \min_{\ell}(n_{\ell}+n_{\ell+1})^2}.
+\end{align}
+Briefly,
+\begin{align}
+\mathrm{MSE}\left((\hat \Theta,\hat \mb),(\trueT,\trueb)\right) &= \tO\left({\sum_k d_k\over\prod_k d_k}\right)+\tO\left({(\sum_k d_k)^2\over \min_\ell(n_\ell+n_{\ell+1})^2}\right)\\& = \tO\left({(\sum_k d_k)^2\over \min\left\{\sum_k d_k\prod_k d_k ,\min_\ell(n_\ell+n_{\ell+1})^2\right\}}\right).
+\end{align}
+where $c_1>0$ is a constant independent of the tensor dimension and rank, and $U_{\alpha,\beta,\Delta}$, $L_{\alpha,\beta,\Delta}$,  $D_{\alpha,\beta,\Delta}>0$ are constants defined in~\eqref{eq:UL} and~\eqref{eq:CD} and $C_2>0$ is a constant that depends on $ C_{\alpha,\beta,\Delta},\tilde{D}_{\alpha,\beta,\Delta},L$.
+\end{thm}
+
+\begin{rmk}
+The total MSE has two components where $\tO\left({\sum_k d_k\over\prod_k d_k}\right)$ is from the error in $\hat\Theta$ and $\tO\left({(\sum_k d_k)^2\over \min_\ell(n_\ell+n_{\ell+1})^2}\right)$ is from the error in $\hat \mb.$ When $\min_\ell(n_\ell+n_{\ell+1})\gg \sum_k d_k\prod_k d_k$, the error in $\hat\Theta$ dominates the total MSE. When $\min_\ell(n_\ell+n_{\ell+1})\ll \sum_k d_k\prod_k d_k $, the error in $\hat\mb$ dominates the total MSE.
+\end{rmk}
+
+\begin{rmk}
+  The constant bounds with $\alpha$ and $\beta$ can be obtained trivially from the definition of the feasible sets. For notational convenience, we ignore this constant bound.
+\end{rmk}
+
+\begin{proof}[Proof of Theorem~\ref{thm:ratejoint}]
+Similar to the proof of Theorem~\ref{thm:rate}, we suppress $\Omega$ in the subscript. Based on the definition of $(\hat \Theta, \hat \mb)$,
+we have the following inequalities:
+\begin{equation}\label{eq:level}
+\flogl(\hat \Theta,\hat \mb)\geq \flogl(\trueT,\hat \mb)\quad \text{and}\quad \flogl(\hat \Theta,\hat \mb)\geq \flogl(\hat \Theta, \trueb).
+\end{equation}
+Following the same argument as in Theorem~\ref{thm:rate} and the first inequality in~\eqref{eq:level}, we obtain that
+\begin{equation}\label{eq:ratenew}
+\FnormSize{}{\hat \Theta-\trueT}^2\leq {c_1^2U_{\alpha,\beta,\Delta}^2\over L_{\alpha,\beta,\Delta}^2} r_{\max}^{(K-1)}  \sum_k d_k ,
+\end{equation}
+where $U_{\alpha,\beta,\Delta}, L_{\alpha,\beta,\Delta}>0$ are two universal constants independent of the tensor dimension and rank.
+Next we bound $\FnormSize{}{\hat \mb-\trueb}^2$ given $\hat\Theta$. It follows from the expression of $\flogl(\Theta,\mb)$ that
+\begin{align}\label{eq:propertyb}
+{\partial \flogl\over \partial b_\ell}&=\sum_{\omega\in\Omega}\left[\mathds{1}_{\{y_{\omega}=\ell\}}
+\frac{\dot{f}(b_\ell-\theta_\omega)}{g_\ell(\theta_\omega)}-\mathds{1}_{\{y_{\omega}=\ell+1\}}
+\frac{\dot{f}(b_\ell-\theta_\omega)}{g_{\ell+1}(\theta_\omega)}\right],\notag\\
+{\partial^2 \flogl\over \partial b^2_\ell}&=\sum_{\omega\in\Omega}\left[\mathds{1}_{\{y_\omega=\ell\}}\frac{\ddot{f}(b_\ell-\theta_\omega)g_\ell(\theta_\omega)-\dot{f}^2(b_\ell-\theta_\omega)}{g^2_\ell(\theta_\omega)}-\mathds{1}_{\{y_\omega=\ell+1\}}\frac{\ddot{f}(b_\ell-\theta_\omega)g_{\ell+1}(\theta_\omega)+\dot{f}^2(b_\ell-\theta_\omega)}{g^2_{\ell+1}(\theta_\omega)}\right],\notag\\
+&\quad  \text{ for all } \ell \in [L-1],\notag \\
+{\partial^2 \flogl\over \partial b_\ell \partial b_{\ell+1}}&=\sum_{\omega\in\Omega}\mathds{1}_{\{y_\omega=\ell+1\}}\frac{\dot{f}(b_\ell-\theta_\omega)\dot{f}(b_{\ell+1}-\theta_\omega)}{g^2_{\ell+1}(\theta_\omega)}\quad \text{and}\quad
+\ {\partial^2 \flogl\over \partial b_\ell \partial b_\ell'} = 0 \text{ if } |\ell-\ell'|>1.
+\end{align}
+Therefore, all entries in $\fploglb$ are upper bounded by $\left\{C_{\alpha,\beta,\Delta} \max_\ell (n_\ell+n_{\ell+1})\right\}>0$, and $\fpploglb$ is a tridiagonal matrix.
+
+We consider the profile log-likelihood $\flogl(\hat \Theta,\mb)$ as a function of $\mb\in\tB$. For notational convenience, we drop $\hat \Theta$ from $\flogl(\hat \Theta,\mb)$ and simply write $\flogl(\mb)$. By the second-order Taylor's expansion of $\flogl(\mb)$ around $\trueb$, we obtain
+\begin{equation}\label{eq:taylorb}
+\flogl(\hat\mb)=\flogl(\trueb)+(\trueb-\hat\mb)^T\fploglb(\trueb)+ {1\over 2}(\trueb-\hat\mb)^T\fpploglb(\check\mb)(\trueb-\hat\mb),
+\end{equation}
+where $\check\mb=\gamma\trueb+(1-\gamma)\hat\mb$ for some $\gamma\in[0,1]$, and $\fpploglb(\check\mb)$ denotes the $(L-1)$-by-$(L-1)$ Hession matrix evaluated at $\check\mb$.
+
+The linear term in~\eqref{eq:taylorb} can be bounded by Cauchy-Schwartz inequality,
+\begin{equation}\label{eq:linearb}
+(\trueb-\hat\mb)^T\fploglb(\trueb)\leq \FnormSize{}{\trueb-\hat\mb}\FnormSize{}{\fploglb(\trueb)}
+\leq \FnormSize{}{\trueb-\hat\mb}C\sqrt{L-1}\sum_k d_k\sqrt{\prod_k d_k},
+\end{equation}
+where the last inequality is followed from Lemma \ref{lem:sharpergd} stated as,
+\[
+\left|{\partial \flogl\over \partial b_\ell}\bigg|_{(\hat \Theta,\trueb)}\right|\leq C\sum_k d_k\sqrt{\prod_k d_k},\quad \text{ for all } \ell \in [L-1] \text{ with high probability}.
+\]
+We next bound the quadratic term in \eqref{eq:taylorb}. Note that
+\begin{align}\label{eq:quadraticb}
+ &(\trueb-\hat\mb)^T \fpploglb(\check{\mb})(\trueb-\hat\mb)\\
+ &=\sum_{\ell\in [L-1]} \left( {\partial^2\tL_{\tY}\over \partial b^2_\ell} \Big|_{\mb=\check\mb} \right)(\hat b_\ell-b^{\text{true}}_{\ell})^2 + 2\sum_{\ell\in[L-1]/\{1\}}\left( {\partial^2\tL_{\tY}\over \partial b_\ell \partial b_{\ell-1}} \Big|_{\mb=\check\mb} \right)(\hat b_\ell-b^{\text{true}}_{\ell})(\hat b_{\ell-1}-b^{\text{true}}_{\ell-1}) \nonumber \\
+&\leq \sum_{\ell\in [L-1]} \left( {\partial^2\tL_{\tY}\over \partial b^2_\ell} \Big|_{\mb=\check\mb} \right)(\hat b_\ell-b^{\text{true}}_{\ell})^2 + \sum_{\ell\in[L-1]/\{1\}}\left( {\partial^2\tL_{\tY}\over \partial b_\ell \partial b_{\ell-1}} \Big|_{\mb=\check\mb} \right)\big[(\hat b_\ell-b^{\text{true}}_{\ell})^2 +(\hat b_{\ell-1}-b^{\text{true}}_{\ell-1})^2\big] \nonumber \\
+&=\left( {\partial^2\tL_{\tY}\over \partial b^2_1}+{\partial^2\tL_{\tY}\over \partial b_1 \partial b_2 }\right)\Big|_{\mb=\check\mb}(\hat b_1-b^{\text{true}}_{1})^2+\left( {\partial^2\tL_{\tY}\over \partial b^2_{L-1}}+{\partial^2\tL_{\tY}\over \partial b_{L-2} \partial b_{L-1} }\right)\Big|_{\mb=\check\mb}(\hat b_{L-1}-b^{\text{true}}_{L-1})^2  \\
+&\quad\quad +\sum_{\ell\in[L-2]/\{1\}}\left( {\partial^2\tL_{\tY}\over \partial b^2_\ell}+{\partial^2\tL_{\tY}\over \partial b_\ell \partial b_{\ell-1}}+{\partial^2\tL_{\tY}\over \partial b_{\ell+1} \partial b_{\ell}} \right)\Big|_{\mb=\check\mb} (\hat b_\ell-b^{\text{true}}_{\ell})^2     \\
+&\leq - D_{\alpha,\beta,\Delta}' \sum_{\ell \in [L-1]}(\hat b_\ell-b_{\text{true},\ell})^2 \nonumber \\
+&=-D_{\alpha,\beta,\Delta}'\FnormSize{}{\hat\mb-\trueb}^2,
+\end{align}
+where
+\begin{align}
+D_{\alpha,\beta,\Delta}'&=\min_{\substack{|\theta|\leq \alpha,\\ \mb\in\tB}}\min_{\ell\in[L-1]} -\left( {\partial^2\tL_{\tY}\over \partial b^2_\ell}+{\partial^2\tL_{\tY}\over \partial b_\ell \partial b_{\ell-1}}+{\partial^2\tL_{\tY}\over \partial b_{\ell+1} \partial b_{\ell}} \right)\\
+&=\min_{\substack{|\theta|\leq \alpha,\\ \mb\in\tB}} \min_{\ell\in[L-1]}\left\{\sum_{\omega\in\Omega}-\mathds{1}_{\{y_\omega=\ell\}}\left( {\ddot{f}(b_{\ell}-\theta_\omega) g_\ell(\theta_\omega)- \dot{f}(b_{\ell}-\theta_\omega)\dot{g}_\ell(\theta_\omega) \over g^2_\ell(\theta_\omega) }\right)\right. \\
+&\left. \hspace{1in}+\sum_{\omega\in\Omega}\mathds{1}_{\{y_\omega=\ell+1\}} \left( {\ddot{f}(b_\ell-\theta_\omega) g_{\ell+1}(\theta_\omega) - \dot{f}(b_\ell-\theta_\omega)\dot{g}_{\ell+1} (\theta_\omega)\over g^2_{\ell+1}(\theta_\omega)} \right)\right\}\\
+&=\min_{\substack{|\theta|\leq \alpha,\\ \mb\in\tB}} \min_{\ell\in[L-1]}\left\{\KeepStyleUnderBrace{-\sum_{\omega\in\Omega} \mathds{1}_{\{y_\omega=\ell\}}{\partial \over \partial \theta_\omega}\left( \dot{f}(b_\ell-\theta_\omega) \over g_\ell(\theta_\omega) \right)}_{>0}+\KeepStyleUnderBrace{\sum_{\omega\in\Omega}\mathds{1}_{\{y_\omega=\ell+1\}} {\partial \over \partial \theta_\omega}\left( \dot{f}(b_\ell-\theta_\omega) \over g_{\ell+1}(\theta_\omega) \right) }_{>0}\right\}\\
+&\geq D_{\alpha,\beta,\Delta}  \min_{\ell\in[L-1]}\left(n_{\ell}+n_{\ell+1}\right) .
+\end{align}
+Combining inequalities~\eqref{eq:taylorb}, \eqref{eq:linearb} and~\eqref{eq:quadraticb} yields
+\[
+\flogl(\hat \mb)\leq \flogl(\trueb)+C\sqrt{L-1} \sum_k d_k\sqrt{\prod_k d_k}) \FnormSize{}{\hat\mb-\trueb} -\frac{D_{\alpha,\beta,\Delta}}{2}\min_{\ell}(n_\ell+n_{\ell+1}) \FnormSize{}{\hat\mb-\trueb}^2 .
+\]
+Since $\hat \mb$ satisfies $\flogl(\hat \mb)-\flogl(\trueb)\geq 0$, we have that
+\[
+C\sqrt{L-1} \sum_k d_k\sqrt{\prod_k d_k}) \FnormSize{}{\hat\mb-\trueb} -\frac{D_{\alpha,\beta,\Delta}}{2}\min_{\ell}(n_\ell+n_{\ell+1}) \FnormSize{}{\hat\mb-\trueb}^2\geq 0
+\]
+Finally,
+\[
+\FnormSize{}{\hat\mb-\trueb}^2\leq {C_2 \over D_{\alpha,\beta,\Delta}^2}{(\sum_k d_k)^2\prod_k d_k\over \min_{\ell}(n_{\ell}+n_{\ell+1})^2},
+\]
+where $C_2(C_{\alpha,\beta,\Delta},\tilde{D}_{\alpha,\beta,\Delta},L)$ is a positive constant.
+The following completes the proof.
+\begin{align}
+\text{MSE}\left((\hat \Theta,\hat \mb),(\trueT,\trueb)\right)&\leq{1\over \prod_k d_k}\FnormSize{}{(\hat \Theta,\hat \mb)-(\trueT,\trueb)}^2\\
+&={1\over \prod_k d_k}\FnormSize{}{(\hat \Theta,\hat \mb)-(\hat \Theta,\trueb)+(\hat \Theta,\trueb)-(\trueT,\trueb)}^2\\
+&\leq {1\over\prod_kd_k}\FnormSize{}{(\hat \Theta- \trueT)}^2+ {1\over\prod_kd_k}\FnormSize{}{\hat \mb -\trueb}^2.
+\end{align}
+\end{proof}
+
+\begin{rmk}[MSE for $\hat\mb$]
+In the proof, we have shown that
+\[
+\FnormSize{}{\hat\mb-\trueb}\leq {\sqrt{C_2} \over D_{\alpha,\beta,\Delta}}{(\sum_k d_k)\sqrt{\prod_k d_k}\over \min_{\ell}(n_{\ell}+n_{\ell+1})}.
+\]
+This bound is sharper than the trivial bound $\FnormSize{}{\trueb-\hat\mb}\leq 2\beta\sqrt{L-1}$ which is from $|b_\ell^{\text{true}}-\hat b_\ell|\leq 2\beta.$ In particular, $\FnormSize{}{\hat\mb-\trueb}\rightarrow 0$ as $\min_\ell(n_\ell+n_{\ell+1})\asymp \tilde \tO(\sum_k d_k\sqrt{\prod_k d_k})\rightarrow \infty.$
+\end{rmk}
+
+
+\begin{lem}[CLT for i.d. Bernoulli]\label{lem:clt}
+Suppose $\{X_n\}$ is a series of independent Bernoulli trials with possibly different success probabilities $p_n$. Let $s_n = \sum_{m=1}^n p_m(1-p_m)$ and $Y_n = X_n-p_n$. Then,
+\[{1\over s_n}\sum_{m=1}^n Y_n \stackrel{\mathcal{D}}{\rightarrow} N(0,1), \quad \text{ as } n \rightarrow \infty,\]
+whenever $s_n = \sum_{m=1}^n p_m(1-p_m)\rightarrow \infty.$
+\end{lem}
+
+\begin{proof}
+Let us look for a Lyapunov condition for $\delta = 1$.
+First, we have
+\[
+\mathbb{E}[|Y_n|^3] = p_n(1-p_n)^3+ (1-p_n)p_n^3\leq p_n(1-p_n)[(1-p_n)^2+p_n^2]\leq p_n(1-p_n).
+\]
+Hence, summation of the above inequality shows,
+\[
+\sum_{m=1}^n\mathbb{E}[|Y_n|^3]\leq \sum_{m=1}^n p_m(1-p_m) = s_n^2.
+\]
+Thus, the Lyapunov condition is satisfied whenever,
+\[{1\over s_n^3}\sum_{m=1}^n \mathbb{E}[|Y_n|^3]\leq {s_n^2\over s_n^3}\rightarrow 0.\]
+or simply $s_n = \sum_{m=1}^n p_m(1-p_m)\rightarrow \infty.$ Central limit theorem on $Y_n$ completes the proof.
+
+\end{proof}
+
+\begin{lem}[Bound on Gradients]\label{lem:sharpergd}
+Consider the same set-up as in Theorem \ref{thm:ratejoint}. Then, with very high probability,
+\[
+\left|{\partial \flogl\over \partial b_\ell}\bigg|_{(\hat \Theta,\trueb)}\right|\leq \left(C_{\alpha,\beta,\Delta}+\tilde{D}_{\alpha,\beta,\Delta}\FnormSize{}{\trueT-\hat\Theta}^2\right)\sqrt{\prod_k d_k},\quad \text{ for all } \ell \in [L-1],
+\]
+In particular, there exists a constant $d_0\in \mathbb{N}_+$ such that for all $d_k\geq d_0$ for $k \in [K]$,
+\[
+\left|{\partial \flogl\over \partial b_\ell}\bigg|_{(\hat \Theta,\trueb)}\right|\leq C\sum_k d_k\sqrt{\prod_k d_k},\quad \text{ for all } \ell \in [L-1],
+\]
+where $C(C_{\alpha,\beta,\Delta},\tilde{D}_{\alpha,\beta,\Delta})>0$ is a constant.
+\end{lem}
+\begin{proof}
+We only prove the case for $\ell = 1$. Other cases can be proved similarly.
+Note that
+\begin{equation}\label{eq:sharpergd}
+  {\partial \flogl\over \partial b_1}\bigg|_{(\hat \Theta,\trueb)} = \KeepStyleUnderBrace{{\partial \flogl\over \partial b_1}\bigg|_{(\hat \Theta,\trueb)}-\mathbb{E}_\mathcal{Y}\left[{\partial \flogl\over \partial b_1}\bigg|_{(\hat \Theta,\trueb)}\right]}_{\coloneqq A}+\KeepStyleUnderBrace{\mathbb{E}_\mathcal{Y}\left[{\partial \flogl\over \partial b_1}\bigg|_{(\hat \Theta,\trueb)}\right]-\mathbb{E}_\mathcal{Y}\left[{\partial \flogl\over \partial b_1}\bigg|_{(\hat \trueT,\trueb)}\right] }_{\coloneqq B}.
+\end{equation}
+We have used the fact that the score function has mean zero, $\mathbb{E}_\mathcal{Y}\left[{\partial \flogl\over \partial b_1}\bigg|_{(\hat \trueT,\trueb)}\right]=0 $. Here all expectations are taken with respect to $\mathcal{Y}\sim \mathbb{P}(\trueT,\trueb).$\\
+We now bound the two deviation terms in \eqref{eq:sharpergd} separately. The term $A$ in \eqref{eq:sharpergd} is the stochastic deviation of log-likelihood to its expectation:
+\begin{align}
+A &= \sum_{\omega\in\Omega}\left\{[\mathds{1}_{y_\omega = 1}-g_1(\theta^{\text{true}}_\omega)]{\dot{f}(b_1-\hat\theta_\omega)\over g_1(\hat\theta_\omega)}-[\mathds{1}_{y_\omega = 2}-g_2(\theta^{\text{true}}_\omega)]{\dot{f}(b_1-\hat\theta_\omega)\over g_2(\hat\theta_\omega)}\right\}\\
+&\leq C_{\alpha,\beta,\Delta}\sum_{\omega\in\Omega}\KeepStyleUnderBrace{[\mathds{1}_{y_\omega = 1}+\mathds{1}_{y_\omega = 2}- g_1(\theta^{\text{true}}_\omega)-g_2(\theta^{\text{true}}_\omega)]}_{\coloneqq W_\omega}.
+\end{align}
+Note that $\{W_\omega\}$ are centered independent Bernoulli random variables with success probabilities $g_1(\theta^{\text{true}}_\omega)+g_2(\theta^{\text{true}}_\omega)$. By Lemma \ref{lem:clt}, we have
+\[
+\sum_{\omega\in\Omega}W_\omega \stackrel{\mathcal{D}}{\rightarrow} N\left(0, \sum_{\omega\in\Omega}\left(g_1(\theta^{\text{true}}_\omega)+g_2(\theta^{\text{true}}_\omega)\right)\left(1-g_1(\theta^{\text{true}}_\omega)+g_2(\theta^{\text{true}}_\omega)\right)\right).
+\]
+Hence, with the fact that $\sum_{\omega\in\Omega}\left(g_1(\theta^{\text{true}}_\omega)+g_2(\theta^{\text{true}}_\omega)\right)\left(1-g_1(\theta^{\text{true}}_\omega)+g_2(\theta^{\text{true}}_\omega)\right)\leq {1\over 4}\prod_k d_k$,
+\begin{equation}\label{eq:A}
+|A| \leq C_{\alpha,\beta,\Delta}\left|\sum_{\omega\in\Omega}W_\omega\right|\leq C_{\alpha,\beta,\Delta}\sqrt{\prod_k d_k}, \quad \text{ with high probability. }
+\end{equation}
+The second term $B$ in \eqref{eq:sharpergd} is the bias induced by the inaccuracy of $\hat\Theta$:
+\begin{align}
+|B| &= \left|\sum_{\omega\in\Omega} g_1(\theta^{\text{true}}_\omega)\left({\dot{f}(b_1-\hat\theta_\omega)\over g_1(\hat\theta_\omega)}-{\dot{f}(b_1-\theta^{\text{true}}_\omega)\over g_1(\theta^{\text{true}}_\omega)}\right)-\sum_{\omega\in\Omega} g_2(\theta^{\text{true}}_\omega)\left({\dot{f}(b_1-\hat\theta_\omega)\over g_2(\hat\theta_\omega)}-{\dot{f}(b_1-\theta^{\text{true}}_\omega)\over g_2(\theta^{\text{true}}_\omega)}\right)\right|\\
+&= \Bigg|\sum_{\omega\in\Omega} g_1(\theta^{\text{true}}_\omega)(\theta^{\text{true}}_\omega-\hat\theta_\omega)\left\{{\partial\over\partial}\left({\dot{f}(b_1-\theta)\over g_1(\theta)}\right)\bigg|_{\rho_\omega\hat\theta_\omega+(1-\rho_\omega)\theta^{\text{true}}_\omega}\right\}\\
+&\hspace{0.5in}-\sum_{\omega\in\Omega} g_2(\theta^{\text{true}}_\omega)(\theta^{\text{true}}_\omega-\hat\theta_\omega)\left\{{\partial\over\partial}\left({\dot{f}(b_1-\theta)\over g_2(\theta)}\right)\bigg|_{\rho_\omega'\hat\theta_\omega+(1-\rho_\omega')\theta^{\text{true}}_\omega}\right\}\Bigg|\\
+&\leq \tilde{D}_{\alpha,\beta,\Delta}\sum_{\omega\in\Omega}|g_1(\theta^{\text{true}}_\omega)+g_2(\theta^{\text{true}}_\omega)||\theta^{\text{true}}_\omega-\hat\theta_\omega|.
+\end{align}
+By Cauchy-Schwartz inequality with the fact that $g_1(\theta)+g_2(\theta)<1$,
+\begin{equation}\label{eq:B}
+|B| \leq \tilde{D}_{\alpha,\beta,\Delta}\sqrt{\prod_k d_k} \FnormSize{}{\trueT-\hat\Theta}.
+\end{equation}
+Plugging \eqref{eq:A} and \eqref{eq:B} back to \eqref{eq:sharpergd} yields that
+\[
+{\partial \flogl\over \partial b_1}\bigg|_{(\hat \Theta,\trueb)}\leq \left(C_{\alpha,\beta,\Delta}+\tilde{D}_{\alpha,\beta,\Delta}\FnormSize{}{\trueT-\hat\Theta}\right)\sqrt{\prod_k d_k}.
+\]
+holds with very high probability. The second inequality in the lemma comes from the fact that $\FnormSize{}{\trueT-\hat\Theta}\leq \tO(\sum_k d_k).$
+\end{proof}
+
+
+\section{Additional results of HCP analysis}\label{sec:additionalHCP}
+\subsection{Clustering based on Tucker representation}\label{sec:clustering}
+We perform clustering analyses based on the Tucker representation of the estimated tensor parameter $\hat\Theta$. The procedure is motivated from the higher-order extension of Principal Component Analysis (PCA) or Singular Value Decomposition (SVD). Recall that, in the matrix case, we usually perform clustering on an $m\times n$ (normalized) matrix $X$ based on the following procedure. First, we factorize $X$ into
+\begin{equation}
+X = U\Sigma V^T,
+\end{equation}
+where $\Sigma$ is a diagonal matrix and $ U,V$ are factor matrices with orthogonal columns. Second, we take each column of $V$ as a principal axis and each row in $U\Sigma$ as principal component. A subsequent multivariate clustering method (such as $K$-means) is then applied to the $m$ rows of $U\Sigma$.
+
+
+We apply a similar clustering procedure to the estimated parameter tensor $\hat\Theta$. Based on Tucker representation of $\hat \Theta$, we have
+\begin{equation}\label{eq:Tuckerest}
+\hat \Theta = \hat \tC\times_1\hat \mM_1\times_2\cdots\times_K\hat \mM_K,
+\end{equation}
+where $\hat \tC\in\mathbb{R}^{r_1\times \cdots \times r_K}$ is the estimated core tensor, $\hat \mM_k\in\mathbb{R}^{d_k\times r_k}$ are estimated factor matrices with orthogonal columns, and $\times_k$ denotes the tensor-by-matrix multiplication~\citep{kolda2009tensor}. The mode-$k$ matricization of~\eqref{eq:Tuckerest} gives
+\begin{equation}
+\hat \Theta_{(k)} = \hat \mM_k\hat \tC_{(k)}\left(\hat \mM_K\otimes\cdots\otimes\hat \mM_1\right),
+\end{equation}
+where $\hat \Theta_{(k)} , \hat \tC_{(k)}$ denote the mode-$k$ unfolding of $\hat \Theta$ and $\hat \tC$, respectively. Then, the mode-$k$ clustering can be performed as follows. First, we take columns in $\left(\hat \mM_K\otimes\cdots\otimes\hat \mM_1\right)$ as principal axes and rows in $\hat \mM_k\hat \tC_{(k)}$ as principal components. Then, we perform $K$-means clustering method to the $d_k$ rows of the matrix $\hat \mM_k\hat \tC_{(k)}$.
+
+\subsection{Clustering results of HCP analysis}
+We perform a clustering analysis on the 68 brain nodes using the produce described above. Recall that our ordinal tensor method outputs the estimated parameter tensor $\hat\Theta\in\mathbb{R}^{68\times 68\times136}$ with rank $(23,23,8)$. We apply $K$-means to the mode-1 principal component matrix of size $68\times 184$ ($184=23\times8$). The elbow method suggests eight clusters among the 68 nodes (see Figure~\ref{figure:elbow}).
+
+Table~\ref{table:clustering} shows the eight clusters and their compositions. We find that most brain nodes fall into cluster I and the cluster II, which can be represented as the left and right hemispheres, respectively (Figure~\ref{figure:brain image}). Clusters III-VIII captures brain regions with same annotations. For example, clusters III/IV represents the supramarginal gyrus region on the left/right hemisphere, respectively. This region is known to be involved in visual word recognition and reading~\citep{stoeckel2009supramarginal}. The results demonstrate that our clustering successfully groups similar brain regions together without knowledge of external annotation.
+
+
+\begin{figure}[H]
+\begin{center}
+ \includegraphics[width=0.4\textwidth]{elbowm.pdf}
+\end{center}
+ \caption{Elbow plot for determining the number of clusters in $K$-means.}\label{figure:elbow}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+ \includegraphics[width = 0.45\textwidth]{braincluster.pdf}
+ \includegraphics[width = 0.45\textwidth]{braincluster3.pdf}
+  \caption{Top two clusters of brain nodes. (a) Nodes in yellow are from cluster I (left hemisphere), and nodes in green are from cluster II (right hemisphere). (b) Predicted connectivity within cluster I/II. Edges are colored based on predicted strength level averaged across individuals.}  \label{figure:brain image}
+\end{figure}
+
+
+
+\begin{table}[H]
+ \center
+  \begin{small}
+    \footnotesize
+  \begin{sc}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Cluster     & \multicolumn{3}{c|}{I}\\ \hline
+Brain nodes & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}} l.superiorfrontal(2),  l.superiortemporal(2),    l.insula ,             l.frontalpole,         \\
+l.caudalmiddlefrontal, l.parstriangularis,     l.parsopercularis,     l.precentral,          \\
+l.temporalpole,        l.postcentral,
+l.superiorparietal,    l.inferiorparietal,    \\ l.lateraloccipital,    l.medialorbitofrontal,
+l.superiorfrontal,       \\ l.precuneus,           l.cuneus,
+l.parahippocampal,     l.lingual,              l.superiortemporal,\\  l.isthmuscingulate,   l.lateraloccipital
+\end{tabular}} \\
+\hline
+Cluster & \multicolumn{3}{c|}{II}\\ \hline
+Brain nodes & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}
+r.superiorfrontal(2),  r.superiortemporal(2),  r.insula,              r.frontalpole,         \\
+r.caudalmiddlefrontal, r.parstriangularis,     r.parsopercularis,     r.precentral,          \\
+r.temporalpole,        r.postcentral,
+r.superiorparietal,    r.inferiorparietal,    \\ r.lateraloccipital,   r.medialorbitofrontal,
+r.superiorfrontal,       \\ r.precuneus,
+r.cuneus,
+r.parahippocampal,     r.lingual,              r.superiortemporal,    \\r.isthmuscingulate,  r.lateraloccipital\end{tabular}} \\ \hline
+Cluster      & III    & IV    & V
+\\ \hline
+Brain nodes & \begin{tabular}[c]{@{}c@{}}l.supramarginal(4)\end{tabular}&
+\begin{tabular}[c]{@{}c@{}}r.supramarginal(4)\end{tabular}&
+\begin{tabular}[c]{@{}c@{}}l.inferiortemporal(3)\end{tabular}\\
+\hline
+Cluster & VI  & VII & VIII
+\\ \hline
+Brain nodes &
+\begin{tabular}[c]{@{}c@{}}r.inferiortemporal(3)\end{tabular}&
+\begin{tabular}[c]{@{}c@{}}l.middletemporal(3)\end{tabular}& \begin{tabular}[c]{@{}c@{}}r.middletemporal(3)\end{tabular}
+\\
+\hline
+\end{tabular}
+\end{sc}
+\end{small}
+\caption{Clustering result of brain nodes. The first alphabet in the node name indicates the left (L) or right (R) hemisphere. The number in the parentheses indicates the node count in each cluster. }  \label{table:clustering}
+\end{table}
+
+
+
+\bibliography{tensor_wang}
+\bibliographystyle{apalike}
+\end{document}
