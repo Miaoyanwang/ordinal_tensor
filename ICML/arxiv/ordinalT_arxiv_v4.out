@@ -1,0 +1,25 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Preliminaries}{}% 2
+\BOOKMARK [1][-]{section.3}{Model formulation and motivation}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Observation model}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Latent-variable interpretation}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.3}{Problem 1: Tensor denoising}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.4}{Problem 2: Tensor completion}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Rank-constrained M-estimator}{}% 8
+\BOOKMARK [2][-]{subsection.4.1}{Estimation error for tensor denoising}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.2}{Sample complexity for tensor completion}{section.4}% 10
+\BOOKMARK [1][-]{section.5}{Numerical Implementation}{}% 11
+\BOOKMARK [1][-]{section.6}{Experiments}{}% 12
+\BOOKMARK [2][-]{subsection.6.1}{Finite-sample performance}{section.6}% 13
+\BOOKMARK [2][-]{subsection.6.2}{Comparison with alternative methods}{section.6}% 14
+\BOOKMARK [1][-]{section.7}{Data Applications}{}% 15
+\BOOKMARK [2][-]{subsection.7.1}{Human Connectome Project \(HCP\)}{section.7}% 16
+\BOOKMARK [2][-]{subsection.7.2}{InCarMusic recommendation system}{section.7}% 17
+\BOOKMARK [1][-]{section.8}{Proofs}{}% 18
+\BOOKMARK [2][-]{subsection.8.1}{Estimation error for tensor denoising}{section.8}% 19
+\BOOKMARK [2][-]{subsection.8.2}{Sample complexity for tensor completion}{section.8}% 20
+\BOOKMARK [2][-]{subsection.8.3}{Convexity of the log-likelihood function}{section.8}% 21
+\BOOKMARK [2][-]{subsection.8.4}{Auxiliary lemmas}{section.8}% 22
+\BOOKMARK [1][-]{section.9}{Conclusion}{}% 23
+\BOOKMARK [1][-]{appendix.A}{Extension of Theorem 4.1 to unknown cut-off points}{}% 24
+\BOOKMARK [1][-]{appendix.B}{Additional results of HCP analysis}{}% 25

@@ -338,7 +338,7 @@ We comment on two implementation details before concluding this section. First, 
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.7\textwidth]{algorithm.pdf}\label{fig:stability}
+\includegraphics[width=0.65\textwidth]{algorithm.pdf}\label{fig:stability}
 \caption{Trajectory of objective function with various $d$ and $r$.}
 \end{figure}
 
@@ -359,7 +359,7 @@ The second experiment investigates the incomplete observations. We consider $L$-
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.7\textwidth]{panel.pdf}
+\includegraphics[width=0.65\textwidth]{panel.pdf}
 \caption{Empirical relationship between (relative) MSE versus (a) dimension $d$, (b) signal level $\alpha$, (c) observation fraction $\rho$, and (d) number of ordinal levels $L$. In panels (b)-(d), we plot the relative MSE $=\FnormSize{}{\hat \Theta-\trueT}/\FnormSize{}{\trueT}$ for better visualization.}
 \label{fig:finite}
 \end{figure}
@@ -383,7 +383,7 @@ Figure~\ref{fig:compare} compares the prediction accuracy under the setting $\al
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.7\textwidth]{panel2.pdf}
+\includegraphics[width=0.65\textwidth]{panel2.pdf}
 \caption{Performance comparison for predicting most likely labels. (a, c) Prediction error versus sample complexity $\rho=|\Omega|/d^K$ when $L=5$. (b, d) Prediction error versus the number of ordinal levels $L$ when $\rho=0.8$. }\label{fig:compare}
 \end{figure}
 
@@ -391,7 +391,7 @@ We also compare the methods by their performance in predicting the median labels
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=.7\textwidth]{panel3.pdf}
+\includegraphics[width=.65\textwidth]{panel3.pdf}
 \end{center}
 \caption{Performance comparison for predicting median labels. (a, c) Prediction error versus sample complexity $\rho=|\Omega|/d^K$ when $L=5$. (b, d) Prediction error versus the number of ordinal levels $L$, when $\rho=0.8.$}\label{fig:compare2}
 \end{figure}
@@ -408,14 +408,14 @@ Each entry in the HCP dataset takes value on a nominal scale, \{{\it high, moder
 In particular, cluster I represents the connection between the left and right hemispheres, whereas clusters II-III represent the connection within each of the half brains (Figure~\ref{figure:brain image}). Other smaller clusters represent local regions driving by similar nodes (Table~\ref{table:clustering}). For example, the cluster IV/VII consists of nodes in the supramarginal gyrus region in the left/right hemisphere. This region is known to be involved in visual word recognition and reading~\citep{stoeckel2009supramarginal}. The identified similarities among nodes without external annotations illustrate the applicability of our method to clustering analysis. 
 
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
 \includegraphics[width = .7\textwidth]{HCP.pdf}
 \caption{Top three clusters in the HCP analysis. (a) Cluster I reflects the connections between two brain hemispheres. (b)-(c) Cluster II/III consists of nodes within left/right hemisphere only. Node name are shown in abbreviation. Edges are colored based on predicted connection level averaged across individuals. }  \label{figure:brain image}
 \end{figure}
 
 
-\begin{table}[H]
+\begin{table}[ht]
 \center
 \begin{sc}
 \resizebox{\columnwidth}{!}{
