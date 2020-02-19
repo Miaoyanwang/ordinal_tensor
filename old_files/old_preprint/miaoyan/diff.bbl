@@ -1,0 +1,79 @@
+\begin{thebibliography}{12}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Brascamp and Lieb(2002)]{brascamp2002extensions}
+Herm~Jan Brascamp and Elliott~H Lieb.
+\newblock On extensions of the brunn-minkowski and pr{\'e}kopa-leindler
+  theorems, including inequalities for log concave functions, and with an
+  application to the diffusion equation.
+\newblock In \emph{Inequalities}, pages 441--464. Springer, 2002.
+
+\bibitem[Carlson(2012)]{carlson2012physiology}
+Neil~R Carlson.
+\newblock \emph{Physiology of behavior 11th edition}.
+\newblock Pearson, 2012.
+
+\bibitem[Friedland and Lim(2018)]{friedland2018nuclear}
+Shmuel Friedland and Lek-Heng Lim.
+\newblock Nuclear norm of higher-order tensors.
+\newblock \emph{Mathematics of Computation}, 87\penalty0 (311):\penalty0
+  1255--1281, 2018.
+
+\bibitem[Ghadermarzy et~al.(2019)Ghadermarzy, Plan, and
+  Yilmaz]{ghadermarzy2019near}
+Navid Ghadermarzy, Yaniv Plan, and {\"O}zg{\"u}r Yilmaz.
+\newblock Near-optimal sample complexity for convex tensor completion.
+\newblock \emph{Information and Inference: A Journal of the IMA}, 8\penalty0
+  (3):\penalty0 577--619, 2019.
+
+\bibitem[Jiang et~al.(2017)Jiang, Yang, and Zhang]{jiang2017tensor}
+Bo~Jiang, Fan Yang, and Shuzhong Zhang.
+\newblock Tensor and its {Tucker} core: the invariance relationships.
+\newblock \emph{Numerical Linear Algebra with Applications}, 24\penalty0
+  (3):\penalty0 e2086, 2017.
+
+\bibitem[Kolda and Bader(2009)]{kolda2009tensor}
+Tamara~G Kolda and Brett~W Bader.
+\newblock Tensor decompositions and applications.
+\newblock \emph{SIAM review}, 51\penalty0 (3):\penalty0 455--500, 2009.
+
+\bibitem[Lim(2005)]{lim2005singular}
+Lek-Heng Lim.
+\newblock Singular values and eigenvalues of tensors: a variational approach.
+\newblock In \emph{1st IEEE International Workshop on Computational Advances in
+  Multi-Sensor Adaptive Processing, 2005.}, pages 129--132. IEEE, 2005.
+
+\bibitem[Nguyen et~al.(2015)Nguyen, Drineas, and Tran]{nguyen2015tensor}
+Nam~H Nguyen, Petros Drineas, and Trac~D Tran.
+\newblock Tensor sparsification via a bound on the spectral norm of random
+  tensors.
+\newblock \emph{Information and Inference: A Journal of the IMA}, 4\penalty0
+  (3):\penalty0 195--229, 2015.
+
+\bibitem[Reed and Caselli(1994)]{reed1994nature}
+Catherine~L Reed and Richard~J Caselli.
+\newblock The nature of tactile agnosia: a case study.
+\newblock \emph{Neuropsychologia}, 32\penalty0 (5):\penalty0 527--539, 1994.
+
+\bibitem[Tomioka and Suzuki(2014)]{tomioka2014spectral}
+Ryota Tomioka and Taiji Suzuki.
+\newblock Spectral norm of random tensors.
+\newblock \emph{arXiv preprint arXiv:1407.1870}, 2014.
+
+\bibitem[Tsybakov(2009)]{tsybakov2009introduction}
+Alexandre~B Tsybakov.
+\newblock Introduction to nonparametric estimation. revised and extended from
+  the 2004 french original. translated by {Vladimir Zaiats}, 2009.
+
+\bibitem[Wang et~al.(2017)Wang, Duc, Fischer, and Song]{wang2017operator}
+Miaoyan Wang, Khanh~Dao Duc, Jonathan Fischer, and Yun~S Song.
+\newblock Operator norm inequalities between tensor unfoldings on the partition
+  lattice.
+\newblock \emph{Linear Algebra and Its Applications}, 520:\penalty0 44--66,
+  2017.
+
+\end{thebibliography}

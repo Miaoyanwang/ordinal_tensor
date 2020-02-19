@@ -1,0 +1,39 @@
+functions.R: main functions.  
+HPC_analysis.R: cross validation for HPC data
+braindataclustering.R: clustering for HPC data
+InCarMusic.R: tensor completion for InCarMusic data
+
+#################
+Change log (on 01/23)
+## In functions.R
+1. naming convention: thet -> theta/theta_output; alph -> alpha; change alpha --> omega in some sub-functions for naming consistency.
+2. change the encoding of missing values to NA. (Previous version uses encoding -1)
+3. merge various score prediction methods. Add option type="mean", "median", or "mode".
+4. wrap the conversion from theta to p as a stand-alone function (theta_to_p)
+5. remove the function make_theta. Add theta as an output of decomposition. 
+6. change the function tucker_missing and rename it as ``fit_continuous''. The two decomposition functions, fit_continuous and fit_ordinal, now have exactly the same input and output formats. 
+7. add two new functions for comparison: continuous tensor decomposition (tucker_missing); ordinal matrix decomposition (fit_ordinal_matrix; perhaps no need to compare??)
+
+## In crossvalidation.R:
+1. rename as HPC_analysis.R
+2. clean up the code 
+
+
+###################################################
+Previous Change log:
+1. change matrix multiplication in g() and Hessi() --> avoid explicit construction of diagonal matrices for better memory allocation and faster computation
+2. use ttl in place of ttm --> better memory allocation 
+3. merge fit_ordinal() and fit_ordinal2()
+4. update core tensor first, then update factor matrices --> output satisfies constraints....
+5. add fit_ordinal_cp() for cp low-rank tensors
+6. reformat rTensor objects into array class
+7. allow missing values (i.e. tensor entries < 0)
+8. orthogonalize factor matrices after each update --> better numerical stability; identifiable up to rotation 
+Previous To-do:
+1. allow K ordinal levels -> I changed realization, Hessian, h1(cost), g1(cost) functions to allow K ordinal levels. Likelihood function is also changed.
+2. speed-up BIC search. checked
+3. further speed-up. checked
+4. Tucker vs. CP?
+5. verify the non-convexity in intercept and slope jointly? -> the function is convex in terms of intercept and slope. (revisit)
+6. allow signal tensor of rank 1 -> rank 1 case is available now in functions.R
+

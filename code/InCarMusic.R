@@ -2,6 +2,17 @@
 source("functions.R")
 load("../data/InCar_Music.RData")
 tensor[tensor==-1]=NA
+###
+#m=tensor
+#m[is.na(m)]=0
+#m[m!=0]=1
+#count1=apply(m,1,mean)
+#count2=apply(m,2,mean)
+#count3=apply(m,3,mean)
+#tensor=tensor[count1>=0.015,count2>=0.015,count3>=0.015]
+###
+
+tensor[tensor==-1]=NA
 ind=which(is.na(tensor)==F)
 d=dim(tensor)
 set.seed(1)
@@ -33,11 +44,11 @@ train_index = setdiff(ind,test_index)
 train_tensor = tensor
 train_tensor[test_index] = NA
 
-save(test_index,train_index,file=sprintf("InCarMusic/input_%d_sim%d.RData",index,nsim))
+save(test_index,train_index,file=sprintf("InCarMusic_subset/input_%d_sim%d.RData",index,nsim))
 
 ### Method 1. 1-bit tensor completion
 input=M_to_one(train_tensor,5,type="sign")
-writeMat(sprintf("InCarMusic/input_CV%d_sim%d.mat",index,nsim),data=input$binary,E=input$E,ave=input$ave,scale=input$scale)
+writeMat(sprintf("InCarMusic_subset/input_CV%d_sim%d.mat",index,nsim),data=input$binary,E=input$E,ave=input$ave,scale=input$scale)
 }
 }
 
@@ -45,21 +56,21 @@ writeMat(sprintf("InCarMusic/input_CV%d_sim%d.mat",index,nsim),data=input$binary
 ################# Methods 2 and 3: Tucker decomposition CV ################################
 for(nsim in 1:10){
     for(index in 1:5){
-   load(sprintf("InCarMusic/input_%d_sim%d.RData",index,nsim))     
+   load(sprintf("InCarMusic_subset/input_%d_sim%d.RData",index,nsim))     
    train_tensor = tensor
    train_tensor[test_index] = NA
    
 d=dim(train_tensor)
-r=c(1,1,1)
+r=c(2,2,2)
 A_1 = as.matrix(randortho(d[1])[,1:r[1]])
 A_2 = as.matrix(randortho(d[2])[,1:r[2]])
 A_3 = as.matrix(randortho(d[3])[,1:r[3]])
 C = rand_tensor(modes = r)
 result <- fit_ordinal(train_tensor,C,A_1,A_2,A_3,omega=TRUE,alpha=100)
-save(result,file=sprintf("InCarMusic/output_CV%d_sim%d_ordinal.RData",index,nsim))
+save(result,file=sprintf("InCarMusic_subset/new_output_CV%d_sim%d_ordinal.RData",index,nsim))
 
 result2 <- fit_continuous(train_tensor,C,A_1,A_2,A_3,alpha=100)
-save(result2,file=sprintf("InCarMusic/output_CV%d_sim%d_cont.RData",index,nsim))
+save(result2,file=sprintf("InCarMusic_subset/new_output_CV%d_sim%d_cont.RData",index,nsim))
 }
 }
 
@@ -68,25 +79,25 @@ save(result2,file=sprintf("InCarMusic/output_CV%d_sim%d_cont.RData",index,nsim))
 for(nsim in 1:10){
         for(index in 1:5){
         
-        load(sprintf("InCarMusic/input_%d_sim%d.RData",index,nsim))     
+        load(sprintf("InCarMusic_subset/input_%d_sim%d.RData",index,nsim))     
         train_tensor = tensor
         train_tensor[test_index] = NA
         
-        ############ methods 1-2: sign encoding############
+        ############ methods 1-2: ############
         
-        load(sprintf("InCarMusic/output_CV%d_sim%d_ordinal.RData",index,nsim))
-        pred=estimation(result$theta,result$omega,"mode")@data
+        load(sprintf("InCarMusic_subset/new_output_CV%d_sim%d_ordinal.RData",index,nsim))
+        pred=estimation(result$theta,result$omega,"median")@data
         Err1[index,nsim]=mean(abs(pred[test_index]-tensor[test_index]))
         Err2[index,nsim]=mean(round(pred[test_index])!=tensor[test_index])
-        load(sprintf("InCarMusic/output_CV%d_sim%d_cont.RData",index,nsim))
+        load(sprintf("InCarMusic_subset/new_output_CV%d_sim%d_cont.RData",index,nsim))
         Err3[index,nsim]=mean(abs(result2$theta[test_index]-tensor[test_index]))
         Err4[index,nsim]=mean(round(result2$theta[test_index])!=tensor[test_index])
             
-        ############ methods 2: sign encoding############
-        output=readMat(sprintf("InCarMusic/output_CV%d_sim%d.mat",index,nsim))
+        ############ methods 3: sign encoding############
+        output=readMat(sprintf("InCarMusic_subset/output_CV%d_sim%d.mat",index,nsim))
         est=output$T.recovered
         
-        load(sprintf("InCarMusic/input_%d_sim%d.RData",index,nsim))    
+        load(sprintf("InCarMusic_subset/input_%d_sim%d.RData",index,nsim))    
 
         Err5[index,nsim]=mean(abs(tensor[test_index]-est[test_index]))
         Err6[index,nsim]=mean(abs(tensor[test_index]!=round(est[test_index])))
