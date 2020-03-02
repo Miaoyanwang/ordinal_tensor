@@ -1,0 +1,225 @@
+\documentclass[11pt]{article}
+
+\usepackage{fancybox}
+\usepackage{color}
+\usepackage{url}
+\usepackage[margin=1in]{geometry}
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+\usepackage{comment}
+\usepackage{amsmath,amssymb,amsthm,bm,mathtools}
+\usepackage{natbib}
+\usepackage{dsfont,multirow,hyperref,setspace,enumerate}
+\hypersetup{colorlinks,linkcolor={blue},citecolor={blue},urlcolor={red}}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{makecell}
+
+\setlength\parindent{0pt}
+\usepackage[parfill]{parskip}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{pro}{Property}
+\newtheorem{assumption}{Assumption}
+\newtheorem{cor}{Corollary}[section]
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{rmk}{Remark}
+
+
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\usepackage{dsfont}
+\usepackage{wrapfig}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+\mathop{%
+\mathchoice
+{\underbrace{\displaystyle#1}}%
+{\underbrace{\textstyle#1}}%
+{\underbrace{\scriptstyle#1}}%
+{\underbrace{\scriptscriptstyle#1}}%
+}\limits
+}
+
+\begingroup
+\makeatletter
+\@for\theoremstyle:=definition,remark,plain\do{%
+\expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+\addtolength\thm@preskip\parskip
+}%
+}
+\endgroup
+
+
+
+\input macros.tex
+\allowdisplaybreaks
+
+
+
+\title{Tensor denoising and completion based on ordinal observations}
+\date{}
+\author{%
+Chanwoo Lee \\
+University of Wisconsin -- Madison\\
+\texttt{chanwoo.lee@wisc.edu} \\
+\and
+Miaoyan Wang \\
+University of Wisconsin -- Madison\\
+\texttt{miaoyan.wang@wisc.edu} \\
+}
+\usepackage{xr}
+\externaldocument{ordinalT_arxiv_v4}
+
+\begin{document}
+\begin{center}
+{\bf \large Correction of Theorem~\ref{thm:ratejoint}}\\
+Miaoyan Wang, March 1, 2020\\
+\end{center}
+
+We now extend Theorem~\ref{thm:rate} to the case of unknown cut-off points $\mb$. Assume that the true parameters $(\trueT, \trueb)\in \tP\times \tB$, where the feasible sets are defined as
+\begin{align}
+\tP&=\{\Theta\in\mathbb{R}^{d_1\times \cdots\times d_K}\colon \text{rank}(\tP)\leq \mr,\ \langle \Theta, \tJ \rangle=0,\ \mnormSize{}{\Theta}\leq \alpha\},\\
+ \tB&=\{\mb\in\mathbb{R}^{L-1}\colon \mnormSize{}{\mb}\leq \beta,\ \min_{\ell}(b_\ell-b_{\ell-1}) \geq \Delta\}.
+\end{align}
+Here, $\tJ=\entry{1}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denotes a tensor of all ones. The constraint $\langle \Theta, \tJ \rangle=0$ is imposed to ensure the identifiability of $\Theta$ and $\mb$. We propose the constrained M-estimator
+\begin{equation}\label{eq:joint}
+(\hat \Theta,\hat \mb)=\argmax_{(\Theta,\mb)\in\tP\times \tB}\flogl(\Theta,\mb).
+\end{equation}
+The estimation accuracy is assessed using the mean squared error (MSE):
+\[
+\text{MSE}\left( \hat \Theta, \trueT \right)={1\over \prod_k d_k}\FnormSize{}{\hat \Theta-\trueT},\quad \text{MSE}\left( \hat \mb, \trueb \right)={1\over L-1}\FnormSize{}{\hat \mb-\trueb}.
+\]
+
+To facilitate the examination of MSE, we define an order-$(K+1)$ tensor, $\tZ=\entry{z_{\omega,\ell}}\in\mathbb{R}^{d_1\times \cdots \times d_K\times (L-1)}$, by stacking the parameters $\Theta=\entry{\theta_\omega}$ and $\mb=\entry{b_\ell}$ together. Specifically, let $z_{\omega,\ell}=-\theta_\omega+b_\ell$ for all $\omega\in[d_1]\times \cdots \times [d_K]$ and $\ell\in[L-1]$; that is,
+\[
+\tZ=-\Theta\otimes \mathbf{1}+\tJ\otimes \mb,
+\]
+where $\mathbf{1}$ denotes a length-$(L-1)$ vector of all ones. Under the identifiability constraint $\langle \Theta, \tJ \rangle=0$, there is an one-to-one mapping between $\tZ$ and $(\Theta, \mb)$, with $\text{rank}(\tZ)=(\text{rank}(\Theta),2)^T$. Furthermore, 
+\begin{equation}\label{eq:decomp}
+\FnormSize{}{\hat \tZ-\trueZ}^2=\FnormSize{}{\hat \Theta-\trueT}^2 (L-1)+\FnormSize{}{\hat \mb-\trueb}^2 \left(\prod_kd_k\right),
+\end{equation}
+where $\trueZ=\trueT\otimes \mathbf{1}+\tJ\otimes \trueb$ and $\hat \tZ=\hat \Theta\otimes \mathbf{1}+\tJ\otimes \hat \mb$. 
+
+We make the following assumptions about the link function.
+\begin{assumption}\label{ass:joint}
+The link function $f\colon \mathbb{R}\mapsto [0,1]$ satisfies the following properties:
+\begin{enumerate}
+\item $f(z)$ is twice-differentiable and strictly increasing in $z$.
+\item $\dot{f}(z)$ is strictly log-concave and symmetric with respect to $z=0$.
+\end{enumerate}
+\end{assumption}
+
+We define the following constants:
+\begin{align}\label{eq:constantZ}
+C_{\alpha,\beta,\Delta}&=\max_{|z|\leq \alpha+\beta}\max_{\substack{z'\leq z-\Delta\\z''\geq z+\Delta}}\max\left\{ {\dot{f}(z) \over f(z)-f(z')},\ {\dot{f}(z) \over f(z'')-f(z)}\right\},\\
+D_{\alpha,\beta,\Delta}&=\max_{|z|\leq \alpha+\beta}\max_{\substack{z'\leq z-\Delta\\z''\geq z+\Delta}}\max\left\{- {\partial\over \partial z}\left({\dot{f}(z) \over f(z)-f(z')}\right),\  {\partial\over \partial z}\left({\dot{f}(z) \over f(z'')-f(z)}\right) \right\},\\
+A_{\alpha,\beta,\Delta}&=\min_{|z|\leq \alpha+\beta}\min_{z'\leq z-\Delta} \left(f(z)-f(z')\right).
+\end{align}
+
+\begin{rmk}
+The condition $\Delta=\min_{\ell}(b_{\ell}-b_{\ell-1})>0$ on the feasible set $\tB$ guarantees the strict positiveness of $f(z)-f(z')$ and $f(z'')-f(z)$. Therefore, the denominators in the above quantities $C_{\alpha,\beta,\Delta}, D_{\alpha,\beta,\Delta}$ are well-defined. Furthermore, by Theorem~\ref{thm:convexity}, $f(z)-f(z')$ is strictly log-concave in $(z,z')$ for $z\leq z'-\Delta, z,z'\in[-\alpha-\beta,\ \alpha+\beta]$. Based on Assumption~\ref{ass:joint} and closeness of the feasible set, we have $C_{\alpha,\beta,\Delta}>0$, $D_{\alpha,\beta,\Delta}>0$, $A_{\alpha,\beta,\Delta}>0$.
+\end{rmk}
+
+\begin{thm}[Statistical convergence with unknown $\mb$]\label{thm:ratejoint}
+Consider an ordinal tensor $\tY\in[L]^{d_1\times \cdots \times d_K}$ generated from model~\eqref{eq:model} with the link function $f$ and parameters $(\trueT, \trueb)\in\tP\times \tB$. Suppose the link function $f$ satisfies Assumption~\ref{ass:joint}. Define $r_{\max}=\max_k r_k$, and assume $r_{\max}=\tO(1)$. 
+
+Then with very high probability, the estimator in~\eqref{eq:joint} satisfies
+\begin{equation}\label{eq:scoreZ}
+\FnormSize{}{\hat \tZ-\trueZ}^2 \leq {c_1r^{K-1}_{\max}C^2_{\alpha,\beta,\Delta}\over A^2_{\alpha,\beta,\Delta}D^2_{\alpha,\beta,\Delta}}\left(L-1+\sum_k d_k\right),
+\end{equation}
+In particular,
+\begin{equation}\label{eq:jointTheta}
+\mathrm{MSE}\left(\hat \Theta, \trueT \right)\leq\min\left( 4\alpha^2,\  {c_1 r_{\max}^{K-1}  C_{\alpha,\beta,\Delta}^2  \over A^2_{\alpha,\beta,\Delta}D_{\alpha,\beta,\Delta}^2}{ L-1+\sum_k d_k \over (L-1)\prod_k d_k}\right),
+\end{equation}
+and
+\begin{equation}\label{eq:jointb}
+\mathrm{MSE}\left(\hat \mb, \trueb \right)\leq \min\left(4\beta^2,\ {c_1 r^{K-1}_{\max} C^2_{\alpha,\beta,\Delta} \over A^2_{\alpha,\beta,\Delta}D_{\alpha,\beta,\Delta}^2}{L-1+\sum_kd_k \over (L-1)\prod_k d_K}\right),
+\end{equation}
+where $c_1, C_{\alpha,\beta,\Delta}, D_{\alpha,\beta,\Delta}$ are positive constants independent of the tensor dimension, rank, and number of ordinal levels. 
+\end{thm}
+\begin{proof} (sketch)
+
+Let $\plogZ=\entry{{\partial \tL_\tY\over \partial z_{\omega,\ell}}}\in\mathbb{R}^{d_1\times \cdots \times d_K\times[L-1]}$ denote the score function, and $\mH=\pplogZ$ the Hession matrix. Following the same argument in the previous version (Taylor expansion, $r_{\max}(\tZ)=r_{\max}(\Theta)$, etc), we have
+\begin{equation}\label{eq:boundZ}
+\FnormSize{}{\hat \tZ-\trueZ}^2 \leq c_1r^{K-1}_{\max}{\snormSize{}{\plogZ(\trueZ)}^2\over \lambda^2_{1} \left(\mH(\check\tZ)\right)},
+\end{equation}
+where $\plogZ(\trueZ)$ is the score evaluated at $\trueZ$, $\mH(\check \tZ)$ is the Hession evaluated at $\check\tZ$, for some $\check\tZ$ between $\hat \tZ$ and $\trueZ$, and $\lambda_{1}(\cdot)$ is the largest matrix eigenvalue. 
+
+Hence, it suffices to bound the score and the Hession. 
+
+\begin{enumerate}
+\item (Score.) The $(\omega,\ell)$-th entry in $\plogZ$ is 
+\[
+{\partial \tL_\tY\over \partial z_{\omega,\ell}}=\mathds{1}_{\{y_\omega=\ell\}}{\dot{f}(z)\over f(z)-f(z')}\Bigg|_{(z,\ z')=(z_{\omega,\ell},\ z_{\omega,\ell-1})} - \mathds{1}_{\{y_\omega=\ell+1\}}{\dot{f}(z)\over f(z'')-f(z)}\Bigg|_{(z'',\ z)=(z_{\omega,\ell+1},\ z_{\omega,\ell})},
+\]
+which is upper bounded in magnitude by $C_{\alpha,\beta,\Delta}>0$. Therefore, with very high probability,
+\[
+\snormSize{}{\plogZ(\trueZ)}\leq C_{\alpha,\beta,\Delta}\sqrt{L-1+\sum_k d_k}.
+\]
+\item (Hession.) The entries in the Hession matrix are
+\begin{align}
+\text{Diagonal: }&{\partial^2 \tL_\tY\over \partial z^2_{\omega,\ell}}=\mathds{1}_{\{y_\omega=\ell\}}{\ddot{f}(z)\left(f(z)-f(z')\right)-\dot{f}^2(z)\over \left(f(z)-f(z')\right)^2}\Bigg|_{(z,\ z')=(z_{\omega,\ell},\ z_{\omega,\ell-1})}-\\
+&\hspace{.65in}\mathds{1}_{\{y_\omega=\ell+1\}}{\ddot{f}(z)\left(f(z'')-f(z)\right)+\dot{f}^2(z)\over \left(f(z'')-f(z)\right)^2}\Bigg|_{(z'',\ z)=(z_{\omega,\ell+1},\ z_{\omega,\ell})},\\
+\text{Off-diagonal: }&
+{\partial^2 \tL_\tY\over \partial z_{\omega,\ell}z_{\omega,\ell+1}}=\mathds{1}_{\{y_\omega=\ell+1\}}{\dot{f}(z_{\omega,\ell})\dot{f}(z_{\omega,\ell+1})\over \left(f(z_{\omega,\ell+1})-f(z_{\omega,\ell})\right)^2}\quad \text{and}\quad {\partial^2 \tL_\tY\over \partial z_{\omega,\ell}z_{\omega',\ell'}}=0 \text{ otherwise}. 
+\end{align}
+
+Based on Assumption~\ref{ass:joint}, the Hession matrix $\mH$ has the following three properties:
+\begin{enumerate}
+\item The Hession matrix is a block matrix, $\mH=\text{diag}\{\mH_\omega: \omega\in[d_1]\times \cdots \times [d_K]\}$, and each block $\mH_{\omega}\in\mathbb{R}^{(L-1)\times (L-1)}$ is a tridiagonal matrix. 
+\item The off-diagonal entries are either zero or strictly positive.
+\item The diagonal entries are either zero or strictly negative. Furthermore, 
+\begin{align}
+&\mH_\omega(\ell,\ell)+ \mH_\omega(\ell,\ell-1)+\mH_\omega(\ell,\ell+1)\\
+=&{\partial^2 \tL_\tY\over \partial z^2_{\omega,\ell}}+{\partial^2 \tL_\tY\over \partial z_{\omega,\ell}z_{\omega,\ell+1}}+{\partial^2 \tL_\tY\over \partial z_{\omega,\ell-1}z_{\omega,\ell}}\\
+=&\mathds{1}_{\{y_\omega=\ell\}}{\partial\over \partial z}\left({\dot{f}(z) \over f(z)-f(z')}\right)\Bigg|_{(z,\ z')=(z_{\omega,\ell},\ z_{\omega,\ell-1})}  -\mathds{1}_{\{y_\omega=\ell+1\}}{\partial\over \partial z}\left({\dot{f}(z) \over f(z)-f(z')}\right)\Bigg|_{(z'',\ z)=(z_{\omega,\ell+1},\ z_{\omega,\ell})}\\
+\leq &-D_{\alpha,\beta,\Delta}<0.
+\end{align}
+\end{enumerate}
+We will show that, with very high probability over $\tY$, $\mH$ is negative definite in that
+\begin{equation}\label{eq:HessionZ}
+\lambda_{1}(\mH)=\max_{\mz}{\mz^T\mH\mz\over\FnormSize{}{\mz}^2} \leq -c_2A_{\alpha,\beta,\Delta}D_{\alpha,\beta,\Delta},
+\end{equation}
+where $A_{\alpha,\beta,\Delta}, D_{\alpha,\beta,\Delta}>0$ are constants defined in~\eqref{eq:constantZ}, and $c_1>0$ is a constant. 
+
+Let $\mz_\omega=(z_{\omega,1},\ldots,z_{\omega,L-1})^T\in\mathbb{R}^{L-1}$ and $\mz=(\mz_{1,\ldots,1},\ldots,\mz_{d_1,\ldots,d_K})^T\in\mathbb{R}^{(L-1)\prod_k d_k}$. It follows from property (a) that
+\[
+\mz^T\mH\mz =\sum_{\omega}\mz_\omega^T \mH_{\omega} \mz_\omega.
+\]
+Furthermore, properties (b) and (c) (or similar arguments as in page 29, arXiv preprint) implies that
+\begin{equation}
+\mz_\omega^T \mH_{\omega} \mz_\omega \leq -D_{\alpha,\beta,\Delta} \sum_{\ell}z^2_{\omega,\ell}\KeepStyleUnderBrace{\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}}_{\text{Bernoulli r.v.\ with probability bounded by $A_{\alpha,\beta,\Delta}$}}.
+\end{equation}
+Therefore,
+\begin{equation}\label{eq:sum}
+\mz^T\mH\mz =\sum_{\omega}\mz_\omega^T \mH_{\omega} \mz_\omega \leq -D_{\alpha,\beta,\Delta}\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}
+\end{equation}
+Based on central limit theorem, as the tensor dimension goes to infinity, 
+\begin{equation}\label{eq:clt}
+\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}} \rightarrow\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathbb{P}(y_\omega=\ell \text{ or }\ell+1)\geq c_2A_{\alpha,\beta,\Delta}\FnormSize{}{\mz}^2. 
+\end{equation}
+By~\eqref{eq:sum} and~\eqref{eq:clt}, we have
+\begin{equation}\label{eq:boundH}
+\mz^T\mH\mz \leq-c_2A_{\alpha,\beta,\Delta}D_{\alpha,\beta,\Delta}\FnormSize{}{\mz}^2,
+\end{equation}
+and therefore~\eqref{eq:HessionZ} is proved. Plugging~\eqref{eq:scoreZ} and~\eqref{eq:HessionZ} into~\eqref{eq:boundZ} yields
+\[
+\FnormSize{}{\hat \tZ-\trueZ}^2 \leq {c_1r^{K-1}_{\max}C^2_{\alpha,\beta,\Delta}\over A^2_{\alpha,\beta,\Delta}D^2_{\alpha,\beta,\Delta}}\left(L-1+\sum_k d_k\right).
+\]
+The MSEs for $\hat \Theta$ and $\hat \mb$ readily follow from~\eqref{eq:decomp}. 
+\end{proof}
+
+
+\bibliography{tensor_wang}
+\bibliographystyle{apalike}
+\end{document}
