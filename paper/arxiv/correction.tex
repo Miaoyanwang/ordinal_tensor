@@ -104,7 +104,7 @@ To facilitate the examination of MSE, we define an order-$(K+1)$ tensor, $\tZ=\e
 \[
 \tZ=-\Theta\otimes \mathbf{1}+\tJ\otimes \mb,
 \]
-where $\mathbf{1}$ denotes a length-$(L-1)$ vector of all ones. Under the identifiability constraint $\langle \Theta, \tJ \rangle=0$, there is an one-to-one mapping between $\tZ$ and $(\Theta, \mb)$, with $\text{rank}(\tZ)=(\text{rank}(\Theta),2)^T$. Furthermore, 
+where $\mathbf{1}$ denotes a length-$(L-1)$ vector of all ones. Under the identifiability constraint $\langle \Theta, \tJ \rangle=0$, there is an one-to-one mapping between $\tZ$ and $(\Theta, \mb)$, with $\text{rank}(\tZ)\leq (\text{rank}(\Theta),2)^T$. Furthermore, 
 \begin{equation}\label{eq:decomp}
 \FnormSize{}{\hat \tZ-\trueZ}^2=\FnormSize{}{\hat \Theta-\trueT}^2 (L-1)+\FnormSize{}{\hat \mb-\trueb}^2 \left(\prod_kd_k\right),
 \end{equation}
@@ -119,7 +119,7 @@ The link function $f\colon \mathbb{R}\mapsto [0,1]$ satisfies the following prop
 \end{enumerate}
 \end{assumption}
 
-We define the following constants:
+We define the following constants that will be used in the theory:
 \begin{align}\label{eq:constantZ}
 C_{\alpha,\beta,\Delta}&=\max_{|z|\leq \alpha+\beta}\max_{\substack{z'\leq z-\Delta\\z''\geq z+\Delta}}\max\left\{ {\dot{f}(z) \over f(z)-f(z')},\ {\dot{f}(z) \over f(z'')-f(z)}\right\},\\
 D_{\alpha,\beta,\Delta}&=\max_{|z|\leq \alpha+\beta}\max_{\substack{z'\leq z-\Delta\\z''\geq z+\Delta}}\max\left\{- {\partial\over \partial z}\left({\dot{f}(z) \over f(z)-f(z')}\right),\  {\partial\over \partial z}\left({\dot{f}(z) \over f(z'')-f(z)}\right) \right\},\\
@@ -130,6 +130,8 @@ A_{\alpha,\beta,\Delta}&=\min_{|z|\leq \alpha+\beta}\min_{z'\leq z-\Delta} \left
 The condition $\Delta=\min_{\ell}(b_{\ell}-b_{\ell-1})>0$ on the feasible set $\tB$ guarantees the strict positiveness of $f(z)-f(z')$ and $f(z'')-f(z)$. Therefore, the denominators in the above quantities $C_{\alpha,\beta,\Delta}, D_{\alpha,\beta,\Delta}$ are well-defined. Furthermore, by Theorem~\ref{thm:convexity}, $f(z)-f(z')$ is strictly log-concave in $(z,z')$ for $z\leq z'-\Delta, z,z'\in[-\alpha-\beta,\ \alpha+\beta]$. Based on Assumption~\ref{ass:joint} and closeness of the feasible set, we have $C_{\alpha,\beta,\Delta}>0$, $D_{\alpha,\beta,\Delta}>0$, $A_{\alpha,\beta,\Delta}>0$.
 \end{rmk}
 
+\begin{rmk} Add the specific bound for logistic link. 
+\end{rmk}
 \begin{thm}[Statistical convergence with unknown $\mb$]\label{thm:ratejoint}
 Consider an ordinal tensor $\tY\in[L]^{d_1\times \cdots \times d_K}$ generated from model~\eqref{eq:model} with the link function $f$ and parameters $(\trueT, \trueb)\in\tP\times \tB$. Suppose the link function $f$ satisfies Assumption~\ref{ass:joint}. Define $r_{\max}=\max_k r_k$, and assume $r_{\max}=\tO(1)$. 
 
@@ -196,18 +198,19 @@ Let $\mz_\omega=(z_{\omega,1},\ldots,z_{\omega,L-1})^T\in\mathbb{R}^{L-1}$ and $
 \[
 \mz^T\mH\mz =\sum_{\omega}\mz_\omega^T \mH_{\omega} \mz_\omega.
 \]
-Furthermore, properties (b) and (c) (or similar arguments as in page 29, arXiv preprint) implies that
+Furthermore, properties (b) and (c) (or similar arguments as in page 29, arXiv preprint) imply that
 \begin{equation}
 \mz_\omega^T \mH_{\omega} \mz_\omega \leq -D_{\alpha,\beta,\Delta} \sum_{\ell}z^2_{\omega,\ell}\KeepStyleUnderBrace{\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}}_{\text{Bernoulli r.v.\ with probability bounded by $A_{\alpha,\beta,\Delta}$}}.
 \end{equation}
 Therefore,
 \begin{equation}\label{eq:sum}
-\mz^T\mH\mz =\sum_{\omega}\mz_\omega^T \mH_{\omega} \mz_\omega \leq -D_{\alpha,\beta,\Delta}\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}
+\mz^T\mH\mz =\sum_{\omega}\mz_\omega^T \mH_{\omega} \mz_\omega \leq -D_{\alpha,\beta,\Delta}\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}.
 \end{equation}
 Based on central limit theorem, as the tensor dimension goes to infinity, 
 \begin{equation}\label{eq:clt}
-\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}} \rightarrow\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathbb{P}(y_\omega=\ell \text{ or }\ell+1)\geq c_2A_{\alpha,\beta,\Delta}\FnormSize{}{\mz}^2. 
+\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}} \rightarrow\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathbb{P}(y_\omega=\ell \text{ or }\ell+1)\geq c_2A_{\alpha,\beta,\Delta}\FnormSize{}{\mz}^2
 \end{equation}
+holds with very high probability. 
 By~\eqref{eq:sum} and~\eqref{eq:clt}, we have
 \begin{equation}\label{eq:boundH}
 \mz^T\mH\mz \leq-c_2A_{\alpha,\beta,\Delta}D_{\alpha,\beta,\Delta}\FnormSize{}{\mz}^2,
