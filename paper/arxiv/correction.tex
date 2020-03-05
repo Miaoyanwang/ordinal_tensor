@@ -206,11 +206,15 @@ Therefore,
 \begin{equation}\label{eq:sum}
 \mz^T\mH\mz =\sum_{\omega}\mz_\omega^T \mH_{\omega} \mz_\omega \leq -D_{\alpha,\beta,\Delta}\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}.
 \end{equation}
+
+{\color{red}
 Based on central limit theorem (and concentration properties of Bernoulli r.v.'s), as the tensor dimension goes to infinity, 
 \begin{equation}\label{eq:clt}
 \sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}} \rightarrow\sum_{\omega}\sum_{\ell} z^2_{\omega,\ell}\mathbb{P}(y_\omega=\ell \text{ or }\ell+1)\geq c_2A_{\alpha,\beta,\Delta}\FnormSize{}{\mz}^2
 \end{equation}
 holds with very high probability. 
+}
+
 By~\eqref{eq:sum} and~\eqref{eq:clt}, we have
 \begin{equation}\label{eq:boundH}
 \mz^T\mH\mz \leq-c_2A_{\alpha,\beta,\Delta}D_{\alpha,\beta,\Delta}\FnormSize{}{\mz}^2,
@@ -220,9 +224,32 @@ and therefore~\eqref{eq:HessionZ} is proved. Plugging~\eqref{eq:scoreZ} and~\eqr
 \FnormSize{}{\hat \tZ-\trueZ}^2 \leq {c_1r^{K-1}_{\max}C^2_{\alpha,\beta,\Delta}\over A^2_{\alpha,\beta,\Delta}D^2_{\alpha,\beta,\Delta}}\left(L-1+\sum_k d_k\right).
 \]
 The MSEs for $\hat \Theta$ and $\hat \mb$ readily follow from~\eqref{eq:decomp}. 
+
+{ \color{red}Correction of~\eqref{eq:clt}. Define the subspace:
+\[
+\tS=\{\Vec(\tZ): \tZ=-\Theta\otimes \mathbf{1}+\tJ\otimes \mb,\ (\Theta,\mb)\in(\tP,\tB)\}.
+\]
+We show that Hession is definite negative restricted in the subspace $\tS$. Specifically, for any vector $\mz=\entry{z_{\omega,\ell}}\in\tS$,
+\begin{align}
+\sum_{\omega,\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}&=\sum_{\omega,\ell}(-\theta_\omega+b_\ell)^2\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}\\
+&=\sum_{\omega,\ell}(\theta^2_\omega-2\theta_\omega b_\ell + b^2_\ell)\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}\\
+&=\sum_{\omega,\ell}\theta^2_\omega\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}-2\sum_{\omega,\ell} \theta_\omega b_\ell \mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}+\sum_{\omega,\ell}b^2_\ell\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}\\
+&\geq \sum_{\omega}\theta^2_\omega -2\sum_{\omega,\ell}\theta_\omega b_\ell+\sum_{\ell}b_\ell^2\left(n_{\ell}+n_{\ell+1}\right)\\
+&=\sum_{\omega}\theta^2_\omega+\min_\ell\left(n_{\ell}+n_{\ell+1}\right)\sum_{\ell}b_\ell^2
+\end{align}
+
+On the other hand,
+\[
+\FnormSize{}{\mz}^2=\sum_{\omega,\ell}z^2_{\omega,\ell}=\sum_{\omega,\ell}(-\theta_\omega+b_\ell)^2=(L-1)\sum_{\omega}\theta^2_\omega+\left(\prod_k d_k\right)\sum_\ell b^2_\ell.
+\]
+
+Therefore, there exists a positive constant $c_1>0$ (? perhaps depending on $\alpha, \beta,\Delta$ etc...needs verification..) such that
+\[
+{{\mz^T\mH\mz}\over \FnormSize{}{\mz}^2}\geq c_1 {\min_{\ell}(n_\ell+n_{\ell_1})\over (L-1)\prod_k d_k}.
+\]
+}
+\end{enumerate}
 \end{proof}
-
-
 \bibliography{tensor_wang}
 \bibliographystyle{apalike}
 \end{document}
