@@ -118,48 +118,61 @@ corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alpha=TRUE,type="ordinal"){
 }
 
 
-#' Fitting the cumulative logistic model
+#' Fit the cumulative logistic model
 #'
-#' Fit the cumulative logistic model with alternating optimization method.
-#' @param ttnsr observed ordinal tensor data (k-level)
-#' @param C initial point for a core tensor and factor matrices
-#' @param A_1,A_2,A_3 initial points for factor matrices
+#' Fitting the cumulative logistic model with alternating optimization method.
+#' @param ttnsr an observed tensor data
+#' @param r a rank to be fitted (Tucker rank)
 #' @param omega cut-off points if it is known,
 #'
 #' \code{omega = TRUE} if it is unknown
-#' @param alpha signal level
+#' @param alpha a signal level
 #'
 #' \code{alpha = TRUE} if there is no constraint for max-norm of latent tensor parameters
 #' @return a list containing the following:
-#' @return \code{C} - estimated core tensor
-#' @return \code{A_1, A_2, A_3} - estimated factor matrices
-#' @return \code{theta} - estimated latent parameter tensor
+#' @return \code{C} - an estimated core tensor
+#' @return \code{A} - estimated factor matrices
+#' @return \code{theta} - an estimated latent parameter tensor
 #' @return \code{iteration} - the number of iterations
 #' @return \code{cost} - evaluations of cost functions at each iterations
-#' @return \code{omega} - estimated cut-off points vector (k-level)
-#' @usage fit_ordinal(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE)
-#' @references Lee and Wang. “Tensor denoising and completion based on ordinal observations.” (2020).
+#' @return \code{omega} - estimated cut-off points vector
+#' @usage fit_ordinal(ttnsr,r,omega=TRUE,alpha = TRUE)
+#' @references Lee and Wang (2020) <arXiv:2002.06524>.
 #' @examples
-#' # draw random ordinal tensor
-#' indices = c(10,10,10)
-#' rank = c(3,3,3)
-#' otensor <- array(sample(c(1,2,3),prod(indices),replace = TRUE),dim = indices)
+#' # Latent parameters
+#' library(rTensor)
+#' alpha = 10
+#' A_1 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
+#' A_2 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
+#' A_3 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
+#' C = as.tensor(array(runif(2^3,min=-1,max=1),dim = c(2,2,2)))
+#' theta = ttm(ttm(ttm(C,A_1,1),A_2,2),A_3,3)@data
+#' theta = alpha*theta/max(abs(theta))
+#' omega = c(-0.2,0.2)
 #'
-#' #Initial points for `fit_ordinal' function
-#' A_1 = pracma::randortho(indices[1])[,1:rank[1]]
-#' A_2 = pracma::randortho(indices[2])[,1:rank[2]]
-#' A_3 = pracma::randortho(indices[3])[,1:rank[3]]
-#' C = rTensor::rand_tensor(modes = rank)*10
+#' # Observed tensor
+#' ttnsr <- realization(theta,omega)@data
 #'
-#' #Estimation for parameters
-#' parameter_est = fit_ordinal(otensor,C,A_1,A_2,A_3,omega = TRUE,alpha = 100)
+#' # Estimation of parameters
+#' ordinal_est = fit_ordinal(ttnsr,c(2,2,2),omega = TRUE,alpha = 100)
+#'
 #' @export
 #' @import rTensor
 #' @import MASS
 #' @importFrom methods "new"
 #' @importFrom stats "constrOptim" "optim"
 
-fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
+fit_ordinal = function(ttnsr,r,omega=TRUE,alpha = TRUE){
+  if(length(r) != length(dim(ttnsr))) stop("the rank is not valid")
+  d = dim(ttnsr)
+  r = r-1
+  A_1 = as.matrix(randortho(d[1])[,1:r[1]])
+  A_2 = as.matrix(randortho(d[2])[,1:r[2]])
+  A_3 = as.matrix(randortho(d[3])[,1:r[3]])
+  C = rand_tensor(modes = r)
+  C = C*ifelse(is.logical(alpha),1,
+               1/max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))*alpha/10 )
+  ## initial theta is in the interior
 
   if(is.logical(alpha)) alpha_minus=alpha_minus2=TRUE
   else{
@@ -243,50 +256,68 @@ fit_ordinal = function(ttnsr,C,A_1,A_2,A_3,omega=TRUE,alpha = TRUE){
 
     message(paste(iter,"-th  iteration -- cost value is",new," -----------------"))
   }
+  # identifiability adjustment
+  madj <- mean(theta)
+  theta <- theta -madj
+  final <- hosvd(as.tensor(theta),r+1)
 
-  result$C <- C; result$A_1 <- A_1; result$A_2 <- A_2; result$A_3 <- A_3
+  result$C <- final$Z; result$A <- final$U
   result$theta= theta
   result$iteration <- iter
+  result$omega=omega+madj
   result$cost = cost
-  result$omega=omega
   return(result)
 }
 
-#' Continuous Tucker decomposition
+
+#' Fit a tensor using Tucker model
 #'
-#' decompose a tensor with possibly missing values into Tucker decomposition
-#' @param ttnsr tensor data (k-level)
-#' @param C initial point for a core tensor and factor matrices
-#' @param A_1,A_2,A_3 initial points for factor matrices
-#' @param alpha max-norm constraints of a tensor
+#' Fitting e a tensor with possibly missing values using Tucker model
+#' @param ttnsr an observed tensor data
+#' @param r a rank to be fitted (Tucker rank)
+#' @param alpha a max-norm constraint of a tensor
 #'
-#' \code{alpha = TRUE} if there is no constraint for max-norm of latent tensor parameters
+#' \code{alpha = TRUE} if there is no constraint for max-norm of a latent tensor parameter
 #' @return a list containing the following:
-#' @return \code{C} - estimated core tensor
-#' @return \code{A_1, A_2, A_3} - estimated factor matrices
+#' @return \code{C} - an estimated core tensor
+#' @return \code{A} - estimated factor matrices
 #' @return \code{iteration} - the number of iterations
 #' @return \code{cost} - evaluations of cost functions at each iterations
-#' @usage fit_continuous(ttnsr,C,A_1,A_2,A_3,alpha = TRUE)
+#' @usage fit_continuous(ttnsr,r,alpha = TRUE)
 #' @examples
-#' # draw random ordinal tensor
-#' indices = c(10,10,10)
-#' rank = c(3,3,3)
-#' otensor <- array(sample(c(1,2,3),prod(indices),replace = TRUE),dim = indices)
+#' # Latent parameters
+#' library(rTensor)
+#' alpha = 10
+#' A_1 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
+#' A_2 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
+#' A_3 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
+#' C = as.tensor(array(runif(2^3,min=-1,max=1),dim = c(2,2,2)))
+#' theta = ttm(ttm(ttm(C,A_1,1),A_2,2),A_3,3)@data
+#' theta = alpha*theta/max(abs(theta))
+#' omega = c(-0.2,0.2)
 #'
-#' #Initial points for `fit_continuous' function
-#' A_1 = pracma::randortho(indices[1])[,1:rank[1]]
-#' A_2 = pracma::randortho(indices[2])[,1:rank[2]]
-#' A_3 = pracma::randortho(indices[3])[,1:rank[3]]
-#' C = rTensor::rand_tensor(modes = rank)
+#' # Observed tensor
+#' ttnsr <- realization(theta,omega)@data
 #'
-#' #Tucker decomposition
-#' Tucker_est = fit_continuous(otensor,C,A_1,A_2,A_3,alpha = 100)
+#' # Estimation of parameters
+#' continuous_est = fit_continuous(ttnsr,c(2,2,2),alpha = 100)
+#'
 #' @export
 #' @import rTensor
 #' @import MASS
+#' @importFrom pracma "randortho"
 #' @importFrom methods "new"
 #' @importFrom stats "constrOptim" "optim"
-fit_continuous=function(ttnsr,C,A_1,A_2,A_3,alpha = TRUE){
+fit_continuous=function(ttnsr,r,alpha = TRUE){
+  if(length(r) != length(dim(ttnsr))) stop("the rank is not valid")
+  d = dim(ttnsr)
+  A_1 = as.matrix(randortho(d[1])[,1:r[1]])
+  A_2 = as.matrix(randortho(d[2])[,1:r[2]])
+  A_3 = as.matrix(randortho(d[3])[,1:r[3]])
+  C = rand_tensor(modes = r)
+  C = C*ifelse(is.logical(alpha),1,
+               1/max(abs(ttl(C,list(A_1,A_2,A_3),ms=1:3)@data))*alpha/10 )
+  ## initial theta is in the interior
   if(is.logical(alpha)) alpha_minus=alpha_minus2=TRUE
   else{
     alpha_minus=alpha-epsilon
@@ -353,11 +384,10 @@ fit_continuous=function(ttnsr,C,A_1,A_2,A_3,alpha = TRUE){
   }
 
 
-  result$C <- C; result$A_1 <- A_1; result$A_2 <- A_2; result$A_3 <- A_3
+  result$C <- C; result$A <- list(A_1,A_2,A_3)
   result$theta = theta
   result$iteration <- iter
   result$cost = cost
   return(result)
 }
-
 

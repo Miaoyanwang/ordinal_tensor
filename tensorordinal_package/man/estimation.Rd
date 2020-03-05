@@ -2,32 +2,32 @@
 % Please edit documentation in R/basicfunction.R
 \name{estimation}
 \alias{estimation}
-\title{Predict the entries of a tensor from the cumulative model}
+\title{Estimate tensor entries from the cumulative model}
 \usage{
 estimation(theta,omega,type = c("mode","mean","median"))
 }
 \arguments{
 \item{theta}{continuous parameter tensor (latent parameter)}
 
-\item{omega}{the cut-off points (k-levels)}
+\item{omega}{the cut-off points}
 
-\item{type}{type of predictions:
+\item{type}{type of estimations:
 
-\code{"mode"} specifies argmax based label prediction
+\code{"mode"} specifies argmax based label estimation
 
-\code{"mean"} specifies mean based label prediction
+\code{"mean"} specifies mean based label estimation
 
-\code{"median"} specifies median based label prediction}
+\code{"median"} specifies median based label estimation}
 }
 \value{
-predicted ordinal tensor from the given parameters and types of prediction
+an estimated ordinal tensor from latent parameters and types of estimations
 }
 \description{
-Predict the ordinal-valued entries of a tensor with given parameters and a type of predictions
+Estimating the ordinal-valued tensor entries from latent parameters and a type of estimations
 }
 \examples{
 indices <- c(10,20,30)
 arr <- array(runif(prod(indices)),dim = indices)
-b <- runif(3)
+b <- qnorm((1:3)/4)
 r_predict <- estimation(arr,b,type = "mode");r_predict
 }

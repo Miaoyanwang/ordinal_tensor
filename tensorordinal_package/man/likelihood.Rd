@@ -2,25 +2,25 @@
 % Please edit documentation in R/basicfunction.R
 \name{likelihood}
 \alias{likelihood}
-\title{Log-likelihood function (cost function)}
+\title{Obtain log-likelihood function (cost function) value}
 \usage{
 likelihood(ttnsr,theta,omega,type = c("ordinal","Gaussian"))
 }
 \arguments{
-\item{ttnsr}{observed tensor}
+\item{ttnsr}{an observed tensor data}
 
 \item{theta}{continuous parameter tensor (latent parameter)}
 
-\item{omega}{the cut-off points (k-levels)}
+\item{omega}{the cut-off points}
 
 \item{type}{types of log-likelihood function
 
 \code{"ordinal"} specifies log-likelihood function with the cumulative logistic model
 
-\code{"Gaussian"} specifies squared error function}
+\code{"Gaussian"} specifies log-likelihood function with the Gaussian model}
 }
 \value{
-a value evaluated on given type and points
+log-likelihood value at given inputs
 }
 \description{
 Log-likelihood function (cost function)

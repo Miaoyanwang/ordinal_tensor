@@ -2,24 +2,24 @@
 % Please edit documentation in R/basicfunction.R
 \name{bic}
 \alias{bic}
-\title{Bayesian Information Criterion}
+\title{Obtain Bayesian Information Criterion (BIC) value}
 \usage{
 bic(ttnsr,theta,omega,d,r)
 }
 \arguments{
-\item{ttnsr}{Observed tensor data}
+\item{ttnsr}{an observed tensor data}
 
 \item{theta}{continuous parameter tensor (latent parameter)}
 
-\item{omega}{the cut-off points (k-levels)}
+\item{omega}{the cut-off points}
 
-\item{d}{Dimension of tensor}
+\item{d}{dimension of the tensor}
 
-\item{r}{Rank of tensor}
+\item{r}{rank of the tensor}
 }
 \value{
-BIC value given observed tensor, estimated parameter and rank
+BIC value at given inputs
 }
 \description{
-Bayesian Information Criterion evaluated at given parameters, dimension of tensor and rank of tensor
+Bayesian Information Criterion (BIC) evaluated at a given parameter tensor, an observed tensor, dimension and rank of the tensor
 }
