@@ -2,7 +2,7 @@
 % Please edit documentation in R/basicfunction.R
 \name{estimation}
 \alias{estimation}
-\title{Estimate tensor entries from the cumulative model}
+\title{Estimation of tensor entries from the cumulative model}
 \usage{
 estimation(theta,omega,type = c("mode","mean","median"))
 }
@@ -20,14 +20,17 @@ estimation(theta,omega,type = c("mode","mean","median"))
 \code{"median"} specifies median based label estimation}
 }
 \value{
-an estimated ordinal tensor from latent parameters and types of estimations
+an estimated ordinal tensor from the latent parameters and types of estimations
 }
 \description{
-Estimating the ordinal-valued tensor entries from latent parameters and a type of estimations
+Estimate the ordinal-valued tensor entries from latent parameters and a type of estimations
 }
 \examples{
 indices <- c(10,20,30)
 arr <- array(runif(prod(indices)),dim = indices)
 b <- qnorm((1:3)/4)
 r_predict <- estimation(arr,b,type = "mode");r_predict
+}
+\references{
+Lee and Wang (2020) <arXiv:2002.06524>.
 }

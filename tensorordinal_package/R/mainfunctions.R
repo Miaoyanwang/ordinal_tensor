@@ -118,23 +118,23 @@ corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alpha=TRUE,type="ordinal"){
 }
 
 
-#' Fit the cumulative logistic model
+#' Fitting the cumulative logistic model
 #'
-#' Fitting the cumulative logistic model with alternating optimization method.
+#' Fit the cumulative logistic model with alternating optimization method.
 #' @param ttnsr an observed tensor data
 #' @param r a rank to be fitted (Tucker rank)
-#' @param omega cut-off points if it is known,
+#' @param omega the cut-off points if it is known,
 #'
 #' \code{omega = TRUE} if it is unknown
 #' @param alpha a signal level
 #'
-#' \code{alpha = TRUE} if there is no constraint for max-norm of latent tensor parameters
+#' \code{alpha = TRUE} if a signal level is unknown
 #' @return a list containing the following:
 #' @return \code{C} - an estimated core tensor
 #' @return \code{A} - estimated factor matrices
 #' @return \code{theta} - an estimated latent parameter tensor
 #' @return \code{iteration} - the number of iterations
-#' @return \code{cost} - evaluations of cost functions at each iterations
+#' @return \code{cost} - log-likelihood values at each iteration
 #' @return \code{omega} - estimated cut-off points vector
 #' @usage fit_ordinal(ttnsr,r,omega=TRUE,alpha = TRUE)
 #' @references Lee and Wang (2020) <arXiv:2002.06524>.
@@ -270,19 +270,19 @@ fit_ordinal = function(ttnsr,r,omega=TRUE,alpha = TRUE){
 }
 
 
-#' Fit a tensor using Tucker model
+#' Fitting a tensor using Tucker model
 #'
-#' Fitting e a tensor with possibly missing values using Tucker model
+#' Fit a tensor with possibly missing values using Tucker model
 #' @param ttnsr an observed tensor data
 #' @param r a rank to be fitted (Tucker rank)
-#' @param alpha a max-norm constraint of a tensor
+#' @param alpha a signal level
 #'
-#' \code{alpha = TRUE} if there is no constraint for max-norm of a latent tensor parameter
+#' \code{alpha = TRUE} if a signal level is unknown
 #' @return a list containing the following:
 #' @return \code{C} - an estimated core tensor
 #' @return \code{A} - estimated factor matrices
 #' @return \code{iteration} - the number of iterations
-#' @return \code{cost} - evaluations of cost functions at each iterations
+#' @return \code{cost} - log-likelihood values at each iterations
 #' @usage fit_continuous(ttnsr,r,alpha = TRUE)
 #' @examples
 #' # Latent parameters

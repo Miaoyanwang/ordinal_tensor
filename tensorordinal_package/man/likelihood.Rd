@@ -2,7 +2,7 @@
 % Please edit documentation in R/basicfunction.R
 \name{likelihood}
 \alias{likelihood}
-\title{Obtain log-likelihood function (cost function) value}
+\title{Log-likelihood function (cost function)}
 \usage{
 likelihood(ttnsr,theta,omega,type = c("ordinal","Gaussian"))
 }
@@ -23,5 +23,5 @@ likelihood(ttnsr,theta,omega,type = c("ordinal","Gaussian"))
 log-likelihood value at given inputs
 }
 \description{
-Log-likelihood function (cost function)
+Return log-likelihood function (cost function) value evaluated at a given parameter tensor, an observed tensor and cut-off points
 }

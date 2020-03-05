@@ -2,7 +2,7 @@
 % Please edit documentation in R/mainfunctions.R
 \name{fit_continuous}
 \alias{fit_continuous}
-\title{Fit a tensor using Tucker model}
+\title{Fitting a tensor using Tucker model}
 \usage{
 fit_continuous(ttnsr,r,alpha = TRUE)
 }
@@ -11,9 +11,9 @@ fit_continuous(ttnsr,r,alpha = TRUE)
 
 \item{r}{a rank to be fitted (Tucker rank)}
 
-\item{alpha}{a max-norm constraint of a tensor
+\item{alpha}{a signal level
 
-\code{alpha = TRUE} if there is no constraint for max-norm of a latent tensor parameter}
+\code{alpha = TRUE} if a signal level is unknown}
 }
 \value{
 a list containing the following:
@@ -24,10 +24,10 @@ a list containing the following:
 
 \code{iteration} - the number of iterations
 
-\code{cost} - evaluations of cost functions at each iterations
+\code{cost} - log-likelihood values at each iterations
 }
 \description{
-Fitting e a tensor with possibly missing values using Tucker model
+Fit a tensor with possibly missing values using Tucker model
 }
 \examples{
 # Latent parameters

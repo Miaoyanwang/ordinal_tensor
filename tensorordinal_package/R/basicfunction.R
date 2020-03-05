@@ -16,13 +16,14 @@ logistic = function(x){
 }
 
 
-#' Randomly sample an ordinal tensor from the cumulative model
+#' An ordinal tensor randomly sampled from the cumulative model
 #'
-#' Random sampling from the cumulative logistic model with parameter tensor and cut-off points
+#' Sample randomly from the cumulative logistic model with the parameter tensor and the cut-off points
 #' @usage realization(theta,omega)
 #' @param theta continuous parameter tensor (latent parameter)
 #' @param omega the cut-off points
 #' @return an ordinal tensor randomly sampled from the cumulative logistic model
+#' @references Lee and Wang (2020) <arXiv:2002.06524>.
 #' @examples
 #' indices <- c(10,20,30)
 #' arr <- array(runif(prod(indices)),dim = indices)
@@ -42,9 +43,9 @@ realization = function(theta,omega){
 }
 
 
-#' Estimate tensor entries from the cumulative model
+#' Estimation of tensor entries from the cumulative model
 #'
-#' Estimating the ordinal-valued tensor entries from latent parameters and a type of estimations
+#' Estimate the ordinal-valued tensor entries from latent parameters and a type of estimations
 #' @usage estimation(theta,omega,type = c("mode","mean","median"))
 #' @param theta continuous parameter tensor (latent parameter)
 #' @param omega the cut-off points
@@ -55,7 +56,8 @@ realization = function(theta,omega){
 #' \code{"mean"} specifies mean based label estimation
 #'
 #' \code{"median"} specifies median based label estimation
-#' @return an estimated ordinal tensor from latent parameters and types of estimations
+#' @return an estimated ordinal tensor from the latent parameters and types of estimations
+#' @references Lee and Wang (2020) <arXiv:2002.06524>.
 #' @examples
 #' indices <- c(10,20,30)
 #' arr <- array(runif(prod(indices)),dim = indices)
@@ -82,9 +84,9 @@ estimation = function(theta,omega,type = c("mode","mean","median")){
   else return(as.tensor(array(theta_output,dim =theta@modes)))
 }
 
-#' Obtain log-likelihood function (cost function) value
-#'
 #' Log-likelihood function (cost function)
+#'
+#' Return log-likelihood function (cost function) value evaluated at a given parameter tensor, an observed tensor and cut-off points
 #' @usage likelihood(ttnsr,theta,omega,type = c("ordinal","Gaussian"))
 #' @param theta continuous parameter tensor (latent parameter)
 #' @param omega the cut-off points
@@ -110,9 +112,9 @@ likelihood = function(ttnsr,theta,omega=0,type = c("ordinal","Gaussian")){
 
 }
 
-#' Obtain Bayesian Information Criterion (BIC) value
+#' Bayesian Information Criterion (BIC) value
 #'
-#' Bayesian Information Criterion (BIC) evaluated at a given parameter tensor, an observed tensor, dimension and rank of the tensor
+#' Obtain Bayesian Information Criterion (BIC) evaluated at a given parameter tensor, an observed tensor, dimension and rank of the tensors
 #' @usage bic(ttnsr,theta,omega,d,r)
 #' @param ttnsr an observed tensor data
 #' @param theta continuous parameter tensor (latent parameter)

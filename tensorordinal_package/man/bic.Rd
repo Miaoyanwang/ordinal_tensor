@@ -2,7 +2,7 @@
 % Please edit documentation in R/basicfunction.R
 \name{bic}
 \alias{bic}
-\title{Obtain Bayesian Information Criterion (BIC) value}
+\title{Bayesian Information Criterion (BIC) value}
 \usage{
 bic(ttnsr,theta,omega,d,r)
 }
@@ -21,5 +21,5 @@ bic(ttnsr,theta,omega,d,r)
 BIC value at given inputs
 }
 \description{
-Bayesian Information Criterion (BIC) evaluated at a given parameter tensor, an observed tensor, dimension and rank of the tensor
+Obtain Bayesian Information Criterion (BIC) evaluated at a given parameter tensor, an observed tensor, dimension and rank of the tensors
 }

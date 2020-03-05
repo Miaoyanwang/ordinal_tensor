@@ -2,7 +2,7 @@
 % Please edit documentation in R/mainfunctions.R
 \name{fit_ordinal}
 \alias{fit_ordinal}
-\title{Fit the cumulative logistic model}
+\title{Fitting the cumulative logistic model}
 \usage{
 fit_ordinal(ttnsr,r,omega=TRUE,alpha = TRUE)
 }
@@ -11,13 +11,13 @@ fit_ordinal(ttnsr,r,omega=TRUE,alpha = TRUE)
 
 \item{r}{a rank to be fitted (Tucker rank)}
 
-\item{omega}{cut-off points if it is known,
+\item{omega}{the cut-off points if it is known,
 
 \code{omega = TRUE} if it is unknown}
 
 \item{alpha}{a signal level
 
-\code{alpha = TRUE} if there is no constraint for max-norm of latent tensor parameters}
+\code{alpha = TRUE} if a signal level is unknown}
 }
 \value{
 a list containing the following:
@@ -30,12 +30,12 @@ a list containing the following:
 
 \code{iteration} - the number of iterations
 
-\code{cost} - evaluations of cost functions at each iterations
+\code{cost} - log-likelihood values at each iteration
 
 \code{omega} - estimated cut-off points vector
 }
 \description{
-Fitting the cumulative logistic model with alternating optimization method.
+Fit the cumulative logistic model with alternating optimization method.
 }
 \examples{
 # Latent parameters
