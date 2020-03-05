@@ -235,7 +235,7 @@ We show that Hession is definite negative restricted in the subspace $\tS$. Spec
 &=\sum_{\omega,\ell}(\theta^2_\omega-2\theta_\omega b_\ell + b^2_\ell)\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}\\
 &=\sum_{\omega,\ell}\theta^2_\omega\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}-2\sum_{\omega,\ell} \theta_\omega b_\ell \mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}+\sum_{\omega,\ell}b^2_\ell\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}\\
 &\geq \sum_{\omega}\theta^2_\omega -2\sum_{\omega,\ell}\theta_\omega b_\ell+\sum_{\ell}b_\ell^2\left(n_{\ell}+n_{\ell+1}\right)\\
-&=\sum_{\omega}\theta^2_\omega+\min_\ell\left(n_{\ell}+n_{\ell+1}\right)\sum_{\ell}b_\ell^2
+&\geq \sum_{\omega}\theta^2_\omega+\min_\ell\left(n_{\ell}+n_{\ell+1}\right)\sum_{\ell}b_\ell^2
 \end{align}
 
 On the other hand,
@@ -243,12 +243,14 @@ On the other hand,
 \FnormSize{}{\mz}^2=\sum_{\omega,\ell}z^2_{\omega,\ell}=\sum_{\omega,\ell}(-\theta_\omega+b_\ell)^2=(L-1)\sum_{\omega}\theta^2_\omega+\left(\prod_k d_k\right)\sum_\ell b^2_\ell.
 \]
 
-Therefore, there exists a positive constant $c_1>0$ (? perhaps depending on $\alpha, \beta,\Delta$ etc...needs verification..) such that
+Therefore, there exists a positive constant $c_1>0$ (? perhaps depending on $\alpha, \beta,\Delta$ etc...needs some caculation..) such that
 \[
-{{\mz^T\mH\mz}\over \FnormSize{}{\mz}^2}\geq c_1 {\min_{\ell}(n_\ell+n_{\ell_1})\over (L-1)\prod_k d_k}.
+\max_{\mz\in\tS,\mz\neq \mathbf{0}}{\sum_{\omega,\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}} \over \FnormSize{}{\mz}^2}\geq c_1 {\min_{\ell}(n_\ell+n_{\ell+1})\over (L-1)\prod_k d_k}.
 \]
+The conclusion follows by noting that the ratio ${\min_{\ell}(n_\ell+n_{\ell+1})\over \prod_k d_k} \geq c'A_{\alpha,\beta,\Delta}$ in high probability. 
 }
-\end{enumerate}
+
+\end{enumerate}1
 \end{proof}
 \bibliography{tensor_wang}
 \bibliographystyle{apalike}
