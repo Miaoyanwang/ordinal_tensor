@@ -229,7 +229,7 @@ The MSEs for $\hat \Theta$ and $\hat \mb$ readily follow from~\eqref{eq:decomp}.
 \[
 \tS=\{\Vec(\tZ): \tZ=-\Theta\otimes \mathbf{1}+\tJ\otimes \mb,\ (\Theta,\mb)\in(\tP,\tB)\}.
 \]
-We show that Hession is definite negative restricted in the subspace $\tS$. Specifically, for any vector $\mz=\entry{z_{\omega,\ell}}\in\tS$,
+It suffices to prove the negative definiteness of Hession when restricted in the subspace $\tS$. Specifically, for any vector $\mz=\entry{z_{\omega,\ell}}\in\tS$,
 \begin{align}
 \sum_{\omega,\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}&=\sum_{\omega,\ell}(-\theta_\omega+b_\ell)^2\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}\\
 &=\sum_{\omega,\ell}(\theta^2_\omega-2\theta_\omega b_\ell + b^2_\ell)\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}}\\
@@ -243,13 +243,15 @@ On the other hand,
 \FnormSize{}{\mz}^2=\sum_{\omega,\ell}z^2_{\omega,\ell}=\sum_{\omega,\ell}(-\theta_\omega+b_\ell)^2=(L-1)\sum_{\omega}\theta^2_\omega+\left(\prod_k d_k\right)\sum_\ell b^2_\ell.
 \]
 
-Therefore, there exists a positive constant $c_1>0$ (? perhaps depending on $\alpha, \beta,\Delta$ etc...needs some caculation..) such that
+Therefore, there exists a positive constant $c_1>0$ (? perhaps depending on $\alpha, \beta,\Delta$ etc...needs some calculation..) such that
 \[
-\max_{\mz\in\tS,\mz\neq \mathbf{0}}{\sum_{\omega,\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}} \over \FnormSize{}{\mz}^2}\geq c_1 {\min_{\ell}(n_\ell+n_{\ell+1})\over (L-1)\prod_k d_k}.
+\max_{\mz\in\tS,\mz\neq \mathbf{0}}{\sum_{\omega,\ell} z^2_{\omega,\ell}\mathds{1}_{\{y_\omega=\ell \text{ or }\ell+1\}} \over \FnormSize{}{\mz}^2}\geq c_1 {\min_{\ell}(n_\ell+n_{\ell+1})\over (L-1)\prod_k d_k}\geq c_1 {\min_{\ell}(n_\ell+n_{\ell+1})\over (L-1)\prod_k d_k}. 
 \]
-The conclusion follows by noting that the ratio ${\min_{\ell}(n_\ell+n_{\ell+1})\over \prod_k d_k} \geq c'A_{\alpha,\beta,\Delta}$ in high probability. 
+The conclusion~\eqref{eq:clt} then follows by applying the law of large number and the uniform bound $\min_{z_{\omega,\ell}}\mathbb{P}(y_{\omega}=\ell \text{ or }\ell+1|z_{\omega,\ell})\geq 2A_{\alpha,\beta,\Delta}$ to the ratio:
+\[
+{\min_{\ell}(n_\ell+n_{\ell+1})\over \prod_k d_k}\geq 2A_{\alpha,\beta,\Delta}, \quad \text{ in high probability as $d_{\min}\to \infty$}.
+\] 
 }
-
 \end{enumerate}1
 \end{proof}
 \bibliography{tensor_wang}
