@@ -2,47 +2,49 @@
 % Please edit documentation in R/mainfunctions.R
 \name{fit_continuous}
 \alias{fit_continuous}
-\title{Continuous Tucker decomposition}
+\title{Fitting a tensor using Tucker model}
 \usage{
-fit_continuous(ttnsr,C,A_1,A_2,A_3,alpha = TRUE)
+fit_continuous(ttnsr,r,alpha = TRUE)
 }
 \arguments{
-\item{ttnsr}{tensor data (k-level)}
+\item{ttnsr}{an observed tensor data}
 
-\item{C}{initial point for a core tensor and factor matrices}
+\item{r}{a rank to be fitted (Tucker rank)}
 
-\item{A_1, A_2, A_3}{initial points for factor matrices}
+\item{alpha}{a signal level
 
-\item{alpha}{max-norm constraints of a tensor
-
-\code{alpha = TRUE} if there is no constraint for max-norm of latent tensor parameters}
+\code{alpha = TRUE} if a signal level is unknown}
 }
 \value{
 a list containing the following:
 
-\code{C} - estimated core tensor
+\code{C} - an estimated core tensor
 
-\code{A_1, A_2, A_3} - estimated factor matrices
+\code{A} - estimated factor matrices
 
 \code{iteration} - the number of iterations
 
-\code{cost} - evaluations of cost functions at each iterations
+\code{cost} - log-likelihood values at each iterations
 }
 \description{
-decompose a tensor with possibly missing values into Tucker decomposition
+Fit a tensor with possibly missing values using Tucker model
 }
 \examples{
-# draw random ordinal tensor
-indices = c(10,10,10)
-rank = c(3,3,3)
-otensor <- array(sample(c(1,2,3),prod(indices),replace = TRUE),dim = indices)
+# Latent parameters
+library(rTensor)
+alpha = 10
+A_1 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
+A_2 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
+A_3 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
+C = as.tensor(array(runif(2^3,min=-1,max=1),dim = c(2,2,2)))
+theta = ttm(ttm(ttm(C,A_1,1),A_2,2),A_3,3)@data
+theta = alpha*theta/max(abs(theta))
+omega = c(-0.2,0.2)
 
-#Initial points for `fit_continuous' function
-A_1 = pracma::randortho(indices[1])[,1:rank[1]]
-A_2 = pracma::randortho(indices[2])[,1:rank[2]]
-A_3 = pracma::randortho(indices[3])[,1:rank[3]]
-C = rTensor::rand_tensor(modes = rank)
+# Observed tensor
+ttnsr <- realization(theta,omega)@data
 
-#Tucker decomposition
-Tucker_est = fit_continuous(otensor,C,A_1,A_2,A_3,alpha = 100)
+# Estimation of parameters
+continuous_est = fit_continuous(ttnsr,c(2,2,2),alpha = 100)
+
 }

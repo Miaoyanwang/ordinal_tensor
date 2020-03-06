@@ -2,24 +2,27 @@
 % Please edit documentation in R/basicfunction.R
 \name{realization}
 \alias{realization}
-\title{Randomly sample an ordinal tensor from the cumulative model}
+\title{An ordinal tensor randomly sampled from the cumulative model}
 \usage{
 realization(theta,omega)
 }
 \arguments{
 \item{theta}{continuous parameter tensor (latent parameter)}
 
-\item{omega}{the cut-off points (k-levels)}
+\item{omega}{the cut-off points}
 }
 \value{
-ordinal tensor randomly sampled from the cumulative logistic model
+an ordinal tensor randomly sampled from the cumulative logistic model
 }
 \description{
-Random sampling from the cumulative logistic model given theta and omega
+Sample randomly from the cumulative logistic model with the parameter tensor and the cut-off points
 }
 \examples{
 indices <- c(10,20,30)
 arr <- array(runif(prod(indices)),dim = indices)
-b <- runif(3)
+b <- qnorm((1:3)/4)
 r_sample <- realization(arr,b);r_sample
+}
+\references{
+Lee and Wang (2020) <arXiv:2002.06524>.
 }

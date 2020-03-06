@@ -10,17 +10,24 @@ theta_to_p=function(theta,omega){
   p[p<epsilon]=epsilon ## regularize
   return(p)
 }
-#' Randomly sample an ordinal tensor from the cumulative model
+
+logistic = function(x){
+  return(1/(1+exp(-x)))
+}
+
+
+#' An ordinal tensor randomly sampled from the cumulative model
 #'
-#' Random sampling from the cumulative logistic model given theta and omega
+#' Sample randomly from the cumulative logistic model with the parameter tensor and the cut-off points
 #' @usage realization(theta,omega)
 #' @param theta continuous parameter tensor (latent parameter)
-#' @param omega the cut-off points (k-levels)
-#' @return ordinal tensor randomly sampled from the cumulative logistic model
+#' @param omega the cut-off points
+#' @return an ordinal tensor randomly sampled from the cumulative logistic model
+#' @references Lee and Wang (2020) <arXiv:2002.06524>.
 #' @examples
 #' indices <- c(10,20,30)
 #' arr <- array(runif(prod(indices)),dim = indices)
-#' b <- runif(3)
+#' b <- qnorm((1:3)/4)
 #' r_sample <- realization(arr,b);r_sample
 #' @export
 #' @import rTensor
@@ -36,35 +43,25 @@ realization = function(theta,omega){
 }
 
 
-#' Logistic function
+#' Estimation of tensor entries from the cumulative model
 #'
-#' Logistic function
-#' @usage logistic(x)
-#' @param x numeric value
-#' @return logistic function value evaluated at x
-#' @export
-logistic = function(x){
-  return(1/(1+exp(-x)))
-}
-
-#' Predict the entries of a tensor from the cumulative model
-#'
-#' Predict the ordinal-valued entries of a tensor with given parameters and a type of predictions
+#' Estimate the ordinal-valued tensor entries from latent parameters and a type of estimations
 #' @usage estimation(theta,omega,type = c("mode","mean","median"))
 #' @param theta continuous parameter tensor (latent parameter)
-#' @param omega the cut-off points (k-levels)
-#' @param type type of predictions:
+#' @param omega the cut-off points
+#' @param type type of estimations:
 #'
-#' \code{"mode"} specifies argmax based label prediction
+#' \code{"mode"} specifies argmax based label estimation
 #'
-#' \code{"mean"} specifies mean based label prediction
+#' \code{"mean"} specifies mean based label estimation
 #'
-#' \code{"median"} specifies median based label prediction
-#' @return predicted ordinal tensor from the given parameters and types of prediction
+#' \code{"median"} specifies median based label estimation
+#' @return an estimated ordinal tensor from the latent parameters and types of estimations
+#' @references Lee and Wang (2020) <arXiv:2002.06524>.
 #' @examples
 #' indices <- c(10,20,30)
 #' arr <- array(runif(prod(indices)),dim = indices)
-#' b <- runif(3)
+#' b <- qnorm((1:3)/4)
 #' r_predict <- estimation(arr,b,type = "mode");r_predict
 #' @export
 estimation = function(theta,omega,type = c("mode","mean","median")){
@@ -89,17 +86,17 @@ estimation = function(theta,omega,type = c("mode","mean","median")){
 
 #' Log-likelihood function (cost function)
 #'
-#' Log-likelihood function (cost function)
+#' Return log-likelihood function (cost function) value evaluated at a given parameter tensor, an observed tensor and cut-off points
 #' @usage likelihood(ttnsr,theta,omega,type = c("ordinal","Gaussian"))
 #' @param theta continuous parameter tensor (latent parameter)
-#' @param omega the cut-off points (k-levels)
-#' @param ttnsr observed tensor
+#' @param omega the cut-off points
+#' @param ttnsr an observed tensor data
 #' @param type types of log-likelihood function
 #'
 #' \code{"ordinal"} specifies log-likelihood function with the cumulative logistic model
 #'
-#' \code{"Gaussian"} specifies squared error function
-#' @return a value evaluated on given type and points
+#' \code{"Gaussian"} specifies log-likelihood function with the Gaussian model
+#' @return log-likelihood value at given inputs
 #' @export
 
 likelihood = function(ttnsr,theta,omega=0,type = c("ordinal","Gaussian")){
@@ -115,16 +112,16 @@ likelihood = function(ttnsr,theta,omega=0,type = c("ordinal","Gaussian")){
 
 }
 
-#' Bayesian Information Criterion
+#' Bayesian Information Criterion (BIC) value
 #'
-#' Bayesian Information Criterion evaluated at given parameters, dimension of tensor and rank of tensor
+#' Obtain Bayesian Information Criterion (BIC) evaluated at a given parameter tensor, an observed tensor, dimension and rank of the tensors
 #' @usage bic(ttnsr,theta,omega,d,r)
-#' @param ttnsr Observed tensor data
+#' @param ttnsr an observed tensor data
 #' @param theta continuous parameter tensor (latent parameter)
-#' @param omega the cut-off points (k-levels)
-#' @param d Dimension of tensor
-#' @param r Rank of tensor
-#' @return BIC value given observed tensor, estimated parameter and rank
+#' @param omega the cut-off points
+#' @param d dimension of the tensor
+#' @param r rank of the tensor
+#' @return BIC value at given inputs
 #' @export
 bic = function(ttnsr,theta,omega=0,d,r){
   return(2*likelihood(ttnsr,theta,omega)+(prod(r)+sum(r*(d-r)))*log(prod(d)))
