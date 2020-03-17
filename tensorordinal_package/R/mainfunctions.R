@@ -182,7 +182,7 @@ fit_ordinal = function(ttnsr,r,omega=TRUE,alpha = TRUE){
     alpha_minus2=alpha-2*epsilon
     prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
     if(max(abs(prevtheta))>alpha){
-      print("Warning: the input tensor exceeds the magnitude bound. Perform rescaling on the core tensor...")
+      warning("the input tensor exceeds the magnitude bound. Perform rescaling on the core tensor...")
       C=C/max(abs(prevtheta))*alpha/10
     }
   }
@@ -205,7 +205,7 @@ fit_ordinal = function(ttnsr,r,omega=TRUE,alpha = TRUE){
     if(is.logical(omg)) {
       omega=tryCatch(polr(as.factor(c(ttnsr))~offset(-c(prevtheta)))$zeta,error=function(c)"omega cannot be reliably estimated",warning=function(c)"omega cannot be reliably estimated")
       if(inherits(omega,"numeric")==FALSE){
-        print("Warning: omega cannot be estimated! Omega from previous step is used");
+        warning("omega cannot be estimated! Omega from previous step is used");
         if(iter==1) omega=pracma::logit(1:(k-1)/k)
         else omega=currentomega
       }
@@ -254,9 +254,8 @@ fit_ordinal = function(ttnsr,r,omega=TRUE,alpha = TRUE){
       cost = c(cost,new)
       (error <- abs((new-prev)/prev))
     }
-
-
     message(paste(iter,"-th  iteration -- cost value is",new," -----------------"))
+
   }
   # identifiability adjustment
   madj <- mean(theta)
@@ -328,7 +327,7 @@ fit_continuous=function(ttnsr,r,alpha = TRUE){
     alpha_minus2=alpha-2*epsilon
     prevtheta <- ttl(C,list(A_1,A_2,A_3),ms=1:3)@data
     if(max(abs(prevtheta))>alpha){
-      print("Warning: the input tensor exceeds the magnitude bound. Perform rescaling on the core tensor...")
+      warning("the input tensor exceeds the magnitude bound. Perform rescaling on the core tensor...")
       C=C/max(abs(prevtheta))*alpha/10
     }
   }
@@ -383,8 +382,8 @@ fit_continuous=function(ttnsr,r,alpha = TRUE){
       cost = c(cost,new)
       (error <- abs((new-prev)/prev))
     }
-
     message(paste(iter,"-th  iteration -- cost value is",new," -----------------"))
+
   }
 
 
