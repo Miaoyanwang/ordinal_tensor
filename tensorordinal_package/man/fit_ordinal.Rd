@@ -2,22 +2,22 @@
 % Please edit documentation in R/mainfunctions.R
 \name{fit_ordinal}
 \alias{fit_ordinal}
-\title{Fitting the cumulative logistic model}
+\title{Fitting the cumulative logistic model to an ordinal tensor}
 \usage{
 fit_ordinal(ttnsr,r,omega=TRUE,alpha = TRUE)
 }
 \arguments{
-\item{ttnsr}{an observed tensor data}
+\item{ttnsr}{an observed tensor}
 
 \item{r}{a rank to be fitted (Tucker rank)}
 
-\item{omega}{the cut-off points if it is known,
+\item{omega}{the cut-off points if known,
 
-\code{omega = TRUE} if it is unknown}
+\code{omega = TRUE} if unknown}
 
 \item{alpha}{a signal level
 
-\code{alpha = TRUE} if a signal level is unknown}
+\code{alpha = TRUE} if the signal level is unknown}
 }
 \value{
 a list containing the following:
@@ -30,12 +30,12 @@ a list containing the following:
 
 \code{iteration} - the number of iterations
 
-\code{cost} - log-likelihood values at each iteration
+\code{cost} - log-likelihood value at each iteration
 
-\code{omega} - estimated cut-off points vector
+\code{omega} - estimated cut-off points
 }
 \description{
-Fit the cumulative logistic model with alternating optimization method.
+Fit the cumulative logistic model to an ordinal data tensor
 }
 \examples{
 # Latent parameters
@@ -47,15 +47,17 @@ A_3 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
 C = as.tensor(array(runif(2^3,min=-1,max=1),dim = c(2,2,2)))
 theta = ttm(ttm(ttm(C,A_1,1),A_2,2),A_3,3)@data
 theta = alpha*theta/max(abs(theta))
-omega = c(-0.2,0.2)
+adj = mean(theta)
+theta = theta-adj
+omega = c(-0.2,0.2)+adj
 
 # Observed tensor
 ttnsr <- realization(theta,omega)@data
 
 # Estimation of parameters
-ordinal_est = fit_ordinal(ttnsr,c(2,2,2),omega = TRUE,alpha = 100)
+ordinal_est = fit_ordinal(ttnsr,c(2,2,2),omega = TRUE,alpha = 10)
 
 }
 \references{
-Lee and Wang (2020) <arXiv:2002.06524>.
+Lee, C., & Wang, M. (2020). Tensor denoising and completion based on ordinal observations. \emph{arXiv preprint arXiv:2002.06524}.
 }

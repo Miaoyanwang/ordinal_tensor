@@ -7,7 +7,7 @@
 estimation(theta,omega,type = c("mode","mean","median"))
 }
 \arguments{
-\item{theta}{continuous parameter tensor (latent parameter)}
+\item{theta}{a continuous-valued tensor (latent parameters)}
 
 \item{omega}{the cut-off points}
 
@@ -20,17 +20,17 @@ estimation(theta,omega,type = c("mode","mean","median"))
 \code{"median"} specifies median based label estimation}
 }
 \value{
-an estimated ordinal tensor from the latent parameters and types of estimations
+an estimated ordinal tensor given latent parameters and a type of estimations
 }
 \description{
-Estimate the ordinal-valued tensor entries from latent parameters and a type of estimations
+Estimate the ordinal-valued tensor entries given latent parameters and a type of estimations
 }
 \examples{
 indices <- c(10,20,30)
-arr <- array(runif(prod(indices)),dim = indices)
-b <- qnorm((1:3)/4)
+arr <- array(runif(prod(indices),-2,2),dim = indices)
+b <- c(-1.5,0,1.5)
 r_predict <- estimation(arr,b,type = "mode");r_predict
 }
 \references{
-Lee and Wang (2020) <arXiv:2002.06524>.
+Lee, C., & Wang, M. (2020). Tensor denoising and completion based on ordinal observations. \emph{arXiv preprint arXiv:2002.06524}.
 }

@@ -9,19 +9,19 @@ likelihood(ttnsr,theta,omega,type = c("ordinal","Gaussian"))
 \arguments{
 \item{ttnsr}{an observed tensor data}
 
-\item{theta}{continuous parameter tensor (latent parameter)}
+\item{theta}{a continuous-valued tensor (latent parameters)}
 
 \item{omega}{the cut-off points}
 
 \item{type}{types of log-likelihood function
 
-\code{"ordinal"} specifies log-likelihood function with the cumulative logistic model
+\code{"ordinal"} specifies log-likelihood function based on the cumulative logistic model
 
-\code{"Gaussian"} specifies log-likelihood function with the Gaussian model}
+\code{"Gaussian"} specifies log-likelihood function based on the Gaussian model}
 }
 \value{
 log-likelihood value at given inputs
 }
 \description{
-Return log-likelihood function (cost function) value evaluated at a given parameter tensor, an observed tensor and cut-off points
+Return log-likelihood function (cost function) value evaluated at a given parameter tensor, an observed tensor, and cut-off points
 }

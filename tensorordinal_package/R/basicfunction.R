@@ -16,14 +16,14 @@ logistic = function(x){
 }
 
 
-#' An ordinal tensor randomly sampled from the cumulative model
+#' An ordinal tensor randomly simulated from the cumulative model
 #'
-#' Sample randomly from the cumulative logistic model with the parameter tensor and the cut-off points
+#' Simulate an ordinal tensor from the cumulative logistic model with the parameter tensor and the cut-off points
 #' @usage realization(theta,omega)
-#' @param theta continuous parameter tensor (latent parameter)
+#' @param theta a continuous-valued tensor (latent parameters)
 #' @param omega the cut-off points
-#' @return an ordinal tensor randomly sampled from the cumulative logistic model
-#' @references Lee and Wang (2020) <arXiv:2002.06524>.
+#' @return an ordinal tensor randomly simulated from the cumulative logistic model
+#' @references Lee, C., & Wang, M. (2020). Tensor denoising and completion based on ordinal observations. \emph{arXiv preprint arXiv:2002.06524}.
 #' @examples
 #' indices <- c(10,20,30)
 #' arr <- array(runif(prod(indices)),dim = indices)
@@ -45,9 +45,9 @@ realization = function(theta,omega){
 
 #' Estimation of tensor entries from the cumulative model
 #'
-#' Estimate the ordinal-valued tensor entries from latent parameters and a type of estimations
+#' Estimate the ordinal-valued tensor entries given latent parameters and a type of estimations
 #' @usage estimation(theta,omega,type = c("mode","mean","median"))
-#' @param theta continuous parameter tensor (latent parameter)
+#' @param theta a continuous-valued tensor (latent parameters)
 #' @param omega the cut-off points
 #' @param type type of estimations:
 #'
@@ -56,12 +56,12 @@ realization = function(theta,omega){
 #' \code{"mean"} specifies mean based label estimation
 #'
 #' \code{"median"} specifies median based label estimation
-#' @return an estimated ordinal tensor from the latent parameters and types of estimations
-#' @references Lee and Wang (2020) <arXiv:2002.06524>.
+#' @return an estimated ordinal tensor given latent parameters and a type of estimations
+#' @references Lee, C., & Wang, M. (2020). Tensor denoising and completion based on ordinal observations. \emph{arXiv preprint arXiv:2002.06524}.
 #' @examples
 #' indices <- c(10,20,30)
-#' arr <- array(runif(prod(indices)),dim = indices)
-#' b <- qnorm((1:3)/4)
+#' arr <- array(runif(prod(indices),-2,2),dim = indices)
+#' b <- c(-1.5,0,1.5)
 #' r_predict <- estimation(arr,b,type = "mode");r_predict
 #' @export
 estimation = function(theta,omega,type = c("mode","mean","median")){
@@ -86,16 +86,16 @@ estimation = function(theta,omega,type = c("mode","mean","median")){
 
 #' Log-likelihood function (cost function)
 #'
-#' Return log-likelihood function (cost function) value evaluated at a given parameter tensor, an observed tensor and cut-off points
+#' Return log-likelihood function (cost function) value evaluated at a given parameter tensor, an observed tensor, and cut-off points
 #' @usage likelihood(ttnsr,theta,omega,type = c("ordinal","Gaussian"))
-#' @param theta continuous parameter tensor (latent parameter)
+#' @param theta a continuous-valued tensor (latent parameters)
 #' @param omega the cut-off points
 #' @param ttnsr an observed tensor data
 #' @param type types of log-likelihood function
 #'
-#' \code{"ordinal"} specifies log-likelihood function with the cumulative logistic model
+#' \code{"ordinal"} specifies log-likelihood function based on the cumulative logistic model
 #'
-#' \code{"Gaussian"} specifies log-likelihood function with the Gaussian model
+#' \code{"Gaussian"} specifies log-likelihood function based on the Gaussian model
 #' @return log-likelihood value at given inputs
 #' @export
 
@@ -114,10 +114,10 @@ likelihood = function(ttnsr,theta,omega=0,type = c("ordinal","Gaussian")){
 
 #' Bayesian Information Criterion (BIC) value
 #'
-#' Obtain Bayesian Information Criterion (BIC) evaluated at a given parameter tensor, an observed tensor, dimension and rank of the tensors
+#' Compute Bayesian Information Criterion (BIC) given a parameter tensor, an observed tensor, the dimension, and the rank
 #' @usage bic(ttnsr,theta,omega,d,r)
-#' @param ttnsr an observed tensor data
-#' @param theta continuous parameter tensor (latent parameter)
+#' @param ttnsr an observed tensor
+#' @param theta a continuous-valued tensor (latent parameters)
 #' @param omega the cut-off points
 #' @param d dimension of the tensor
 #' @param r rank of the tensor

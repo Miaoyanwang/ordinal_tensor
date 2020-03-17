@@ -118,26 +118,26 @@ corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alpha=TRUE,type="ordinal"){
 }
 
 
-#' Fitting the cumulative logistic model
+#' Fitting the cumulative logistic model to an ordinal tensor
 #'
-#' Fit the cumulative logistic model with alternating optimization method.
-#' @param ttnsr an observed tensor data
+#' Fit the cumulative logistic model to an ordinal data tensor
+#' @param ttnsr an observed tensor
 #' @param r a rank to be fitted (Tucker rank)
-#' @param omega the cut-off points if it is known,
+#' @param omega the cut-off points if known,
 #'
-#' \code{omega = TRUE} if it is unknown
+#' \code{omega = TRUE} if unknown
 #' @param alpha a signal level
 #'
-#' \code{alpha = TRUE} if a signal level is unknown
+#' \code{alpha = TRUE} if the signal level is unknown
 #' @return a list containing the following:
 #' @return \code{C} - an estimated core tensor
 #' @return \code{A} - estimated factor matrices
 #' @return \code{theta} - an estimated latent parameter tensor
 #' @return \code{iteration} - the number of iterations
-#' @return \code{cost} - log-likelihood values at each iteration
-#' @return \code{omega} - estimated cut-off points vector
+#' @return \code{cost} - log-likelihood value at each iteration
+#' @return \code{omega} - estimated cut-off points
 #' @usage fit_ordinal(ttnsr,r,omega=TRUE,alpha = TRUE)
-#' @references Lee and Wang (2020) <arXiv:2002.06524>.
+#' @references Lee, C., & Wang, M. (2020). Tensor denoising and completion based on ordinal observations. \emph{arXiv preprint arXiv:2002.06524}.
 #' @examples
 #' # Latent parameters
 #' library(rTensor)
@@ -148,13 +148,15 @@ corecomb = function(A_1,A_2,A_3,C,ttnsr,omega,alpha=TRUE,type="ordinal"){
 #' C = as.tensor(array(runif(2^3,min=-1,max=1),dim = c(2,2,2)))
 #' theta = ttm(ttm(ttm(C,A_1,1),A_2,2),A_3,3)@data
 #' theta = alpha*theta/max(abs(theta))
-#' omega = c(-0.2,0.2)
+#' adj = mean(theta)
+#' theta = theta-adj
+#' omega = c(-0.2,0.2)+adj
 #'
 #' # Observed tensor
 #' ttnsr <- realization(theta,omega)@data
 #'
 #' # Estimation of parameters
-#' ordinal_est = fit_ordinal(ttnsr,c(2,2,2),omega = TRUE,alpha = 100)
+#' ordinal_est = fit_ordinal(ttnsr,c(2,2,2),omega = TRUE,alpha = 10)
 #'
 #' @export
 #' @import rTensor
@@ -270,19 +272,19 @@ fit_ordinal = function(ttnsr,r,omega=TRUE,alpha = TRUE){
 }
 
 
-#' Fitting a tensor using Tucker model
+#' Fitting the Tucker model to a tensor
 #'
-#' Fit a tensor with possibly missing values using Tucker model
-#' @param ttnsr an observed tensor data
+#' Fit the Tucker model to a tensor with possibly missing values
+#' @param ttnsr an observed tensor
 #' @param r a rank to be fitted (Tucker rank)
 #' @param alpha a signal level
 #'
-#' \code{alpha = TRUE} if a signal level is unknown
+#' \code{alpha = TRUE} if the signal level is unknown
 #' @return a list containing the following:
 #' @return \code{C} - an estimated core tensor
 #' @return \code{A} - estimated factor matrices
 #' @return \code{iteration} - the number of iterations
-#' @return \code{cost} - log-likelihood values at each iterations
+#' @return \code{cost} - log-likelihood value at each iteration
 #' @usage fit_continuous(ttnsr,r,alpha = TRUE)
 #' @examples
 #' # Latent parameters
@@ -294,13 +296,15 @@ fit_ordinal = function(ttnsr,r,omega=TRUE,alpha = TRUE){
 #' C = as.tensor(array(runif(2^3,min=-1,max=1),dim = c(2,2,2)))
 #' theta = ttm(ttm(ttm(C,A_1,1),A_2,2),A_3,3)@data
 #' theta = alpha*theta/max(abs(theta))
-#' omega = c(-0.2,0.2)
+#' adj = mean(theta)
+#' theta = theta-adj
+#' omega = c(-0.2,0.2)+adj
 #'
 #' # Observed tensor
 #' ttnsr <- realization(theta,omega)@data
 #'
 #' # Estimation of parameters
-#' continuous_est = fit_continuous(ttnsr,c(2,2,2),alpha = 100)
+#' continuous_est = fit_continuous(ttnsr,c(2,2,2),alpha = 10)
 #'
 #' @export
 #' @import rTensor

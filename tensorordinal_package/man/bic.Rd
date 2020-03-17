@@ -7,9 +7,9 @@
 bic(ttnsr,theta,omega,d,r)
 }
 \arguments{
-\item{ttnsr}{an observed tensor data}
+\item{ttnsr}{an observed tensor}
 
-\item{theta}{continuous parameter tensor (latent parameter)}
+\item{theta}{a continuous-valued tensor (latent parameters)}
 
 \item{omega}{the cut-off points}
 
@@ -21,5 +21,5 @@ bic(ttnsr,theta,omega,d,r)
 BIC value at given inputs
 }
 \description{
-Obtain Bayesian Information Criterion (BIC) evaluated at a given parameter tensor, an observed tensor, dimension and rank of the tensors
+Compute Bayesian Information Criterion (BIC) given a parameter tensor, an observed tensor, the dimension, and the rank
 }

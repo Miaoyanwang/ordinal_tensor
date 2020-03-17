@@ -2,18 +2,18 @@
 % Please edit documentation in R/mainfunctions.R
 \name{fit_continuous}
 \alias{fit_continuous}
-\title{Fitting a tensor using Tucker model}
+\title{Fitting the Tucker model to a tensor}
 \usage{
 fit_continuous(ttnsr,r,alpha = TRUE)
 }
 \arguments{
-\item{ttnsr}{an observed tensor data}
+\item{ttnsr}{an observed tensor}
 
 \item{r}{a rank to be fitted (Tucker rank)}
 
 \item{alpha}{a signal level
 
-\code{alpha = TRUE} if a signal level is unknown}
+\code{alpha = TRUE} if the signal level is unknown}
 }
 \value{
 a list containing the following:
@@ -24,10 +24,10 @@ a list containing the following:
 
 \code{iteration} - the number of iterations
 
-\code{cost} - log-likelihood values at each iterations
+\code{cost} - log-likelihood value at each iteration
 }
 \description{
-Fit a tensor with possibly missing values using Tucker model
+Fit the Tucker model to a tensor with possibly missing values
 }
 \examples{
 # Latent parameters
@@ -39,12 +39,14 @@ A_3 = matrix(runif(15*2,min=-1,max=1),nrow = 15)
 C = as.tensor(array(runif(2^3,min=-1,max=1),dim = c(2,2,2)))
 theta = ttm(ttm(ttm(C,A_1,1),A_2,2),A_3,3)@data
 theta = alpha*theta/max(abs(theta))
-omega = c(-0.2,0.2)
+adj = mean(theta)
+theta = theta-adj
+omega = c(-0.2,0.2)+adj
 
 # Observed tensor
 ttnsr <- realization(theta,omega)@data
 
 # Estimation of parameters
-continuous_est = fit_continuous(ttnsr,c(2,2,2),alpha = 100)
+continuous_est = fit_continuous(ttnsr,c(2,2,2),alpha = 10)
 
 }
