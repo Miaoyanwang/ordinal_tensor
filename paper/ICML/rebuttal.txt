@@ -1,0 +1,43 @@
+Reviewer #5
+Q1. Distinction between classical tensors and ordinal tensors 
+( because we are using Tucker decomposition?, He or she wants clear distinction and challenges with regards to ordinal tensor, is it special case of classical analysis)
+
+A1. Our ordinal tensor analysis is conceptually different from continuous tensor analysis method. We make use of quantization to guarantee categorical responses. This quantization model ensure that the estimation is invariant under a reversal of categories and the parameter interpretations are consistent, which is not the case in classical tensor analysis. Our method is not a special case of classical analysis, but it is one step more from classical analysis. In addition, this latent model helps us to interpret the model with signal and noise concept. With this concept, the model has the phenomenon that estimation becomes harder in high signal level in Figure 2-b which is distinctive from classical analysis.
+(Also, it is not exponential family)
+
+Q2. The tools adopted is from classical tensor analysis (rank constrained M estimation) -This also can be related to reviewer #3’s question,
+
+A2. I agree that rank constrained M estimation is common in previous works. In our paper, however, we established the theoretical results guaranteeing optimal convergence and complexity of M estimation. Those theories make our paper distinctive from others and justify using constrained M estimation.
+
+
+Reviewer #4
+Q1. The initialization of “b” is quite important to obtain good local optima. Do you have any good strategy to initialize b?(Initialization problem, may be the reviewer concerns identifiability issue too.)
+
+A1.First, we perform multiple initialization methods to increase the probability of getting good initialization. Actual value of intercept b cannot be decided by itself but with consideration of signal tensor and response variables, which means if signal tensor shifted left then b will follow. Identifiability issue can arise from this point. So we set signal tensor sum to zero for each update and update intercept b to solve identifiability issue. In this way, we initialize intercept b to be fitted on the initialization of signal tensor which sum to zero.  This initialization strategy for b combining with multiple initialization makes algorithm stable and start in good position to obtain good local optima. 
+
+Q2. Computational cost for the optimization.
+MovieLens: dataset represents rating tuples of the form: <user, item, rating, timestamp>. There are diverse datasets such as 
+100k:100,000 ratings from 1000 users on 1700 movies
+1M:1 million ratings from 6000 users on 4000 movies
+10M:10 million ratings and 100,000 tag applications applied to 10,000 movies by 72,000 users
+20M:20 million ratings and 465,000 tag applications applied to 27,000 movies by 138,000 users
+https://papers.nips.cc/paper/8860-singleshot-a-scalable-tucker-tensor-decomposition.pdf (Traore, A., Bérar, M., & Rakotomamonjy, A. (2019). Singleshot : a scalable Tucker tensor decomposition. NeurIPS.)
+https://arxiv.org/pdf/1710.02261v1.pdf(Oh, S., Park, N., Sael, L., & Kang, U. (2018). Scalable Tucker Factorization for Sparse Tensors - Algorithms and Discoveries. 2018 IEEE 34th International Conference on Data Engineering (ICDE), 1120-1131.)
+: uses data where 6040 users, 100209 ratings from 1 to 6 on 3076 movies , between April,2000 and February,2003
+(It assumes sparse tensor which means rank is really low)
+
+A2. For bigger dataset, like Movielens dataset, we can use small rank to reduce computations like other papers have done for the application on Movielens such as
+(Traore, A., Bérar, M., & Rakotomamonjy, A. (2019). Singleshot : a scalable Tucker tensor decomposition. NeurIPS,
+Oh, S., Park, N., Sael, L., & Kang, U. (2018). Scalable Tucker Factorization for Sparse Tensors - Algorithms and Discoveries. 2018 IEEE 34th International Conference on Data Engineering (ICDE), 1120-1131.) Here they used Tucker rank (5,5,5) and (10,10,10). This small rank makes implementation much faster (our brain dataset rank was (23,23,8) which is not quite small)
+There are several rooms for us to improve our current algorithm for big data applications. Movielens datasets have more than 100000 ratings which makes computation of gradient challenging. However our loss function has good structure to apply stochastic gradient descent method. SGD is one way to improve our computation time. In addition, we can select a rowdies update method for factor matrices updates. The key benefit of this approach is that all rows of factor matrices are independent of each other in the sense of minimizing our loss function. This property enables us to apply parallel computing on updating factor matrices. Those approaches enable us to apply big dataset like MovieLens.
+
+
+
+Reviewer #3
+Q1. Can not find tractable algorithms for MLE ( He or she concerns about the gap between theoretical result and real application)
+
+A1.
+It is fair argument. However, no other approaches succeed to have tractable algorithm  to estimate global optimizer. The other methods include the nuclear norm approaches sacrificing rank constraints but still having computation hard algorithm. Also, our paper is meaningful in the sense that we show that this straightforward method works better than other approaches even with relaxed local minimum condition. Our paper shows theoretical reason for this outpeformance: MLE has optimal convergence rate and optimal complexity which makes even local minimum estimation outperforms the other methods with suboptimal rate. This paper provides one step closer to ultimate goal of tensor completion method for ordinal dataset. Another fact is multiple initialization can handle local minimization problem too. In addition, It is known that with multiple random restarts and deflation is capable of finding all components ui with high probability.
+
+(I am taking a look at articles that study about spurious local minima but can not find good articles to apply in our method yet. I will do work more on that)
+
