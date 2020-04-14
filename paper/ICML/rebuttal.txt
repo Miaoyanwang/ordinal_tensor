@@ -37,7 +37,19 @@ Reviewer #3
 Q1. Can not find tractable algorithms for MLE ( He or she concerns about the gap between theoretical result and real application)
 
 A1.
-It is fair argument. However, no other approaches succeed to have tractable algorithm  to estimate global optimizer. The other methods include the nuclear norm approaches sacrificing rank constraints but still having computation hard algorithm. Also, our paper is meaningful in the sense that we show that this straightforward method works better than other approaches even with relaxed local minimum condition. Our paper shows theoretical reason for this outpeformance: MLE has optimal convergence rate and optimal complexity which makes even local minimum estimation outperforms the other methods with suboptimal rate. This paper provides one step closer to ultimate goal of tensor completion method for ordinal dataset. Another fact is multiple initialization can handle local minimization problem too. In addition, It is known that with multiple random restarts and deflation is capable of finding all components ui with high probability.
+It is fair argument. However, no other approaches succeed to have tractable algorithm  to estimate global optimizer. The other methods include the nuclear norm approaches sacrificing rank constraints but still having computation hard algorithm. Also, our paper is meaningful in the sense that we show that this straightforward method works better than other approaches even with relaxed local minimum condition. Our paper shows theoretical reason for this outpeformance: MLE has optimal convergence rate and optimal complexity which makes even local minimum estimation outperforms the other methods with suboptimal rate. This paper provides one step closer to ultimate goal of tensor completion method for ordinal dataset. 
 
-(I am taking a look at articles that study about spurious local minima but can not find good articles to apply in our method yet. I will do work more on that)
+In the matrix case of our optimization problem, many papers have shown that one would expect to achieve global convergence for the rank constrained optimization problem provided algorithms converge to a local minimum.
+(R. Salakhutdinov and A. Mnih. Probabilistic matrix factorization. In Advances in Neural Information Processing Systems, 2008.,
+T. Cai and W.-X. Zhou. A Max-Norm Constrained Minimization Approach to 1-Bit Matrix Completion. Journal of Machine Learning Research, 14:3619–3647, 2013.,
+Ge, R., Jin, C., & Zheng, Y. (2017, August). No spurious local minima in nonconvex low rank problems: A unified geometric analysis. In Proceedings of the 34th International Conference on Machine Learning-Volume 70 (pp. 1233-1242). JMLR. org.)
+
+In the line of those work, many studies try to show there is no spurious local minima in our tensor optimization problem.
+(Haeffele, B. D., & Vidal, R. (2015). Global optimality in tensor factorization, deep learning, and beyond. arXiv preprint arXiv:1506.07540.,
+Ge, R., & Ma, T. (2017). On the optimization landscape of tensor decompositions. In Advances in Neural Information Processing Systems (pp. 3653-3663).,
+Sanjabi, M., Baharlouei, S., Razaviyayn, M., & Lee, J. D. (2019). When Does Non-Orthogonal Tensor Decomposition Have No Spurious Local Minima?. arXiv preprint arXiv:1911.09815.
+). 
+Even though the optimization problems in those papers are the special case of our problem (for example assuming that factor matrices are identical or adding extra regularization term), they are giving us positive conjecture that our algorithm may succeed finding global minima.
+
+
 
