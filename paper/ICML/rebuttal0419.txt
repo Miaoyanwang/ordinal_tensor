@@ -14,7 +14,7 @@ We advocate the non-convex approach and provide strong evidence for its success 
 
 * Regarding the optimization
 
-We agree with the reviewer that MLE is computationally hard. While our main contributions lie in the aforementioned two aspects, we do provide useful results on optimization. We show that the alternating algorithm convergences to local optimums, and we prove (in Thm 4.1 and Supplements) that the local optimums with reasonably high objective suffice for accurate recovery. In practice, we find that the estimation is robust under randomized initialization, which resembles the `benign non-convexity’ phenomenon in literature. In special cases such as rank-1 or orthogonally decomposable tensors, we are able to leverage recent advances on optimization to obtain the asymptotical number of initializations for global guarantee, however, at the cost of more stringent assumptions on the underlying signal tensor. For this reason, we choose not to pursue this direction but leave framework general for the current work. 
+We agree with the reviewer that MLE is computationally hard. While our main contributions lie in the aforementioned two aspects, we do provide useful results on optimization. We show that the alternating algorithm convergences to local optimums, and we prove (in Thm 4.1 and Supplements) that the local optimums with reasonably high objective suffice for accurate recovery. In practice, we find that the estimation is robust under randomized initialization, which resembles the `benign non-convex’ phenomenon in literature. In special cases such as rank-1 or orthogonally decomposable tensors, we are able to leverage recent advances on optimization to obtain the asymptotical number of initializations for global guarantee, however, at the cost of more stringent assumptions on the underlying signal tensor. For this reason, we choose not to pursue this direction but leave framework general for the current work. 
 
 Tensor learning is a clear challenge for further research. We believe our work provides a (somewhat surprising) new idea for quantized tensor problem, and we obtain results that were previously difficult to establish. We hope the work open up new inquiry that allows more machine learning researchers to contribute to this field.
 
@@ -28,4 +28,4 @@ To Reviewer 5:
 * Difference to classical tensors
 See our response to reviewer 3 regarding `New challenges with non-classical observations'
 * rank-constrained MLE
-See our response to reviewer 3 regarding `New challenges with regularizeMLE'
+See our response to reviewer 3 regarding `New challenges with regularized MLE'
