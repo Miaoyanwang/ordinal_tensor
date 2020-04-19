@@ -22,7 +22,7 @@ To Reviewer 4:
 * Initialization of b
 We initialize b such that the each of the estimated categories has roughly equal size. Furthermore, multiple initializations are utilized and we choose the one that maximizes the objective. We find that such initialization strategy gives stable results in the simulations and the two applications considered. 
 * Computational costs
-We choose these two datasets for fair comparison because they were used in the previous work. We agree that applying to large datasets such as MovieLens would be interesting. In fact, our alternating approach lends itself well to this context. The sub-step for solving tensor factors could be paralleled and be boosted by fast algorithms such as stochastic gradient descent. We would be glad to include this application, space permitting.
+We choose these two datasets for fair comparison because they were used in the previous work. We agree that application to large datasets such as MovieLens would be interesting. In fact, our alternating approach lends itself well to this context. The sub-step for solving tensor factors could be paralleled and be boosted by fast algorithms such as stochastic gradient descent. We would be glad to include this application, space permitting.
 
 To Reviewer 5:
 * Difference to classical tensors
