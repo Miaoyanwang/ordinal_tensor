@@ -26,6 +26,6 @@ We choose these two datasets for fair comparison because they were used in the p
 
 To Reviewer 5:
 * Difference to classical tensors
-See our response to reviewer 3 regarding `New challenges with non-classical observations.'
+See our response to reviewer 3 regarding `New challenges with non-classical observations'
 * rank-constrained MLE
-See our response to reviewer 3 regarding `New challenges with regularizeMLE.'
+See our response to reviewer 3 regarding `New challenges with regularizeMLE'
