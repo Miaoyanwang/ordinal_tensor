@@ -147,7 +147,7 @@ A number of low-rank tensor estimation methods have been proposed~\citep{hong201
 Ordinal entries are categorical variables with an ordering among the categories; for example, {\it very like} $\prec$ {\it like} $\prec$ {\it neutral} $\prec \cdots$. The analyses of tensors with the ordinal entries are mainly complicated by two key properties needed for a reasonable model. First, the model should be invariant under a reversal of categories, say, from the Netflix example, {\it very like} $\succ$ {\it like} $\succ$ {\it neutral} $\succ \cdots$, but not under arbitrary label permutations. Second, the parameter interpretations should be consistent under merging or splitting of contiguous categories. The classical continuous tensor model~\cite{kolda2009tensor, ghadermarzy2019near} fails in the first aspect, whereas the binary tensor model~\cite{ghadermarzy2018learning} lacks the second property. An appropriate model for ordinal tensors has yet to be studied.
 
 \begin{table*}[ht]
-\centerline{\includegraphics[width=.98\textwidth]{compare.pdf}}
+\centerline{\includegraphics[width=1\textwidth]{compare.pdf}}
 \vspace{-.3cm}
 \caption{Comparison with previous work. For ease of presentation, we summarize the error rate and sample complexity assuming equal tensor dimension in all modes. $K$: tensor order; $L$: number of ordinal levels; $d$: dimension at each mode. }~\label{tab:compare}
 \vspace{-.7cm}
