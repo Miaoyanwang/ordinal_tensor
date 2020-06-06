@@ -18,10 +18,9 @@
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
 
 % Use the following line for the initial blind version submitted for review:
-\usepackage{icml2020}
 
 % If accepted, instead use the following line for the camera-ready submission:
-%\usepackage[accepted]{icml2020}
+\usepackage[accepted]{icml2020}
 
 % The \icmltitle you define below is probably too long as a header.
 % Therefore, a short form for the running title is supplied here:
@@ -108,11 +107,14 @@
 \icmlsetsymbol{equal}{*}
 
 \begin{icmlauthorlist}
-\icmlauthor{}{}
+\icmlauthor{Chanwoo Lee}{equal,wi}
+\icmlauthor{Miaoyan Wang}{equal,wi}
 \end{icmlauthorlist}
 
-\icmlaffiliation{}{}
-\icmlcorrespondingauthor{}{}
+\icmlaffiliation{wi}{Department of Statistics, University of Wisconsin - Madison, Wisconsin, USA}
+\icmlcorrespondingauthor{Chanwoo Lee}{chanwoo.lee@wisc.edu}
+\icmlcorrespondingauthor{Miaoyan Wang}{miaoyan.wang@wisc.edu}
+
 % You may provide any keywords that you
 % find helpful for describing your paper; these are used to populate
 % the "keywords" metadata in the PDF but will not be shown in the document
@@ -152,11 +154,11 @@ A number of low-rank tensor estimation methods have been proposed~\citep{kolda20
 \vspace{-.5cm}
 \end{table*}
 
-{\bf Our contribution.} This paper presents an efficient low-rank estimation method and theory for tensors with ordinal-valued entries. Our main contributions are summarized in Table~\ref{tab:compare}. We propose a cumulative link model for higher-order tensors, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. The mean squared error bound is established, and we show that the obtained bound has minimax optimal rate in high dimensions under the low-rank model. Our estimator enjoys a faster convergence rate $\tO(d^{-(K-1)/2})$ than $\tO(d^{-K})$ in~\citet{ghadermarzy2018learning}, which is a substantial improvement as the order $K$ increases. Furthermore, our proposal serves as an efficient completion algorithm that guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional low-rank tensor using only $\tilde \tO(Kd)$ noisy, quantized observations.
+{\bf Our contribution.} This paper presents an efficient low-rank estimation method and theory for tensors with ordinal-valued entries. Our main contributions are summarized in Table~\ref{tab:compare}. We propose a cumulative link model for higher-order tensors, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. We are among the first to establish the recovery theory for both signal tensor and the quantization operators from limited number of highly discrete entries. The mean squared error bound is established, and we show that the obtained bound has minimax optimal rate in high dimensions under the low-rank model. Furthermore, our proposal serves as an efficient completion algorithm that guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional low-rank tensor using only $\tilde \tO(Kd)$ noisy, quantized observations.
 
 {\bf Related work.} Our work is related to, but clearly distinctive from, several lines of existing literature. Matrix completion from quantized samples was firstly introduced for binary observations~\cite{cai2013max,davenport2014,bhaskar20151} and then extended to ordinal observations~\cite{bhaskar2016probabilistic}. As we show in Section~\ref{sec:theory}, applying existing matrix methods to an ordinal tensor results in a suboptimal estimator with a slower convergence rate. Therefore, a full exploitation of the tensor structure is necessary; this is the focus of the current paper.
 
-Our work is also connected to non-Gaussian tensor decomposition. Existing work focuses exclusively on univariate observations such as binary- or continuous-valued entries~\citep{wang2018learning,hong2018generalized,ghadermarzy2018learning}. As we mentioned earlier, the ordinal observations add considerable challenges to the model formulation. We address the problems from two perspectives. From statistical perspective, our proposed model generalizes the usual binary tensor model while preserving palindromic invariance~\cite{mccullagh1980regression} for ordinal observations. From algorithm perspective, our alternating optimization compares favorably to the approximate (non-convex) algorithm developed in the context of binary tensors~\cite{ghadermarzy2018learning}. We numerically compare the two approaches in Section~\ref{sec:experiment}.
+Our work is also connected to non-Gaussian tensor decomposition. Existing work focuses exclusively on univariate observations such as binary- or continuous-valued entries~\citep{wang2018learning,hong2018generalized,ghadermarzy2018learning}. As we mentioned earlier, the ordinal observations add considerable challenges to the model formulation. We address the problems from two perspectives. From statistical perspective, our proposed model generalizes the usual binary tensor model while preserving palindromic invariance~\cite{mccullagh1980regression} for ordinal observations. From algorithm perspective, we address regularized MLE with alternating optimization (Non-convex). The approximated (convex) algorithm is developed in the context of binary tensors~\cite{ghadermarzy2018learning}. However, we advocate our approach and provide strong evidence. We show the improvement of error bound from  $\tO(d^{-(K-1)/2})$ in~\citet{ghadermarzy2018learning} to $\tO(d^{-(K-1)})$  and numerically compare two approach.
 
 \vspace{-.2cm}
 \section{Preliminaries}
@@ -180,7 +182,7 @@ The formulation~\eqref{eq:model} imposes an additive model to the transformed pr
 \begin{equation}\label{eq:logodd}
 \log {\mathbb{P}(y_{\omega}\leq \ell) \over \mathbb{P}(y_\omega >  \ell) } - \log {\mathbb{P}(y_{\omega}\leq {\ell-1}) \over \mathbb{P}(y_\omega >  {\ell-1}) } = b_\ell-b_{\ell-1},
 \end{equation}
-for all tensor entries $y_\omega$. When there are only two categories in the observation space (e.g. binary tensors), the cumulative model~\eqref{eq:model} is equivalent to the usual multinomial link model. In general, however, when the number of categories $L\geq 3$, the proportional odds assumption~\eqref{eq:logodd} is more parsimonious, in that, the ordered categories can be envisaged as contiguous intervals on the continuous scale, where the points of division are exactly $b_1<\cdots <b_{L-1}$. This interpretation will be made more explicit in the next section.
+for all tensor entries $y_\omega$. When there are only two categories in the observation space (e.g. binary tensors), the cumulative model~\eqref{eq:model} is equivalent to the usual binomial link model. In general, however, when the number of categories $L\geq 3$, the proportional odds assumption~\eqref{eq:logodd} is more parsimonious, in that, the ordered categories can be envisaged as contiguous intervals on the continuous scale, where the points of division are exactly $b_1<\cdots <b_{L-1}$. This interpretation will be made more explicit in the next section.
 \vspace{-.1cm}
 \subsection{Latent-variable interpretation}\label{sec:latent}
 \vspace{-.1cm}
@@ -451,12 +453,12 @@ We also compare the methods by their performance in predicting the median label,
 \vspace{-.1cm}
 \section{Data Applications}
 \vspace{-.1cm}
-We apply our ordinal tensor method to two real-world datasets. In the first application, we use our model to analyze an ordinal tensor consisting of structural connectivities among 68 brain regions for 136 individuals from Human Connectome Project (HCP)~\citep{geddes2016human}. In the second application, we perform tensor completion to an ordinal dataset with missing values. The data tensor records the ratings on a scale of 1 to 5 from 42 users to 139 songs on 26 contexts~\citep{baltrunas2011incarmusic}.
+We apply our ordinal tensor method to two real-world datasets. In the first application, we use our model to analyze an ordinal tensor consisting of structural connectivities among 68 brain regions for 136 individuals from Human Connectome Project (HCP)~\citep{geddes2016human}. In the second application, we perform tensor completion to an ordinal dataset with missing values. The data tensor records the ratings of 139 songs on a scale of 1 to 5 from 42 users on 26 contexts~\citep{baltrunas2011incarmusic}.
 
 \vspace{-.1cm}
 \subsection{Human Connectome Project (HCP)}
 \vspace{-.1cm}
-Each entry in the HCP dataset takes value on a nominal scale, \{{\it high, moderate, low}\}, indicating the strength level of fiber connection. We convert the dataset to a 3-level ordinal tensor $\tY\in[3]^{68\times 68\times 136}$ and apply the ordinal tensor method with a logistic link function. The BIC suggests $\mr = (23,23,8)$ with $\logl(\hat{\Theta},\hat{\mb}) = -216,646$. Based on the estimated Tucker factors $\{\hat \mM_k\}$, we perform a clustering analysis via K-mean on the brain nodes (see detailed procedure in the Supplement). We find that the 68 brain nodes are grouped into 11 clusters, and the clustering captures the spatial separation of brain nodes very well (see the Supplement). In particular, the top three clusters represent the left, right and connection between two hemispheres; the smaller clusters represent local regions driving by similar nodes. For example, the cluster IV consists of nodes in the left supramarginal gyrus region. The identified similarity among brain nodes suggests the applicability of our method.
+Each entry in the HCP dataset takes value on a nominal scale, \{{\it high, moderate, low}\}, indicating the strength level of fiber connection. We convert the dataset to a 3-level ordinal tensor $\tY\in[3]^{68\times 68\times 136}$ and apply the ordinal tensor method with a logistic link function. The BIC suggests $\mr = (23,23,8)$ with $\logl(\hat{\Theta},\hat{\mb}) = -216,646$. Based on the estimated Tucker factors $\{\hat \mM_k\}$, we perform a clustering analysis via K-mean on the brain nodes (see detailed procedure in the Supplement). We find that the 68 brain nodes are grouped into 11 clusters, and the clustering captures the spatial separation of brain nodes (see the Supplement). In particular, the top three clusters represent the left, right and connection between two hemispheres; the smaller clusters represent local regions driving by similar nodes. For example, the cluster IV consists of nodes in the left supramarginal gyrus region. The identified similarity among brain nodes suggests the applicability of our method.
 
 We also compare the goodness-of-fit of various tensor methods on the HPC data. Table~\ref{table:CV} summarizes the prediction error via 5-fold stratified cross-validation averaged over 10 runs. Our method outperforms the others, especially in MAD.
 
@@ -490,7 +492,7 @@ Continuous-T & 2.39 (0.152)&0.94 (0.027)\\
 \vspace{-.1cm}
 \subsection{InCarMusic recommendation system}
 \vspace{-.1cm}
-We apply ordinal tensor completion to a recommendation system {\it InCarMusic}. {\it InCarMusic} is a mobile application that offers music recommendation to passengers of cars based on contexts~\cite{baltrunas2011incarmusic}. Our goal is to perform tensor completion to impute the unobserved entries in the $42\times 139\times 26$ ordinal tensor and thereby we can offer context-specific music recommendation to users. The data tensor consists of 2,884 observed entries. Table~\ref{table:CV} shows the averaged prediction error via 5-fold cross validation. The high missing rate makes the accurate classification challenging. Nevertheless, our method achieves the best performance among the three.
+We apply ordinal tensor completion to a recommendation system {\it InCarMusic}. {\it InCarMusic} is a mobile application that offers music recommendation to passengers of cars based on contexts~\cite{baltrunas2011incarmusic}. We conduct tensor completion on the $\tY\in[5]^{42\times139\times26}$ with only 2844 observed entries. Table~\ref{table:CV} shows the averaged prediction error via 5-fold cross validation. The high missing rate makes the accurate classification challenging. Nevertheless, our method achieves the best performance among the three.
 
 \vspace{-.2cm}
 \section{Conclusions}
