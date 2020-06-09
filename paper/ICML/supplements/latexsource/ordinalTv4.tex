@@ -169,16 +169,15 @@ Let $\tY\in\mathbb{R}^{d_1\times \cdots \times d_K}$ denote an order-$K$ $(d_1,\
 
 We use lower-case letters ($a, b, \ldots$) for scalars/vectors, upper-case boldface letters ($\mA, \mB,  \ldots$) for matrices, and calligraphy letters ($\tA,\tB,\ldots$) for tensors of order three or greater.  An event $A$ is said to occur ``with very high probability'' if $\mathbb{P}(A)$ tends to 1 faster than any polynomial of tensor dimension $d_{\min}=\min\{d_1,\ldots,d_K\} \to\infty$. The indicator function of an event $A$ is denoted as $\mathds{1}\{A\}$. For ease of notation, we allow basic arithmetic operators (e.g., $\leq, +, -$) to be applied to pairs of tensors in an element-wise manner. We use the shorthand $[n]$ to denote $\{1,\ldots,n\}$ for $n \in N_{+}$.
 
-\vspace{-.1cm}
+
 \section{Model formulation and motivation}
-\vspace{-.1cm}
 \subsection{Observation model}
 \vspace{-.1cm}
 Let $\tY$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional data tensor. Suppose the entries of $\tY$ are ordinal-valued, and the observation space consists of $L$ ordered levels, denoted by $[L]:=\{1,\ldots,L\}$. We propose a cumulative link model for the ordinal tensor $\tY=\entry{y_\omega}\in[L]^{d_1\times \cdots\times d_K}$. Specifically, assume the entries $y_\omega$ are (conditionally) independently distributed with cumulative probabilities:
 \begin{equation}\label{eq:model}
 \mathbb{P}(y_\omega\leq \ell)=f(b_\ell-\theta_\omega),\ \text{for all}\ \ell\in[L-1],
 \end{equation}
-where $\mb=(b_1,\ldots,b_{L-1})$ is a set of unknown scalars satisfying $b_1<\cdots <b_{L-1}$, $\Theta=\entry{\theta_\omega}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is a continuous-valued parameter tensor satisfying certain low-dimensional structure (to be specified later), and $f(\cdot):\mathbb{R}\mapsto[0,1]$ is a known, strictly increasing function. We refer to $\mb$ as the cut-off points and $f$ the link function.
+where $\mb=(b_1,\ldots,b_{L-1})$ is a set of unknown scalars satisfying $b_1<\cdots <b_{L-1}$, $\Theta=\entry{\theta_\omega}\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is a continuous-valued parameter tensor satisfying certain low-dimensional structure (to be specified later), and $f(\cdot)\colon \mathbb{R}\mapsto[0,1]$ is a known, strictly increasing function. We refer to $\mb$ as the cut-off points and $f$ the link function.
 
 The formulation~\eqref{eq:model} imposes an additive model to the transformed probability of cumulative categories. This modeling choice is to respect the ordering structure among the categories. For example, if we choose the inverse link $f^{-1}(x)=\log {x\over 1-x}$ to be the log odds, then the model~\eqref{eq:model} implies linear spacing between the proportional odds:
 \begin{equation}\label{eq:logodd}
@@ -186,9 +185,9 @@ The formulation~\eqref{eq:model} imposes an additive model to the transformed pr
 \end{equation}
 for all tensor entries $y_\omega$. When there are only two categories in the observation space (e.g. binary tensors), the cumulative model~\eqref{eq:model} is equivalent to the usual binomial link model. In general, however, when the number of categories $L\geq 3$, the proportional odds assumption~\eqref{eq:logodd} is more parsimonious, in that, the ordered categories can be envisaged as contiguous intervals on the continuous scale, where the points of division are exactly $b_1<\cdots <b_{L-1}$. This interpretation will be made more explicit in the next section.
 
-\vspace{-.1cm}
+
 \subsection{Latent-variable interpretation}\label{sec:latent}
-\vspace{-.1cm}
+
 
 The ordinal tensor model~\eqref{eq:model} with certain types of link $f$ has the equivalent representation as an $L$-level quantization model on $\tY=\entry{y_\omega}$:
 \begin{equation}\label{eq:quantization}
@@ -227,7 +226,6 @@ The link function is assumed to satisfy:
 \end{assumption}
 
 \subsection{Problem 1: Tensor denoising}~\label{sec:denoising}
-\vspace{-.1cm}
 The first question we aim to address is tensor denoising:
 
 (P1) Given the quantization process induced by $f$ and the cut-off points $\mb$, how accurately can we estimate the latent signal tensor $\Theta$ from the ordinal observation $\tY$?
@@ -490,7 +488,7 @@ Continuous-T & 2.39 (0.152)&0.94 (0.027)\\
 We apply ordinal tensor completion to a recommendation system {\it InCarMusic}. {\it InCarMusic} is a mobile application that offers music recommendation to passengers of cars based on contexts~\cite{baltrunas2011incarmusic}. We conduct tensor completion on the 42-by-139-by-26 tensor with 2,844 observed entries only. Table~\ref{table:CV} shows the averaged prediction error via 5-fold cross validation. The high missing rate makes the accurate classification challenging. Nevertheless, our method achieves the best performance among the three.
 
 \section{Conclusions}
-We have developed a low-rank tensor estimation method based on possibly incomplete, ordinal-valued observations. A sharp error bound is established, and we demonstrate the outperformance of our approach compared to other methods. The work unlocks several directions of future research. One interesting question would be the inference problem, i.e.,\ to assess the uncertainty of the obtained estimates and the imputation. Other directions include the trade-off between (non)convex optimization and statistical/computational efficiency. While we have provided numerical evidence for the success of nonconvex approach, the full landscape of the optimization remains open. The interplay between computational efficiency and statistical accuracy in general tensor problems warrants future research.
+We have developed a low-rank tensor estimation method based on possibly incomplete, ordinal-valued observations. A sharp error bound is established, and we demonstrate the outperformance of our approach compared to other methods. The work unlocks several directions of future research. One interesting question would be the inference problem, i.e.,\ to assess the uncertainty of the obtained estimates and the imputation. Other directions include the trade-off between (non)convex optimization and statistica efficiency. While we have provided numerical evidence for the success of nonconvex approach, the full landscape of the optimization remains open. The interplay between computational efficiency and statistical accuracy in general tensor problems warrants future research.
 
 \newpage
 \section*{Acknowledgements}
