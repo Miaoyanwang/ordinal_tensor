@@ -981,7 +981,7 @@ C_{\alpha,\beta,\Delta}&=\max_{|z|\leq \alpha+\beta}\max_{\substack{z'\leq z-\De
 D_{\alpha,\beta,\Delta}&=\min_{|z|\leq \alpha+\beta}\frac{e^{-z}}{(1+e^{-z})^2}>0.\end{align}
 \end{rmk}
 \begin{thm}[Statistical convergence with unknown $\mb$]\label{thm:ratejoint}
-Consider an ordinal tensor $\tY\in[L]^{d_1\times \cdots \times d_K}$ generated from model~\eqref{eq:model} with the link function $f$ and parameters $(\trueT, \trueb)\in\tP\times \tB$. Suppose the link function $f$ satisfies Assumption~\ref{ass:joint}. Define $r_{\max}=\max_k r_k$, and assume $r_{\max}=\tO(1)$. 
+Consider an ordinal tensor $\tY\in[L]^{d_1\times \cdots \times d_K}$ generated from model~\eqref{eq:model} with the link function $f$ and parameters $(\trueT, \trueb)\in\tP\times \tB$. Suppose the link function $f$ satisfies Assumption~\ref{ass:joint}. Define $r_{\max}=\max_k r_k+1$, and assume $r_{\max}=\tO(1)$. 
 
 Then with very high probability, the estimator in~\eqref{eq:joint} satisfies
 \begin{equation}\label{eq:scoreZ}
@@ -1098,7 +1098,7 @@ Therefore, we have
 \geq{\min_{\ell}(n_\ell+n_{\ell+1})\over (1+{\alpha^2\over c\Delta^2})d_{\text{total}}}\notag\\
 &\geq {2A_{\alpha,\beta,\Delta}\over 1+{\alpha^2\over c\Delta^2}}\quad \text{in high probability as $d_{\min}\to \infty$}. 
 \end{align}
-The second inequality in \eqref{eq:negativeH} is from the condition that 
+The second inequality in \eqref{eq:negativeH} is from the conditions that 
 \[
 \sum_{\omega}\theta_\omega^2\in [0,\ \alpha^2 d_{\text{total}}]\quad \text{and}\quad \sum_\ell b_\ell^2 \in[c L_{\text{total}}\Delta^2,\  L_{\text{total}}\beta^2],
 \]
@@ -1171,7 +1171,7 @@ In particular, cluster I represents the connection between the left and right he
 \begin{figure}[H]
 \centering
 \includegraphics[width = .7\textwidth]{HCP.pdf}
-\caption{Top three clusters in the HCP analysis. (a) Cluster I reflects the connections between two brain hemispheres. (b)-(c) Cluster II/III consists of nodes within left/right hemisphere only. Node name are shown in abbreviation. Edges are colored based on predicted connection level averaged across individuals. }  \label{figure:brain image}
+\caption{Top three clusters in the HCP analysis. (a) Cluster I reflects the connections between two brain hemispheres. (b)-(c) Cluster II/III consists of nodes within left/right hemisphere only. Node names are shown in abbreviation. Edges are colored based on predicted connection level averaged across individuals. }  \label{figure:brain image}
 \end{figure}
 
 
