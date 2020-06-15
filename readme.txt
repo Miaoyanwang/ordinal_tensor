@@ -7,5 +7,5 @@ This folder contains software, code, paper for the ordinal tensor estimation/com
 4. data analysis and simulation code: data analysis/
 
 To-to after the conference:
-1. replace the arxiv reference in the R package
-2. upload the arxiv paper and add the journal reference
+1. submit the R package to CRAN package with journal reference. 
+2. submit the arxiv paper with journal reference.
