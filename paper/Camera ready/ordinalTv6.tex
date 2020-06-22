@@ -7,7 +7,7 @@
 \usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{booktabs} % for professional tables
-
+\usepackage{caption}
 % hyperref makes hyperlinks in the resulting PDF.
 % If your build breaks (sometimes temporarily if a hyperlink spans a page)
 % please comment out the following usepackage line and replace
@@ -146,9 +146,7 @@ Ordinal entries are categorical variables with an ordering among the categories;
 
 \begin{table*}[ht]
 \centerline{\includegraphics[width=1\textwidth]{compare.pdf}}
-\vspace{-.3cm}
-\caption{Comparison with previous work. For ease of presentation, we summarize the error rate and sample complexity assuming equal tensor dimension in all modes. $K$: tensor order; $L$: number of ordinal levels; $d$: dimension at each mode. }~\label{tab:compare}
-\vspace{-.7cm}
+\caption{Comparison with previous work. For ease of presentation, we summarize the error rate and sample complexity assuming equal tensor dimension in all modes. $K$: tensor order; $L$: number of ordinal levels; $d$: dimension at each mode. }\label{tab:compare}
 \end{table*}
 
 {\bf Our contributions.} We are among the first to establish the recovery theory for signal tensors and quantization operators simultaneously from a limited number of highly discrete entries. Our main contributions are summarized in Table~\ref{tab:compare}. We propose a cumulative link model for higher-order tensors, develop a rank-constrained M-estimator, and obtain theoretical accuracy guarantees. The mean squared error bound is established, and we show that the obtained bound has minimax optimal rate in high dimensions under the low-rank model. Furthermore, our proposal guarantees consistent recovery of an order-$K$ $(d,\ldots,d)$-dimensional low-rank tensor using only $\tilde \tO(Kd)$ noisy, quantized observations.
@@ -170,7 +168,6 @@ We use lower-case letters ($a, b, \ldots$) for scalars/vectors, upper-case boldf
 
 \section{Model formulation and motivation}
 \subsection{Observation model}
-\vspace{-.1cm}
 Let $\tY$ denote an order-$K$ $(d_1,\ldots,d_K)$-dimensional data tensor. Suppose the entries of $\tY$ are ordinal-valued, and the observation space consists of $L$ ordered levels, denoted by $[L]:=\{1,\ldots,L\}$. We propose a cumulative link model for the ordinal tensor $\tY=\entry{y_\omega}\in[L]^{d_1\times \cdots\times d_K}$. Specifically, assume the entries $y_\omega$ are (conditionally) independently distributed with cumulative probabilities:
 \begin{equation}\label{eq:model}
 \mathbb{P}(y_\omega\leq \ell)=f(b_\ell-\theta_\omega),\ \text{for all}\ \ell\in[L-1],
@@ -188,18 +185,18 @@ for all tensor entries $y_\omega$. When there are only two categories in the obs
 
 
 The ordinal tensor model~\eqref{eq:model} with certain types of link $f$ has the equivalent representation as an $L$-level quantization model on $\tY=\entry{y_\omega}$:
-\begin{equation}\label{eq:quantization}
-y_\omega=\sum_{\ell\in[L]} \ell \mathds{1}\{y^*_\omega \in(b_{\ell-1},b_\ell]\},\ \forall \ \omega\in[d_1]\times \cdots \times [d_k],
-\end{equation}
-%y_\omega&=
-%\begin{cases}
-%1,& \text{if $y^*_\omega\in(-\infty, b_1]$},\\
-%2,& \text{if $y^*_\omega\in(b_1, b_2]$},\\
-%\vdots  &\vdots\\
-%L,& \text{if $y^*_\omega\in(b_{L-1}, \infty)$},\\
-%\end{cases}
+\begin{align}\label{eq:quantization}
+%y_\omega=\sum_{\ell\in[L]} \ell \mathds{1}\{y^*_\omega \in(b_{\ell-1},b_\ell]\},\ \forall \ \omega\in[d_1]\times \cdots \times [d_k],
 %\end{equation}
-where we define $b_0=-\infty$ and $b_L=\infty$. Here, $\tY^*=\entry{y^*_\omega}$ is a latent continuous-valued tensor following an additive noise model:
+y_\omega&=
+\begin{cases}
+1,& \text{if $y^*_\omega\in(-\infty, b_1]$},\\
+2,& \text{if $y^*_\omega\in(b_1, b_2]$},\\
+\vdots  &\vdots\\
+L,& \text{if $y^*_\omega\in(b_{L-1}, \infty)$},\\
+\end{cases}
+\end{align}
+for all $\omega\in[d_1]\times \cdots \times [d_k]$. Here, $\tY^*=\entry{y^*_\omega}$ is a latent continuous-valued tensor following an additive noise model:
 \begin{align}\label{eq:latent}
 \KeepStyleUnderBrace{\tY^*}_{\text{latent continuous-valued tensor}}=\KeepStyleUnderBrace{\Theta}_{\text{signal tensor}}+\KeepStyleUnderBrace{\tE}_{\text{i.i.d.\ noise}},
 \end{align}
@@ -252,7 +249,6 @@ The answer to (P2) depends on the choice of $\Omega$. We consider a general mode
 We consider the same parameter space~\eqref{eq:space} for the completion problem. In addition to the reasons mentioned in Section~\ref{sec:denoising}, the entrywise bound assumption also serves as the incoherence requirement for completion. In classical matrix completion, the incoherence is often imposed on the singular vectors. This assumption is recently relaxed for ``flat'' matrices with bounded magnitude~\cite{negahban2011estimation,cai2013max,bhaskar20151}. We adopt the same assumption for higher-order tensors.
 
 \section{Rank-constrained M-estimator}\label{sec:theory}
-\vspace{-.1cm}
 We present a general treatment to both problems mentioned above. With a little abuse of notation, we use $\Omega$ to denote either the full index set $\Omega=[d_1]\times \cdots \times [d_K]$ (for the tensor denoising) or a random subset induced from the sampling distribution $\Pi$ (for the tensor completion). Define $b_0=-\infty$, $b_L=\infty$, $f(-\infty)=0$ and $f(\infty)=1$. The log-likelihood associated with the observed entries is
 \begin{align}\label{eq:objective}
 \logl(\Theta, \mb)&=\sum_{\omega\in\Omega}\sum_{\ell\in[L]} \Big\{\mathds{1}\{y_\omega=\ell\} \log \big[f(b_\ell-\theta_\omega)- \notag \\
@@ -274,7 +270,6 @@ where $\dot{g}(\theta)=dg(\theta)/d\theta$, and $\alpha$ is the entrywise bound 
 
 
 \subsection{Estimation error for tensor denoising}\label{sec:denosing}
-\vspace{-.1cm}
 For the tensor denoising problem, we assume that the full set of tensor entries are observed. We assess the estimation accuracy using the mean squared error (MSE):
 \[
 \text{MSE}(\hat \Theta, \trueT)={1\over \prod_k d_k}\FnormSize{}{\Theta-\trueT}^2.
@@ -382,13 +377,9 @@ We comment on two implementation details before concluding this section. First, 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=8cm]{algorithm.pdf}\label{fig:stability}
-\vspace{-.2cm}
-\caption{Trajectory of objective function with various $d$ and $r$.}
-\vspace{-.2cm}
+\includegraphics[width=8cm]{algorithm.pdf}
+\caption{Trajectory of objective function with various $d$ and $r$.}\label{fig:stability}
 \end{figure}
-
-
 
 Second, the algorithm takes the rank $\mr$ as an input. In practice, the rank $\mr$ is hardly known and needs to be estimated from the data. We suggest to use Bayesian information criterion (BIC) and choose the rank that minimizes BIC; i.e.
 \begin{align}\label{eq:BIC}
@@ -399,7 +390,7 @@ where $\hat \Theta(\mr), \hat\mb(\mr)$ are the estimates given the rank $\mr$, a
 
 
 \section{Experiments}\label{sec:experiment}
-In this section, we evaluate the empirical performance of our methods\footnote{Software:  https://CRAN.R-project.org/package=tensorordinal}. We investigate both the complete and the incomplete settings, and compare the recovery accuracy with other tensor-based methods. Unless otherwise stated, the ordinal data tensors are generated from model~\eqref{eq:model} using standard probit link $f$. We consider the setting with $K=3$, $d_1=d_2=d_3=d$, and $r_1=r_2=r_3=r$. The parameter tensors are simulated based on~\eqref{eq:Tucker}, where the core tensor entries are i.i.d.\ drawn from $\tN(0,1)$, and the factors $\mM_k$ are uniformly sampled (with respect to Haar measure) from matrices with orthonormal columns. We set the cut-off points $b_\ell=f^{-1}(\ell/L)$ for $\ell\in[L]$, such that $f(b_\ell)$ are evenly spaced from 0 to 1. In each simulation study, we report the summary statistics across $n_{\text{sim}}$ = 30 replications. 
+In this section, we evaluate the empirical performance of our methods\footnote{Software package: \url{https://CRAN.R-project.org/package=tensorordinal}}. We investigate both the complete and the incomplete settings, and compare the recovery accuracy with other tensor-based methods. Unless otherwise stated, the ordinal data tensors are generated from model~\eqref{eq:model} using standard probit link $f$. We consider the setting with $K=3$, $d_1=d_2=d_3=d$, and $r_1=r_2=r_3=r$. The parameter tensors are simulated based on~\eqref{eq:Tucker}, where the core tensor entries are i.i.d.\ drawn from $\tN(0,1)$, and the factors $\mM_k$ are uniformly sampled (with respect to Haar measure) from matrices with orthonormal columns. We set the cut-off points $b_\ell=f^{-1}(\ell/L)$ for $\ell\in[L]$, such that $f(b_\ell)$ are evenly spaced from 0 to 1. In each simulation study, we report the summary statistics across $n_{\text{sim}}$ = 30 replications. 
 
 
 \subsection{Finite-sample performance}\label{sec:simulation}
@@ -409,16 +400,14 @@ The second experiment investigates the incomplete observations. We consider $L$-
 
 \begin{figure}[http]
 \includegraphics[width=8.3cm]{panel.pdf}
-\vspace{-.2cm}
 \caption{Empirical relationship between (relative) MSE versus (a) dimension $d$, (b) signal level $\alpha$, (c) observation fraction $\rho$, and (d) number of ordinal levels $L$. In panels (b)-(d), we plot the relative MSE $=\FnormSize{}{\hat \Theta-\trueT}^2/\FnormSize{}{\trueT}^2$ for better visualization.}
 \label{fig:finite}
 \vspace{-.3cm}
 \end{figure}
 
-
+\vspace{-.2cm}
 \subsection{Comparison with alternative methods}
 Next, we compare our ordinal tensor method ({\bf Ordinal-T}) with three popular low-rank methods:
-
 \begin{itemize}[itemsep=0pt,topsep=0pt,leftmargin=*,partopsep=0pt]
 \item Continuous tensor decomposition ({\bf Continuous-T})~\cite{acar2010scalable} is a low-rank approximation method based on classical Tucker model.
 \item One-bit tensor completion ({\bf 1bit-T})~\cite{ghadermarzy2018learning} is a max-norm penalized tensor learning method based on partial binary observations.
@@ -435,25 +424,51 @@ Figure~\ref{fig:compare} compares the prediction accuracy under the setting $\al
 Figures~\ref{fig:compare}c-d assess the prediction accuracy with sample size. We see a clear advantage of our method ({\bf Ordinal-T}) over the matricization ({\bf Ordinal-M}) in both complete and non-complete observations. When the observation fraction is small, e.g., ${|\Omega|/ d^K}=0.4$, the tensor-based completion shows $\sim$ 30\% reduction in error compared to the matricization.
 
 
-\begin{figure}[t]
+\begin{figure}[http]
 \includegraphics[width=8.3cm]{panel2.pdf}
+\caption{Performance comparison for predicting most likely labels. (a, c) Prediction errors versus sample complexity $\rho=|\Omega|/d^K$ when $L=5$. (b, d) Prediction errors versus the number of ordinal levels $L$ when $\rho=0.8$. }\label{fig:compare}
 \vspace{-.4cm}
-\caption{Performance comparison in MCR (a, b) and MAD (c, d). (b, d) Prediction errors versus the number of ordinal levels $L$ when $\rho=0.8$. (a, c) Prediction errors versus sample complexity $\rho=|\Omega|/d^K$ when $L=5$. }\label{fig:compare}
+\end{figure}
+
+\begin{figure}[http]
+\includegraphics[width=8.3cm]{panel3.pdf}
+\caption{Performance comparison for predicting median labels. (a, c) Prediction error versus sample complexity $\rho=|\Omega|/d^K$ when $L=5$. (b, d) Prediction error versus the number of ordinal levels $L$, when $\rho=0.8.$}\label{fig:compare2}
 \vspace{-.4cm}
 \end{figure}
 
 
-We also compare the methods by their performance in predicting the median labels, $y_\omega^{\text{median}}=\min\{\ell\colon\mathbb{P}(y_\omega=\ell)\geq 0.5\}$. Under the latent variable model~\eqref{eq:latent} and Assumption~\ref{ass:link}, the median label is the quantized $\theta_\omega$ without noise; i.e.\ $y_\omega^{\text{median}}=\sum_\ell \mathds{1}\{\theta_\omega\in(b_{\ell-1},b_\ell]\}$. Similar results show the outperformance of our method (see the Supplement).
+We also compare the methods by their performance in predicting the median labels, $y_\omega^{\text{median}}=\min\{\ell\colon\mathbb{P}(y_\omega=\ell)\geq 0.5\}$. Under the latent variable model~\eqref{eq:latent} and Assumption~\ref{ass:link}, the median label is the quantized $\theta_\omega$ without noise; i.e.\ $y_\omega^{\text{median}}=\sum_\ell \mathds{1}\{\theta_\omega\in(b_{\ell-1},b_\ell]\}$.
+ We utilize the same simulation setting as in the earlier experiment. Figure~\ref{fig:compare2} shows that our method outperforms the others in both MCR and MAD. The improved accuracy comes from the incorporation of multilinear low-rank structure, multi-level observations, and the ordinal structure. Interestingly, the median estimator tends to yield smaller MAD than the mode estimator, $\text{MAD}(\tY^{\text{median}}, \hat \tY^{\text{median}})\leq \text{MAD}(\tY^{\text{mode}}, \hat \tY^{\text{mode}})$  (Figures~\ref{fig:compare}a-b vs.\ Figures~\ref{fig:compare2}a-b), for the three multilevel methods ({\bf 1bit-sign-T}, {\bf Ordinal-M}, and {\bf Ordinal-T}). The mode estimator, on the other hand, tends to yield smaller MCR than the median estimator, $\text{MCR}(\tY^{\text{mode}}, \hat \tY^{\text{mode}})\leq\text{MCR}(\tY^{\text{median}}, \hat \tY^{\text{median}})$ (Figures~\ref{fig:compare}c-d vs.\ Figures~\ref{fig:compare2}c-d). This tendency is from the property that the median estimator $\hat y^{(\text{median})}_\omega$ minimizes $R_1(z)=\mathbb{E}_{y_\omega}|y_\omega-z|$, whereas the mode estimator $\hat y^{(\text{mode})}_\omega $ minimizes $R_2(z)=\mathbb{E}_{y_\omega}\mathds{1}\{y_\omega=z\}$. Here the expectation is over the categorical distribution of $y_\omega$ given parameters $\hat \Theta$ and $\hat \mb$.
+
 
 
 \section{Data Applications}
 We apply our ordinal tensor method to two real-world datasets. In the first application, we use our model to analyze an ordinal tensor consisting of structural connectivities among 68 brain regions for 136 individuals from Human Connectome Project (HCP)~\citep{geddes2016human}. In the second application, we perform tensor completion to an ordinal dataset with missing values. The data tensor records the ratings of 139 songs on a scale of 1 to 5 from 42 users on 26 contexts~\citep{baltrunas2011incarmusic}.
 
+\begin{table*}[http]
+\includegraphics[width=1\textwidth]{HCPtable.pdf}
+\vspace{-.7cm}
+\caption{Node clusters in the HCP analysis. The first alphabet in the node name indicates the left (L) or right (R) hemisphere. The number in the parentheses indicates the node count in each cluster. }  \label{table:clustering}
+\vspace{-.4cm}
+\end{table*}
 
 \subsection{Human Connectome Project (HCP)}
-Each entry in the HCP dataset takes value on a nominal scale, \{{\it high, moderate, low}\}, indicating the strength level of fiber connection. We convert the dataset to a 3-level ordinal tensor $\tY\in[3]^{68\times 68\times 136}$ and apply the ordinal tensor method with a logistic link function. The BIC suggests $\mr = (23,23,8)$ with $\logl(\hat{\Theta},\hat{\mb}) = -216,646$. Based on the estimated Tucker factors $\{\hat \mM_k\}$, we perform a clustering analysis via K-mean on the brain nodes (see detailed procedure in the Supplement). We find that the 68 brain nodes are grouped into 11 clusters, and the clustering captures the spatial separation of brain nodes (see the Supplement). In particular, the top three clusters represent the connections in the left-, right-, and inter-hemispheres; the smaller clusters represent local regions driving by similar nodes. For example, the cluster IV consists of nodes in the left supramarginal gyrus region. The identified similarity among brain nodes suggests the applicability of our method.
+Each entry in the HCP dataset takes value on a nominal scale, \{{\it high, moderate, low}\}, indicating the strength level of fiber connection. We convert the dataset to a 3-level ordinal tensor $\tY\in[3]^{68\times 68\times 136}$ and apply the ordinal tensor method with a logistic link function. The BIC suggests $\mr = (23,23,8)$ with $\logl(\hat{\Theta},\hat{\mb}) = -216,646$. Based on the estimated Tucker factors $\{\hat \mM_k\}$, we perform a clustering analysis via K-mean on the brain nodes (see detailed procedure in the Supplement). We find that the clustering successfully captures the spatial separation between brain regions (Table~\ref{table:clustering}).
+In particular, cluster I represents the connection between the left and right hemispheres, whereas clusters II-III represent the connection within each of the half brains (Figure~\ref{figure:brain image}). Other smaller clusters represent local regions driving by similar nodes (Table~\ref{table:clustering}). For example, the cluster IV/VII consists of nodes in the supramarginal gyrus region in the left/right hemisphere. This region is known to be involved in visual word recognition and reading~\citep{stoeckel2009supramarginal}. The identified similarities among nodes without external annotations illustrate the applicability of our method to clustering analysis.
 
-We also compare the goodness-of-fit of various tensor methods on the HPC data. Table~\ref{table:CV} summarizes the prediction error via 5-fold stratified cross-validation averaged over 10 runs. Our method outperforms the others, especially in MAD.
+
+\begin{figure}[http]
+\centering
+\includegraphics[width = .5\textwidth]{HCP.pdf}
+\caption{Top three clusters in the HCP analysis. (a) Cluster I reflects the connections between two brain hemispheres. (b)-(c) Cluster II/III consists of nodes within left/right hemisphere only. Node names are shown in abbreviation. Edges are colored based on estimated connection averaged across individuals. }  \label{figure:brain image}
+\vspace{-.2cm}
+\end{figure}
+
+We acompare the goodness-of-fit of various tensor methods on the HPC data. Table~\ref{table:CV} summarizes the prediction error via 5-fold stratified cross-validation averaged over 10 runs. Our method outperforms the others, especially in MAD.
+
+\subsection{InCarMusic recommendation system}
+
+We apply ordinal tensor completion to a recommendation system {\it InCarMusic}. {\it InCarMusic} is a mobile application that offers music recommendation to passengers of cars based on contexts~\cite{baltrunas2011incarmusic}. We conduct tensor completion on the 42-by-139-by-26 tensor with 2,844 observed entries only. Table~\ref{table:CV} shows the averaged prediction error via 5-fold cross validation. The high missing rate makes the accurate classification challenging. Nevertheless, our method achieves the best performance among the three.
 
 \begin{table}[http]
 \resizebox{.48\textwidth}{!}{
@@ -477,13 +492,10 @@ Continuous-T & 2.39 (0.152)&0.94 (0.027)\\
 \hline
 \end{tabular}
 }
-\vspace{-.2cm}
 \caption{Comparison of prediction error in the HPC and InCarMusic analyses. Standard errors are reported in parentheses.}\label{table:CV}
-\vspace{-.3cm}
 \end{table}
 
-\subsection{InCarMusic recommendation system}
-We apply ordinal tensor completion to a recommendation system {\it InCarMusic}. {\it InCarMusic} is a mobile application that offers music recommendation to passengers of cars based on contexts~\cite{baltrunas2011incarmusic}. We conduct tensor completion on the 42-by-139-by-26 tensor with 2,844 observed entries only. Table~\ref{table:CV} shows the averaged prediction error via 5-fold cross validation. The high missing rate makes the accurate classification challenging. Nevertheless, our method achieves the best performance among the three.
+
 
 \section{Conclusions}
 We have developed a low-rank tensor estimation method based on possibly incomplete, ordinal-valued observations. A sharp error bound is established, and we demonstrate the outperformance of our approach compared to other methods. The work unlocks several directions of future research. One interesting question would be the inference problem, i.e.,\ to assess the uncertainty of the obtained estimates and the imputation. Other directions include the trade-off between (non)convex optimization and statistical efficiency. While we have provided numerical evidence for the success of nonconvex approach, the full landscape of the optimization remains open. The interplay between computational efficiency and statistical accuracy in general tensor problems warrants future research.
@@ -698,8 +710,8 @@ This section collects lemmas that are useful for the proofs of the main theorems
 \begin{defn}[Atomic M-norm~\citep{ghadermarzy2019near}]
 Define $T_{\pm}=\{\tT\in\{\pm 1 \}^{d_1\times \cdots \times d_K}\colon \text{rank}(\tT)=1\}$. The atomic M-norm of a tensor $\Theta\in\mathbb{R}^{d_1\times \cdots \times d_K}$ is defined as
 \begin{align}
-\anormSize{}{\Theta}&=\inf\{t>0: \Theta\in t\text{conv}(T_{\pm})\}\\
-&=\inf\left\{\sum_{\tX\in T_{\pm}}c_x\colon \Theta=\sum_{\tX\in T_{\pm}} c_x\tX, \ c_x>0\right\}.
+\anormSize{}{\Theta}&=\inf\{t>0\colon \Theta\in t\text{conv}(T_{\pm})\}\\
+&=\inf\left\{\sum_{\tX\in T_{\pm}}c_{\tX} \colon\ \Theta=\sum_{\tX\in T_{\pm}} c_{\tX}\tX, \ c_{\tX}>0\right\}.
 \end{align}
 \end{defn}
 
@@ -1126,18 +1138,6 @@ The MSEs for $\hat \Theta$ and $\hat \mb$ readily follow from~\eqref{eq:decomp}.
 
 
 
-\section{Additional results on simulations}
-We also compare the methods by their performance in predicting the median labels, $y_\omega^{\text{median}}=\min\{\ell\colon\mathbb{P}(y_\omega=\ell)\geq 0.5\}$. Under the latent variable model~\eqref{eq:latent} and Assumption~\ref{ass:link}, the median label is the quantized $\theta_\omega$ without noise; i.e.\ $y_\omega^{\text{median}}=\sum_\ell \mathds{1}\{\theta_\omega\in(b_{\ell-1},b_\ell]\}$.
- We utilize the same simulation setting as in the earlier experiment. Figure~\ref{fig:compare2} shows that our method outperforms the others in both MCR and MAD. The improved accuracy comes from the incorporation of multilinear low-rank structure, multi-level observations, and the ordinal structure. Interestingly, the median estimator tends to yield smaller MAD than the mode estimator, $\text{MAD}(\tY^{\text{median}}, \hat \tY^{\text{median}})\leq \text{MAD}(\tY^{\text{mode}}, \hat \tY^{\text{mode}})$  (Figures~\ref{fig:compare}a-b vs.\ Figures~\ref{fig:compare2}a-b), for the three multilevel methods ({\bf 1bit-sign-T}, {\bf Ordinal-M}, and {\bf Ordinal-T}). The mode estimator, on the other hand, tends to yield smaller MCR than the median estimator, $\text{MCR}(\tY^{\text{mode}}, \hat \tY^{\text{mode}})\leq\text{MCR}(\tY^{\text{median}}, \hat \tY^{\text{median}})$ (Figures~\ref{fig:compare}c-d vs.\ Figures~\ref{fig:compare2}c-d). This tendency is from the property that the median estimator $\hat y^{(\text{median})}_\omega$ minimizes $R_1(z)=\mathbb{E}_{y_\omega}|y_\omega-z|$, whereas the mode estimator $\hat y^{(\text{mode})}_\omega $ minimizes $R_2(z)=\mathbb{E}_{y_\omega}\mathds{1}\{y_\omega=z\}$. Here the expectation is over the categorical distribution of $y_\omega$ given parameters $\hat \Theta$ and $\hat \mb$.
-
-\begin{figure}[ht]
-\begin{center}
-\includegraphics[width=.55\textwidth]{panel3.pdf}
-\end{center}
-\caption{Performance comparison for predicting median labels. (a, c) Prediction error versus sample complexity $\rho=|\Omega|/d^K$ when $L=5$. (b, d) Prediction error versus the number of ordinal levels $L$, when $\rho=0.8.$}\label{fig:compare2}
-\end{figure}
-
-
 
 \section{Additional explanations of HCP analysis}\label{sec:additionalHCP}
 We perform clustering analyses based on the Tucker representation of the estimated signal tensor $\hat\Theta$. The procedure is motivated from the higher-order extension of Principal Component Analysis (PCA) or Singular Value Decomposition (SVD). Recall that, in the matrix case, we perform clustering on an $m\times n$ (normalized) matrix $\mX$ based on the following procedure. First, we factorize $X$ into
@@ -1157,8 +1157,8 @@ where $\hat \tC\in\mathbb{R}^{r_1\times \cdots \times r_K}$ is the estimated cor
 \end{equation}
 where $\hat \Theta_{(k)} , \hat \tC_{(k)}$ denote the mode-$k$ unfolding of $\hat \Theta$ and $\hat \tC$, respectively. We conduct clustering on this  the mode-$k$ unfolded signal tensor. We take columns in $\left(\hat \mM_K\otimes\cdots\otimes\hat \mM_1\right)$ as principal axes and rows in $\hat \mM_k\hat \tC_{(k)}$ as principal components. Then, we apply $K$-means clustering method to the $d_k$ rows of the matrix $\hat \mM_k\hat \tC_{(k)}$.
 
-We perform a clustering analysis on the 68 brain nodes using the procedure described above. Our ordinal tensor method outputs the estimated parameter tensor $\hat\Theta\in\mathbb{R}^{68\times 68\times136}$ with rank $(23,23,8)$. We apply $K$-means to the mode-1 principal component matrix of size $68\times 184$ ($184=23\times8$). The elbow method suggests 11 clusters among the 68 nodes (see Figure~\ref{figure:elbow}). We find that the clustering successfully captures the spatial separation between brain regions (Table~\ref{table:clustering}).
-In particular, cluster I represents the connection between the left and right hemispheres, whereas clusters II-III represent the connection within each of the half brains (Figure~\ref{figure:brain image}). Other smaller clusters represent local regions driving by similar nodes (Table~\ref{table:clustering}). For example, the cluster IV/VII consists of nodes in the supramarginal gyrus region in the left/right hemisphere. This region is known to be involved in visual word recognition and reading~\citep{stoeckel2009supramarginal}. The identified similarities among nodes without external annotations illustrate the applicability of our method to clustering analysis.
+We perform a clustering analysis on the 68 brain nodes using the procedure described above. Our ordinal tensor method outputs the estimated parameter tensor $\hat\Theta\in\mathbb{R}^{68\times 68\times136}$ with rank $(23,23,8)$. We apply $K$-means to the mode-1 principal component matrix of size $68\times 184$ ($184=23\times8$). The elbow method suggests 11 clusters among the 68 nodes (see Figure~\ref{figure:elbow}).
+
 
 \begin{figure}[ht]
 \begin{center}
@@ -1167,62 +1167,6 @@ In particular, cluster I represents the connection between the left and right he
 \caption{Elbow plot for determining the number of clusters in $K$-means.}\label{figure:elbow}
 \end{figure}
 
-
-\begin{figure}[H]
-\centering
-\includegraphics[width = .7\textwidth]{HCP.pdf}
-\caption{Top three clusters in the HCP analysis. (a) Cluster I reflects the connections between two brain hemispheres. (b)-(c) Cluster II/III consists of nodes within left/right hemisphere only. Node names are shown in abbreviation. Edges are colored based on predicted connection level averaged across individuals. }  \label{figure:brain image}
-\end{figure}
-
-
-\begin{table}[H]
-\center
-\begin{sc}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|c|c|}
-\hline
-Cluster     & \multicolumn{3}{c|}{I}\\ \hline
-Brain nodes & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}} l.frontalpole, l.temporalpole, l.medialorbitofrontal,  l.cuneus, l.parahippocampal, l.lingual,            \\
-r.frontalpole, r.temporalpole,  r.medialorbitofrontal,  r.cuneus,  r.parahippocampal \\
-\end{tabular}} \\
-\hline
-Cluster & \multicolumn{3}{c|}{II}\\ \hline
-Brain nodes & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}
-l.caudalmiddlefrontal,  l.inferiorparietal,  l.insula,  l.isthmuscingulate, l.lateraloccipital(2), \\
-l.parsopercularis, l.parstriangularis, l.postcentral, l.precuneus, l.superiorfrontal, l.superiortemporal(3)
-\end{tabular}} \\
-\hline
-Cluster & \multicolumn{3}{c|}{III}\\ \hline
-Brain nodes & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}
-r.caudalmiddlefrontal, r.inferiorparietal, r.insula, r.isthmuscingulate, r.lateraloccipital(2), r.lingual, \\
-r.parsopercularis, r.parstriangularis, r.postcentral, r.precentral, r.precuneus, r.superiorfrontal(3), \\
-r.superiorparietal,  r.superiortemporal(3)
-\end{tabular}} \\
-\hline
-Cluster      & IV    & V  & VI\\
-\hline
-Brain nodes & \begin{tabular}[c]{@{}c@{}}l.supramarginal(4)\end{tabular}&
-\begin{tabular}[c]{@{}c@{}}l.inferiortemporal(3)\end{tabular}&
-\begin{tabular}[c]{@{}c@{}}l.middletemporal(3)\end{tabular}\\
-\hline
-Cluster & VII  & VIII & VIIII\\
-\hline
-Brain nodes &
-\begin{tabular}[c]{@{}c@{}}r.supramarginal(4)\end{tabular}&
-\begin{tabular}[c]{@{}c@{}}r.inferiortemporal(3)\end{tabular}&
-\begin{tabular}[c]{@{}c@{}}r.middletemporal(3)\end{tabular}\\
-\hline
-Cluster &X & \multicolumn{2}{c|}{XI}  \\
-\hline
-Brain nodes &
-\begin{tabular}[c]{@{}c@{}}l.superiorfrontal(2)\end{tabular}&
- \multicolumn{2}{c|}{l.precentral,  l.superiorparietal}\\
- \hline
-\end{tabular}
-}
-\end{sc}
-\caption{Node clusters in the HCP analysis. The first alphabet in the node name indicates the left (L) or right (R) hemisphere. The number in the parentheses indicates the node count in each cluster. }  \label{table:clustering}
-\end{table}
 
 
 \end{document}
