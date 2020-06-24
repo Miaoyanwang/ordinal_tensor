@@ -79,11 +79,19 @@
 \usepackage{makecell}
 \input macros.tex
 \usepackage{xr}
-\externaldocument{ordinalTv6}
+\externaldocument{paper}
 \usepackage{amssymb}
 \usepackage{pifont}
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
+
+\renewcommand{\thefigure}{{S\arabic{figure}}}%
+\renewcommand{\thetable}{{S\arabic{table}}}%
+\renewcommand{\figurename}{{Supplementary Figure}}
+\renewcommand{\tablename}{{Supplementary Table}}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+
 
 \begin{document}
 
@@ -740,7 +748,7 @@ where $\hat \tC\in\mathbb{R}^{r_1\times \cdots \times r_K}$ is the estimated cor
 where $\hat \Theta_{(k)} , \hat \tC_{(k)}$ denote the mode-$k$ unfolding of $\hat \Theta$ and $\hat \tC$, respectively. We conduct clustering on this  the mode-$k$ unfolded signal tensor. We take columns in $\left(\hat \mM_K\otimes\cdots\otimes\hat \mM_1\right)$ as principal axes and rows in $\hat \mM_k\hat \tC_{(k)}$ as principal components. Then, we apply $K$-means clustering method to the $d_k$ rows of the matrix $\hat \mM_k\hat \tC_{(k)}$.
 
 We perform a clustering analysis on the 68 brain nodes using the procedure described above. Our ordinal tensor method outputs the estimated parameter tensor $\hat\Theta\in\mathbb{R}^{68\times 68\times136}$ with rank $(23,23,8)$. We apply $K$-means to the mode-1 principal component matrix of size $68\times 184$ ($184=23\times8$). The elbow method suggests 11 clusters among the 68 nodes (see Figure~\ref{figure:elbow}).
-The clustering result is presented in Section \ref{sec:dataapplication}.
+The clustering result is presented in Section \ref{sec:dataapplication} of the main paper. 
 
 \begin{figure}[ht]
 \begin{center}
