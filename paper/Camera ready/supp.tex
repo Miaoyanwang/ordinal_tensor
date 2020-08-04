@@ -79,19 +79,11 @@
 \usepackage{makecell}
 \input macros.tex
 \usepackage{xr}
-\externaldocument{paper}
+\externaldocument{ordinalTv6}
 \usepackage{amssymb}
 \usepackage{pifont}
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
-
-\renewcommand{\thefigure}{{S\arabic{figure}}}%
-\renewcommand{\thetable}{{S\arabic{table}}}%
-\renewcommand{\figurename}{{Supplementary Figure}}
-\renewcommand{\tablename}{{Supplementary Table}}
-\setcounter{figure}{0}
-\setcounter{table}{0}
-
 
 \begin{document}
 
@@ -197,7 +189,7 @@ Combining the inequality~\eqref{eq:KLbound1} with property (iii) of $\tX$, we ha
 \end{equation}
 From~\eqref{eq:KLbound} and the property (i), we deduce that the condition
 \begin{equation}\label{eq:totalKL}
-{1\over \text{Card}(\tX)-1}\sum_{\Theta \in\tX}\text{KL}(\mathbb{P}_{\Theta}, \mathbb{P}_{\mathbf{0}})\leq \varepsilon \log_2\left\{\text{Card}(\tX)-1 \right\}
+{1\over \text{Card}(\tX)-1}\sum_{\Theta \in\tX}\text{KL}(\mathbb{P}_{\Theta}, \mathbb{P}_{\mathbf{0}})\leq \varepsilon \log\left\{\text{Card}(\tX)-1 \right\}
 \end{equation}
 holds for any $ \varepsilon \geq 0$ when $\gamma\in[0,1]$ is chosen to be sufficiently small depending on $\varepsilon$, e.g., $\gamma \leq \sqrt{\varepsilon\log2\over8}$. By applying Lemma~\ref{lem:Tsybakov} to~\eqref{eq:totalKL}, and in view of the property (iv), we obtain that
 \begin{equation}\label{eq:final}
@@ -748,7 +740,7 @@ where $\hat \tC\in\mathbb{R}^{r_1\times \cdots \times r_K}$ is the estimated cor
 where $\hat \Theta_{(k)} , \hat \tC_{(k)}$ denote the mode-$k$ unfolding of $\hat \Theta$ and $\hat \tC$, respectively. We conduct clustering on this  the mode-$k$ unfolded signal tensor. We take columns in $\left(\hat \mM_K\otimes\cdots\otimes\hat \mM_1\right)$ as principal axes and rows in $\hat \mM_k\hat \tC_{(k)}$ as principal components. Then, we apply $K$-means clustering method to the $d_k$ rows of the matrix $\hat \mM_k\hat \tC_{(k)}$.
 
 We perform a clustering analysis on the 68 brain nodes using the procedure described above. Our ordinal tensor method outputs the estimated parameter tensor $\hat\Theta\in\mathbb{R}^{68\times 68\times136}$ with rank $(23,23,8)$. We apply $K$-means to the mode-1 principal component matrix of size $68\times 184$ ($184=23\times8$). The elbow method suggests 11 clusters among the 68 nodes (see Figure~\ref{figure:elbow}).
-The clustering result is presented in Section \ref{sec:dataapplication} of the main paper. 
+The clustering result is presented in Section \ref{sec:dataapplication}.
 
 \begin{figure}[ht]
 \begin{center}
