@@ -223,8 +223,7 @@ We consider the same parameter space~\eqref{eq:space} for the completion problem
 \section{Rank-constrained M-estimator}\label{sec:theory}
 We present a general treatment to both problems mentioned above. With a little abuse of notation, we use $\Omega$ to denote either the full index set $\Omega=[d_1]\times \cdots \times [d_K]$ (for the tensor denoising) or a random subset induced from the sampling distribution $\Pi$ (for the tensor completion). Define $b_0=-\infty$, $b_L=\infty$, $f(-\infty)=0$ and $f(\infty)=1$. The log-likelihood associated with the observed entries is
 \begin{align}\label{eq:objective}
-\logl(\Theta, \mb)&=\sum_{\omega\in\Omega}\sum_{\ell\in[L]} \Big\{\mathds{1}\{y_\omega=\ell\} \log \big[f(b_\ell-\theta_\omega)- \notag \\
-&\quad \quad \quad \quad \quad \quad \quad  f(b_{\ell-1}-\theta_\omega)\big]\Big\}.
+\logl(\Theta, \mb)&=\sum_{\omega\in\Omega}\sum_{\ell\in[L]} \Big\{\mathds{1}\{y_\omega=\ell\} \log \big[f(b_\ell-\theta_\omega)-  f(b_{\ell-1}-\theta_\omega)\big]\Big\}.
 \end{align}
 We propose a rank-constrained maximum likelihood estimator (a.k.a.\ M-estimator) for $\Theta$,
 \begin{align}\label{eq:estimator}
@@ -235,8 +234,8 @@ In practice, the cut-off points $\mb$ are unknown and should be jointly estimate
 
 We define a few key quantities that will be used in our theory. Let $g_\ell=f(\theta+b_\ell)-f(\theta+b_{\ell-1})$ for all $\ell\in[L]$, and
 \begin{align}\label{eq:regular}
-A_\alpha &= \min_{\ell\in[L], |\theta|\leq \alpha} g_\ell(\theta),\quad  U_\alpha=\max_{\ell\in[L], |\theta|\leq \alpha } {|\dot{g}_\ell(\theta)|\over g_\ell(\theta)},\\
- L_\alpha &= \min_{\ell\in[L], |\theta|\leq \alpha }\left[{\dot{g}_\ell^2 (\theta)\over g_\ell^2(\theta)} -{\ddot{g}_\ell(\theta)\over g_\ell(\theta)}\right],
+A_\alpha &= \min_{\ell\in[L], |\theta|\leq \alpha} g_\ell(\theta),\quad  U_\alpha=\max_{\ell\in[L], |\theta|\leq \alpha } {|\dot{g}_\ell(\theta)|\over g_\ell(\theta)},\quad
+ L_\alpha = \min_{\ell\in[L], |\theta|\leq \alpha }\left[{\dot{g}_\ell^2 (\theta)\over g_\ell^2(\theta)} -{\ddot{g}_\ell(\theta)\over g_\ell(\theta)}\right],
 \end{align}
 where $\dot{g}(\theta)=dg(\theta)/d\theta$, and $\alpha$ is the entrywise bound of $\Theta$. In view of equation~\eqref{eq:latent}, these quantities characterize the geometry including flatness and convexity of the latent noise distribution. Under Assumption~\ref{ass:link}, all these quantities are strictly positive and independent of tensor dimension.
 
@@ -281,8 +280,8 @@ We next show the statistical optimality of our estimator $\hat \Theta$. The resu
 \begin{thm}[Minimax lower bound]\label{thm:minimax}
 Assume the same set-up as in Theorem~\ref{thm:rate}, and $d_{\max}=\max_k d_k \geq 8$. Let $\inf_{\hat \Theta}$ denote the infimum over all estimators $\hat \Theta\in\tP$ based on the ordinal tensor observation $\tY\in[L]^{d_1\times \cdots \times d_K}$. Then, under the model~\eqref{eq:model},
 \begin{align}\label{eq:lower}
-\inf_{\hat \Theta }\sup_{\trueT\in\tP} \mathbb{P}\Big\{& \text{MSE}(\hat \Theta, \trueT) \\
-& \geq c\min\left( \alpha^2, \ { Cr_{\max}d_{\max} \over \prod_k d_k} \right) \Big\} \geq {1\over 8},
+\inf_{\hat \Theta }\sup_{\trueT\in\tP} \mathbb{P}\Big\{& \text{MSE}(\hat \Theta, \trueT) 
+ \geq c\min\left( \alpha^2, \ { Cr_{\max}d_{\max} \over \prod_k d_k} \right) \Big\} \geq {1\over 8},
 \end{align}
 where $C=C(\alpha, L, f,\mb)>0$ and $c>0$ are constants independent of tensor dimension and the rank.
 \end{thm}
@@ -292,8 +291,8 @@ We see that the lower bound matches the upper bound in~\eqref{eq:rate} on the po
 We now consider the tensor completion problem, when only a subset of entries $\Omega$ are observed. We consider a general sampling procedure induced by $\Pi$. The recovery accuracy is assessed by the weighted squared error,
 \begin{align}\label{eq:weighted}
 \PiFnormSize{}{\Theta-\hat \Theta}^2&\stackrel{\text{def}}{=}
-{1\over |\Omega|}\mathbb{E}_{\Omega\sim \Pi}\FnormSize{}{\Theta-\hat \Theta}^2\notag \\
-&=\sum_{\omega\in[d_1]\times \cdots \times [d_K]} \pi_{\omega}(\Theta_{\omega}-\hat \Theta_{\omega})^2.
+{1\over |\Omega|}\mathbb{E}_{\Omega\sim \Pi}\FnormSize{}{\Theta-\hat \Theta}^2
+=\sum_{\omega\in[d_1]\times \cdots \times [d_K]} \pi_{\omega}(\Theta_{\omega}-\hat \Theta_{\omega})^2.
 \end{align}
 
 Note that the recovery error depends on the distribution $\Pi$. In particular, tensor entries with higher sampling probabilities have more influence on the recovery accuracy, compared to the ones with lower sampling probabilities.
