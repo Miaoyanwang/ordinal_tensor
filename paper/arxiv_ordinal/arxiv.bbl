@@ -24,6 +24,13 @@ Bhaskar, S.~A. and Javanmard, A. (2015).
 \newblock In {\em 2015 49th Annual Conference on Information Sciences and
   Systems (CISS)}, pages 1--6. IEEE.
 
+\bibitem[Brascamp and Lieb, 2002]{brascamp2002extensions}
+Brascamp, H.~J. and Lieb, E.~H. (2002).
+\newblock On extensions of the brunn-minkowski and pr{\'e}kopa-leindler
+  theorems, including inequalities for log concave functions, and with an
+  application to the diffusion equation.
+\newblock In {\em Inequalities}, pages 441--464. Springer.
+
 \bibitem[Cai and Zhou, 2013]{cai2013max}
 Cai, T. and Zhou, W.-X. (2013).
 \newblock A max-norm constrained minimization approach to 1-bit matrix
@@ -42,10 +49,10 @@ De~Silva, V. and Lim, L.-H. (2008).
 \newblock {\em SIAM Journal on Matrix Analysis and Applications},
   30(3):1084--1127.
 
-\bibitem[Geddes, 2016]{geddes2016human}
-Geddes, L. (2016).
-\newblock Human brain mapped in unprecedented detail.
-\newblock {\em Nature}.
+\bibitem[Friedland and Lim, 2018]{friedland2018nuclear}
+Friedland, S. and Lim, L.-H. (2018).
+\newblock Nuclear norm of higher-order tensors.
+\newblock {\em Mathematics of Computation}, 87(311):1255--1281.
 
 \bibitem[Ghadermarzy et~al., 2018]{ghadermarzy2018learning}
 Ghadermarzy, N., Plan, Y., and Yilmaz, O. (2018).
@@ -72,10 +79,21 @@ Hong, D., Kolda, T.~G., and Duersch, J.~A. (2020).
 \newblock Generalized canonical polyadic tensor decomposition.
 \newblock {\em SIAM Review}, 62(1):133--163.
 
+\bibitem[Jiang et~al., 2017]{jiang2017tensor}
+Jiang, B., Yang, F., and Zhang, S. (2017).
+\newblock Tensor and its {Tucker} core: the invariance relationships.
+\newblock {\em Numerical Linear Algebra with Applications}, 24(3):e2086.
+
 \bibitem[Kolda and Bader, 2009]{kolda2009tensor}
 Kolda, T.~G. and Bader, B.~W. (2009).
 \newblock Tensor decompositions and applications.
 \newblock {\em SIAM Review}, 51(3):455--500.
+
+\bibitem[Lim, 2005]{lim2005singular}
+Lim, L.-H. (2005).
+\newblock Singular values and eigenvalues of tensors: a variational approach.
+\newblock In {\em 1st IEEE International Workshop on Computational Advances in
+  Multi-Sensor Adaptive Processing, 2005.}, pages 129--132. IEEE.
 
 \bibitem[McCullagh, 1980]{mccullagh1980regression}
 McCullagh, P. (1980).
@@ -101,6 +119,12 @@ Negahban, S., Wainwright, M.~J., et~al. (2011).
   high-dimensional scaling.
 \newblock {\em The Annals of Statistics}, 39(2):1069--1097.
 
+\bibitem[Nguyen et~al., 2015]{nguyen2015tensor}
+Nguyen, N.~H., Drineas, P., and Tran, T.~D. (2015).
+\newblock Tensor sparsification via a bound on the spectral norm of random
+  tensors.
+\newblock {\em Information and Inference: A Journal of the IMA}, 4(3):195--229.
+
 \bibitem[Nickel et~al., 2011]{nickel2011three}
 Nickel, M., Tresp, V., and Kriegel, H.-P. (2011).
 \newblock A three-way model for collective learning on multi-relational data.
@@ -124,10 +148,32 @@ Sur, P. and Cand{\`e}s, E.~J. (2019).
 \newblock {\em Proceedings of the National Academy of Sciences},
   116(29):14516--14525.
 
+\bibitem[Tomioka and Suzuki, 2014]{tomioka2014spectral}
+Tomioka, R. and Suzuki, T. (2014).
+\newblock Spectral norm of random tensors.
+\newblock {\em arXiv preprint arXiv:1407.1870}.
+
+\bibitem[Tsybakov, 2008]{tsybakov2008introduction}
+Tsybakov, A.~B. (2008).
+\newblock {\em Introduction to nonparametric estimation}.
+\newblock Springer Science \& Business Media.
+
 \bibitem[Tucker, 1966]{tucker1966some}
 Tucker, L.~R. (1966).
 \newblock Some mathematical notes on three-mode factor analysis.
 \newblock {\em Psychometrika}, 31(3):279--311.
+
+\bibitem[Van~Essen et~al., 2013]{van2013wu}
+Van~Essen, D.~C., Smith, S.~M., Barch, D.~M., Behrens, T.~E., Yacoub, E.,
+  Ugurbil, K., Consortium, W.-M.~H., et~al. (2013).
+\newblock The {WU-Minn} human connectome project: an overview.
+\newblock {\em Neuroimage}, 80:62--79.
+
+\bibitem[Wang et~al., 2017]{wang2017operator}
+Wang, M., Duc, K.~D., Fischer, J., and Song, Y.~S. (2017).
+\newblock Operator norm inequalities between tensor unfoldings on the partition
+  lattice.
+\newblock {\em Linear Algebra and Its Applications}, 520:44--66.
 
 \bibitem[Wang et~al., 2019]{wang2019three}
 Wang, M., Fischer, J., and Song, Y.~S. (2019).
@@ -135,11 +181,11 @@ Wang, M., Fischer, J., and Song, Y.~S. (2019).
   data using semi-nonnegative tensor decomposition.
 \newblock {\em The Annals of Applied Statistics}, 13(2):1103--1127.
 
-\bibitem[Wang and Li, 2020]{wang2018learning}
+\bibitem[Wang and Li, 2020]{wang2020learning}
 Wang, M. and Li, L. (2020).
 \newblock Learning from binary multiway data: Probabilistic tensor
   decomposition and its statistical optimality.
-\newblock {\em The Journal of Machine Learning Research}, In press.
+\newblock {\em Journal of Machine Learning Research}, 21(154):1--38.
 
 \bibitem[Wang and Song, 2017]{wang2017tensor}
 Wang, M. and Song, Y. (2017).
