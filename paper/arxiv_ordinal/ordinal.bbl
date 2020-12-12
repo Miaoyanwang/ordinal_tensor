@@ -1,0 +1,218 @@
+\begin{thebibliography}{}
+
+\bibitem[Acar et~al., 2010]{acar2010scalable}
+Acar, E., Dunlavy, D.~M., Kolda, T.~G., and M{\o}rup, M. (2010).
+\newblock Scalable tensor factorizations with missing data.
+\newblock In {\em Proceedings of the 2010 SIAM international conference on data
+  mining}, pages 701--712. SIAM.
+
+\bibitem[Baltrunas et~al., 2011]{baltrunas2011incarmusic}
+Baltrunas, L., Kaminskas, M., Ludwig, B., Moling, O., Ricci, F., Aydin, A.,
+  L{\"u}ke, K.-H., and Schwaiger, R. (2011).
+\newblock Incarmusic: Context-aware music recommendations in a car.
+\newblock In {\em International Conference on Electronic Commerce and Web
+  Technologies}, pages 89--100. Springer.
+
+\bibitem[Bhaskar, 2016]{bhaskar2016probabilistic}
+Bhaskar, S.~A. (2016).
+\newblock Probabilistic low-rank matrix completion from quantized measurements.
+\newblock {\em The Journal of Machine Learning Research}, 17(1):2131--2164.
+
+\bibitem[Bhaskar and Javanmard, 2015]{bhaskar20151}
+Bhaskar, S.~A. and Javanmard, A. (2015).
+\newblock 1-bit matrix completion under exact low-rank constraint.
+\newblock In {\em 2015 49th Annual Conference on Information Sciences and
+  Systems (CISS)}, pages 1--6. IEEE.
+
+\bibitem[Brascamp and Lieb, 2002]{brascamp2002extensions}
+Brascamp, H.~J. and Lieb, E.~H. (2002).
+\newblock On extensions of the brunn-minkowski and pr{\'e}kopa-leindler
+  theorems, including inequalities for log concave functions, and with an
+  application to the diffusion equation.
+\newblock In {\em Inequalities}, pages 441--464. Springer.
+
+\bibitem[Cai and Zhou, 2013]{cai2013max}
+Cai, T. and Zhou, W.-X. (2013).
+\newblock A max-norm constrained minimization approach to 1-bit matrix
+  completion.
+\newblock {\em The Journal of Machine Learning Research}, 14(1):3619--3647.
+
+\bibitem[Davenport et~al., 2014]{davenport2014}
+Davenport, M.~A., Plan, Y., Van Den~Berg, E., and Wootters, M. (2014).
+\newblock 1-bit matrix completion.
+\newblock {\em Information and Inference: A Journal of the IMA}, 3(3):189--223.
+
+\bibitem[De~Silva and Lim, 2008]{de2008tensor}
+De~Silva, V. and Lim, L.-H. (2008).
+\newblock Tensor rank and the ill-posedness of the best low-rank approximation
+  problem.
+\newblock {\em SIAM Journal on Matrix Analysis and Applications},
+  30(3):1084--1127.
+
+\bibitem[Friedland and Lim, 2018]{friedland2018nuclear}
+Friedland, S. and Lim, L.-H. (2018).
+\newblock Nuclear norm of higher-order tensors.
+\newblock {\em Mathematics of Computation}, 87(311):1255--1281.
+
+\bibitem[Ghadermarzy et~al., 2018]{ghadermarzy2018learning}
+Ghadermarzy, N., Plan, Y., and Yilmaz, O. (2018).
+\newblock Learning tensors from partial binary measurements.
+\newblock {\em IEEE Transactions on Signal Processing}, 67(1):29--40.
+
+\bibitem[Ghadermarzy et~al., 2019]{ghadermarzy2019near}
+Ghadermarzy, N., Plan, Y., and Yilmaz, {\"O}. (2019).
+\newblock Near-optimal sample complexity for convex tensor completion.
+\newblock {\em Information and Inference: A Journal of the IMA}, 8(3):577--619.
+
+\bibitem[Hillar and Lim, 2013]{hillar2013most}
+Hillar, C.~J. and Lim, L.-H. (2013).
+\newblock Most tensor problems are {NP}-hard.
+\newblock {\em Journal of the ACM (JACM)}, 60(6):45.
+
+\bibitem[Hitchcock, 1927]{hitchcock1927expression}
+Hitchcock, F.~L. (1927).
+\newblock The expression of a tensor or a polyadic as a sum of products.
+\newblock {\em Journal of Mathematics and Physics}, 6(1-4):164--189.
+
+\bibitem[Hong et~al., 2020]{hong2020generalized}
+Hong, D., Kolda, T.~G., and Duersch, J.~A. (2020).
+\newblock Generalized canonical polyadic tensor decomposition.
+\newblock {\em SIAM Review}, 62(1):133--163.
+
+\bibitem[Jiang et~al., 2017]{jiang2017tensor}
+Jiang, B., Yang, F., and Zhang, S. (2017).
+\newblock Tensor and its {Tucker} core: the invariance relationships.
+\newblock {\em Numerical Linear Algebra with Applications}, 24(3):e2086.
+
+\bibitem[Kolda and Bader, 2009]{kolda2009tensor}
+Kolda, T.~G. and Bader, B.~W. (2009).
+\newblock Tensor decompositions and applications.
+\newblock {\em SIAM Review}, 51(3):455--500.
+
+\bibitem[Lim, 2005]{lim2005singular}
+Lim, L.-H. (2005).
+\newblock Singular values and eigenvalues of tensors: a variational approach.
+\newblock In {\em 1st IEEE International Workshop on Computational Advances in
+  Multi-Sensor Adaptive Processing, 2005.}, pages 129--132. IEEE.
+
+\bibitem[McCullagh, 1980]{mccullagh1980regression}
+McCullagh, P. (1980).
+\newblock Regression models for ordinal data.
+\newblock {\em Journal of the Royal Statistical Society: Series B
+  (Methodological)}, 42(2):109--127.
+
+\bibitem[Montanari and Sun, 2018]{montanari2018spectral}
+Montanari, A. and Sun, N. (2018).
+\newblock Spectral algorithms for tensor completion.
+\newblock {\em Communications on Pure and Applied Mathematics},
+  71(11):2381--2425.
+
+\bibitem[Mu et~al., 2014]{mu2014square}
+Mu, C., Huang, B., Wright, J., and Goldfarb, D. (2014).
+\newblock Square deal: Lower bounds and improved relaxations for tensor
+  recovery.
+\newblock In {\em International Conference on Machine Learning}, pages 73--81.
+
+\bibitem[Negahban et~al., 2011]{negahban2011estimation}
+Negahban, S., Wainwright, M.~J., et~al. (2011).
+\newblock Estimation of (near) low-rank matrices with noise and
+  high-dimensional scaling.
+\newblock {\em The Annals of Statistics}, 39(2):1069--1097.
+
+\bibitem[Nguyen et~al., 2015]{nguyen2015tensor}
+Nguyen, N.~H., Drineas, P., and Tran, T.~D. (2015).
+\newblock Tensor sparsification via a bound on the spectral norm of random
+  tensors.
+\newblock {\em Information and Inference: A Journal of the IMA}, 4(3):195--229.
+
+\bibitem[Nickel et~al., 2011]{nickel2011three}
+Nickel, M., Tresp, V., and Kriegel, H.-P. (2011).
+\newblock A three-way model for collective learning on multi-relational data.
+\newblock In {\em International Conference on Machine Learning}, volume~11,
+  pages 809--816.
+
+\bibitem[Oseledets, 2011]{oseledets2011tensor}
+Oseledets, I.~V. (2011).
+\newblock Tensor-train decomposition.
+\newblock {\em SIAM Journal on Scientific Computing}, 33(5):2295--2317.
+
+\bibitem[Stoeckel et~al., 2009]{stoeckel2009supramarginal}
+Stoeckel, C., Gough, P.~M., Watkins, K.~E., and Devlin, J.~T. (2009).
+\newblock Supramarginal gyrus involvement in visual word recognition.
+\newblock {\em Cortex}, 45(9):1091--1096.
+
+\bibitem[Sur and Cand{\`e}s, 2019]{sur2019modern}
+Sur, P. and Cand{\`e}s, E.~J. (2019).
+\newblock A modern maximum-likelihood theory for high-dimensional logistic
+  regression.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  116(29):14516--14525.
+
+\bibitem[Tomioka and Suzuki, 2014]{tomioka2014spectral}
+Tomioka, R. and Suzuki, T. (2014).
+\newblock Spectral norm of random tensors.
+\newblock {\em arXiv preprint arXiv:1407.1870}.
+
+\bibitem[Tsybakov, 2008]{tsybakov2008introduction}
+Tsybakov, A.~B. (2008).
+\newblock {\em Introduction to nonparametric estimation}.
+\newblock Springer Science \& Business Media.
+
+\bibitem[Tucker, 1966]{tucker1966some}
+Tucker, L.~R. (1966).
+\newblock Some mathematical notes on three-mode factor analysis.
+\newblock {\em Psychometrika}, 31(3):279--311.
+
+\bibitem[Van~Essen et~al., 2013]{van2013wu}
+Van~Essen, D.~C., Smith, S.~M., Barch, D.~M., Behrens, T.~E., Yacoub, E.,
+  Ugurbil, K., Consortium, W.-M.~H., et~al. (2013).
+\newblock The {WU-Minn} human connectome project: an overview.
+\newblock {\em Neuroimage}, 80:62--79.
+
+\bibitem[Wang et~al., 2017]{wang2017operator}
+Wang, M., Duc, K.~D., Fischer, J., and Song, Y.~S. (2017).
+\newblock Operator norm inequalities between tensor unfoldings on the partition
+  lattice.
+\newblock {\em Linear Algebra and Its Applications}, 520:44--66.
+
+\bibitem[Wang et~al., 2019]{wang2019three}
+Wang, M., Fischer, J., and Song, Y.~S. (2019).
+\newblock Three-way clustering of multi-tissue multi-individual gene expression
+  data using semi-nonnegative tensor decomposition.
+\newblock {\em The Annals of Applied Statistics}, 13(2):1103--1127.
+
+\bibitem[Wang and Li, 2020]{wang2020learning}
+Wang, M. and Li, L. (2020).
+\newblock Learning from binary multiway data: Probabilistic tensor
+  decomposition and its statistical optimality.
+\newblock {\em Journal of Machine Learning Research}, 21(154):1--38.
+
+\bibitem[Wang and Song, 2017]{wang2017tensor}
+Wang, M. and Song, Y. (2017).
+\newblock Tensor decompositions via two-mode higher-order {SVD} ({HOSVD}).
+\newblock In {\em Proceedings of the 20th International Conference on
+  Artificial Intelligence and Statistics}, pages 614--622.
+
+\bibitem[Wang and Zeng, 2019]{wang2019multiway}
+Wang, M. and Zeng, Y. (2019).
+\newblock Multiway clustering via tensor block models.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  713--723.
+
+\bibitem[Yuan and Zhang, 2016]{yuan2016tensor}
+Yuan, M. and Zhang, C.-H. (2016).
+\newblock On tensor completion via nuclear norm minimization.
+\newblock {\em Foundations of Computational Mathematics}, 16(4):1031--1068.
+
+\bibitem[Zhang, 2019]{zhang2019cross}
+Zhang, A. (2019).
+\newblock Cross: Efficient low-rank tensor completion.
+\newblock {\em The Annals of Statistics}, 47(2):936--964.
+
+\bibitem[Zhou et~al., 2013]{zhou2013tensor}
+Zhou, H., Li, L., and Zhu, H. (2013).
+\newblock Tensor regression with applications in neuroimaging data analysis.
+\newblock {\em Journal of the American Statistical Association},
+  108(502):540--552.
+
+\end{thebibliography}
