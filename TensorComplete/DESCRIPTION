@@ -6,7 +6,7 @@ Author: Chanwoo Lee <chanwoo.lee@wisc.edu>, Miaoyan Wang <miaoyan.wang@wisc.edu>
 Maintainer: Chanwoo Lee <chanwoo.lee@wisc.edu>
 Imports:
     pracma, methods, utils, tensorregress, MASS
-Description: Efficient algorithms for tensor noise reduction and completion. This package includes the cumulative link model for ordinal tensor observation and nonparametric tensor method via sign series. The algorithms employ the alternating optimization approach. The detailed algorithm description can be found in Lee and Wang, Proceedings of International Conference on Machine Learning, 119:5778-5788, 2020 and <arXiv:2102.00384>.
+Description: Efficient algorithms for tensor noise reduction and completion. This package includes the cumulative link model for ordinal tensor observation and nonparametric tensor method via sign series. The algorithms employ the alternating optimization approach. The detailed algorithm description can be found in Lee and Wang, Proceedings of International Conference on Machine Learning, 119:5778-5788, 2020 and <arXiv:2102.00384>, 2021.
 URL: http://proceedings.mlr.press/v119/lee20i.html,
     http://arxiv.org/abs/2102.00384
 License: GPL(>=2)

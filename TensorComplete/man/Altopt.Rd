@@ -48,5 +48,5 @@ signTheta = sign(result$fitted)
 
 }
 \references{
-C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2020.
+C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2021.
 }

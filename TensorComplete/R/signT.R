@@ -124,7 +124,7 @@ tensorize=function(X,Y,Z){
 #' @return \code{fitted} - A series of optimizers that minimize the weighted classification loss at each pi.
 #' @return \code{est} - An estimated signal tensor based on nonparametic tensor method via sign series.
 #' @usage fit_nonparaT(Y,truer,H,Lmin,Lmax,option = 2)
-#' @references C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2020.
+#' @references C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2021.
 #' @examples
 #' library(tensorregress)
 #' indices = c(2,3,4)
@@ -213,7 +213,7 @@ SignM=function(Y,truer,H=5,Lmin,Lmax,option=2){
 #' @return \code{error} - Trajectory of errors over iterations.
 #' @return \code{fitted} - A tensor that optimizes the weighted classification loss.
 #' @usage Altopt(Ybar,W,r,type = c("logistic","hinge"),start = "linear")
-#' @references C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2020.
+#' @references C. Lee and M. Wang. Beyond the Signs: Nonparametric Tensor Completion via Sign Series. \emph{arXiv preprint arXiv:2102.00384}, 2021.
 #' @examples
 #' library(tensorregress)
 #' indices = c(2,3,4)
