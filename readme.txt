@@ -9,3 +9,9 @@ This folder contains software, code, paper for the ordinal tensor estimation/com
 To-to after the conference:
 1. submit the R package to CRAN with journal reference. 
 2. submit the arxiv paper with journal reference.
+
+
+
+May 9, 2021.
+
+Package tensorordinal is combined to TensorComplete including codes for signT proeject. TensorComplete is independent of rTensor package. 
